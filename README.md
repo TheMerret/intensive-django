@@ -43,6 +43,18 @@ Mac, Linux:
 pip3 install -r requirements.txt
 ```
 
+For development:
+
+```
+requirements-dev.txt
+```
+
+For testing:
+
+```
+requirements-test.txt
+```
+
 ### Configure
 
 You should use dotenv to configure settings. Example:
