@@ -77,3 +77,6 @@ Mac, Linux:
 ```bash
 python3 manage.py runserver
 ```
+## For developers
+
+[Django](https://docs.djangoproject.com/en/3.2/) documentation
