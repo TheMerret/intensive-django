@@ -43,7 +43,27 @@ Mac, Linux:
 pip3 install -r requirements.txt
 ```
 
-### Download programs:
+For development:
+
+```
+requirements-dev.txt
+```
+
+For testing:
+
+```
+requirements-test.txt
+```
+
+### Configure
+
+You should use dotenv to configure settings. Example:
+
+```
+SECRET_KEY = VERYSECRETKEY
+DEBUG = false
+ALLOWED_HOSTS = ["192.168.0.21"]
+```
 
 ### Launch:
 
