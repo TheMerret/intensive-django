@@ -1,3 +1,5 @@
+[![Python package](https://github.com/TheMerret/intensive-django/actions/workflows/python-package.yml/badge.svg)](https://github.com/TheMerret/intensive-django/actions/workflows/python-package.yml)
+
 # Django Intensive
 
 ## Quick start
