@@ -1,9 +1,10 @@
 from django.test import Client, TestCase
 
 
-class StaticURLTest(TestCase):
-    def test_homepage_endpoint(self):
-        # Делаем запрос к главной странице и проверяем статус
+class HomePageTest(TestCase):
+    """test homepage"""
+
+    def test_homepage_endpoint_exists(self):
+        """test if homepage endpoint responses 200"""
         response = Client().get("/")
-        # Утверждаем, что для прохождения теста код должен быть равен 200
         self.assertEqual(response.status_code, 200)

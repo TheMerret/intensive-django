@@ -1,11 +1,11 @@
-from django.contrib import admin
 from django.urls import include, path
 
 from . import settings
 
 urlpatterns = [
     path("", include("homepage.urls")),
-    path("admin/", admin.site.urls),
+    path("catalog/", include("catalog.urls")),
+    path("about/", include("about.urls")),
 ]
 
 if settings.DEBUG:

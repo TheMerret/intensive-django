@@ -9,7 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = getenv("SECRET_KEY")
 
-DEBUG = getenv("DEBUG", "False").lower() == "true"
+DEBUG_ENV = getenv("DEBUG", "true").lower()
+DEBUG = DEBUG_ENV in ("true", "yes", "1", "y", "t")
 
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
