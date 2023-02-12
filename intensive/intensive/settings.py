@@ -17,6 +17,9 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = getenv("ALLOWED_HOSTS", ["localhost"])
 
+REVERSE_MIDDLEWARE_ENV = getenv("REVERSE_MIDDLEWARE", "false").lower()
+REVERSE_MIDDLEWARE = REVERSE_MIDDLEWARE_ENV in ("true", "yes", "1", "y", "t")
+
 INSTALLED_APPS = [
     "about.apps.AboutConfig",
     "catalog.apps.CatalogConfig",
@@ -46,6 +49,9 @@ if DEBUG:
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
+
+if REVERSE_MIDDLEWARE:
+    MIDDLEWARE.append("intensive.middleware.ReverseMiddleware")
 
 ROOT_URLCONF = "intensive.urls"
 
