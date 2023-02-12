@@ -4,4 +4,5 @@ from homepage import views
 
 urlpatterns = [
     path("", views.home),
+    path("coffee/", views.coffee)
 ]
