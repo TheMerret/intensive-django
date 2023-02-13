@@ -1,4 +1,5 @@
 from django.test import Client, TestCase
+from django.urls import reverse
 
 
 class AboutPageTest(TestCase):
@@ -6,5 +7,5 @@ class AboutPageTest(TestCase):
 
     def test_about_endpoint_exists(self):
         """test if about endpoint responses 200"""
-        response = Client().get("/about/")
+        response = Client().get(reverse("about"))
         self.assertEqual(response.status_code, 200)
