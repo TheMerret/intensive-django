@@ -9,8 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = getenv("SECRET_KEY", "NOTSECRET")
 
-DEBUG_ENV = getenv("DEBUG", "false").lower()
-DEBUG = DEBUG_ENV in ("true", "yes", "1", "y", "t")
+DEBUG = getenv("DEBUG", "false").lower() == "true"
 
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
@@ -93,9 +92,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
