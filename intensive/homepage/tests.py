@@ -41,9 +41,7 @@ class MiddlewareTest(TestCase):
                 for _ in range(n - 1):
                     response = client.get(reverse(viewname))
                 print(response.content.decode())
-                self.assertContains(
-                    response, text, status_code=status_code
-                )
+                self.assertContains(response, text, status_code=status_code)
 
     @modify_settings(
         MIDDLEWARE={
