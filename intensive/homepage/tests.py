@@ -1,6 +1,4 @@
-from unittest import skip
-
-from django.test import Client, TestCase, override_settings
+from django.test import Client, TestCase, modify_settings
 from django.urls import reverse
 
 
@@ -20,47 +18,43 @@ class HomePageTest(TestCase):
         self.assertContains(response, "Я чайник", status_code=418)
 
 
+@modify_settings(
+    MIDDLEWARE={
+        "append": "intensive.middleware.ReverseMiddleware",
+    }
+)
 class MiddlewareTest(TestCase):
     """test reverse middleware"""
 
-    def test_reversing_every_n_request(self):
+    def test_reversing_words_every_n_request(self):
         """test if middleware reversing russian words after n requests"""
         n = 10
-        client = Client()
-        response = client.get("/")
-        for _ in range(n - 1):
-            response = client.get("/")
-        self.assertContains(response, "Главная"[::-1])
+        for viewname, text, status_code in (
+            ("index", "яанвалГ", 200),  # одно слово
+            ("coffee", "Я кинйач", 418),  # несколько
+        ):
+            with self.subTest(
+                viewname=viewname, text=text, status_code=status_code
+            ):
+                client = Client()
+                response = client.get(reverse(viewname))
+                for _ in range(n - 1):
+                    response = client.get(reverse(viewname))
+                print(response.content.decode())
+                self.assertContains(
+                    response, text, status_code=status_code
+                )
 
-    def test_reversing_multiple_words(self):
-        """test if middleware reversing multiple
-        russian words after n requests"""
-        n = 10
-        client = Client()
-        response = client.get("/coffee", follow=True)
-        for _ in range(n - 1):
-            response = client.get("/coffee", follow=True)
-        self.assertContains(response, "Я кинйач", status_code=418)
-
-    @skip  # TODO
-    def test_reversing_nothing(self):
-        """test if middleware reversing none
-        russian words after n requests"""
-
-        n = 10
-        client = Client()
-        response = client.get("/")
-        for _ in range(n - 1):
-            response = client.get("/")
-        self.assertContains(response, "")
-
-    @skip  # TODO
-    @override_settings(REVERSE_MIDDLEWARE=False)
+    @modify_settings(
+        MIDDLEWARE={
+            "remove": "intensive.middleware.ReverseMiddleware",
+        }
+    )
     def test_disabling_middleware(self):
         """test if middleware could be disabed"""
         n = 10
         client = Client()
-        response = client.get("/")
+        response = client.get(reverse("index"))
         for _ in range(n - 1):
-            response = client.get("/")
+            response = client.get(reverse("index"))
         self.assertContains(response, "Главная")
