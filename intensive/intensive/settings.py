@@ -16,8 +16,7 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = getenv("ALLOWED_HOSTS", ["localhost"])
 
-REVERSE_MIDDLEWARE_ENV = getenv("REVERSE_MIDDLEWARE", "false").lower()
-REVERSE_MIDDLEWARE = REVERSE_MIDDLEWARE_ENV in ("true", "yes", "1", "y", "t")
+REVERSE_REQUEST_COUNT = int(getenv("REVERSE_REQUEST_COUNT", "0"))
 
 INSTALLED_APPS = [
     "about.apps.AboutConfig",
@@ -39,6 +38,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "intensive.middleware.ReverseMiddleware",
 ]
 
 if DEBUG:
@@ -48,9 +48,6 @@ if DEBUG:
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
-
-if REVERSE_MIDDLEWARE:
-    MIDDLEWARE.append("intensive.middleware.ReverseMiddleware")
 
 ROOT_URLCONF = "intensive.urls"
 

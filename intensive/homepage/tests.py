@@ -1,4 +1,4 @@
-from django.test import Client, TestCase, modify_settings
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 
@@ -18,11 +18,7 @@ class HomePageTest(TestCase):
         self.assertContains(response, "Я чайник", status_code=418)
 
 
-@modify_settings(
-    MIDDLEWARE={
-        "append": "intensive.middleware.ReverseMiddleware",
-    }
-)
+@override_settings(REVERSE_REQUEST_COUNT=10)
 class MiddlewareTest(TestCase):
     """test reverse middleware"""
 
@@ -40,14 +36,9 @@ class MiddlewareTest(TestCase):
                 response = client.get(reverse(viewname))
                 for _ in range(n - 1):
                     response = client.get(reverse(viewname))
-                print(response.content.decode())
                 self.assertContains(response, text, status_code=status_code)
 
-    @modify_settings(
-        MIDDLEWARE={
-            "remove": "intensive.middleware.ReverseMiddleware",
-        }
-    )
+    @override_settings(REVERSE_REQUEST_COUNT=0)
     def test_disabling_middleware(self):
         """test if middleware could be disabed"""
         n = 10
