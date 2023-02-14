@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 
@@ -16,3 +16,34 @@ class HomePageTest(TestCase):
         """test if coffee endpoint responses Я чайник"""
         response = Client().get(reverse("coffee"))
         self.assertContains(response, "Я чайник", status_code=418)
+
+
+@override_settings(REVERSE_REQUEST_COUNT=10)
+class MiddlewareTest(TestCase):
+    """test reverse middleware"""
+
+    def test_reversing_words_every_n_request(self):
+        """test if middleware reversing russian words after n requests"""
+        n = 10
+        for viewname, text, status_code in (
+            ("index", "яанвалГ", 200),  # одно слово
+            ("coffee", "Я кинйач", 418),  # несколько
+        ):
+            with self.subTest(
+                viewname=viewname, text=text, status_code=status_code
+            ):
+                client = Client()
+                response = client.get(reverse(viewname))
+                for _ in range(n - 1):
+                    response = client.get(reverse(viewname))
+                self.assertContains(response, text, status_code=status_code)
+
+    @override_settings(REVERSE_REQUEST_COUNT=0)
+    def test_disabling_middleware(self):
+        """test if middleware could be disabed"""
+        n = 10
+        client = Client()
+        response = client.get(reverse("index"))
+        for _ in range(n - 1):
+            response = client.get(reverse("index"))
+        self.assertContains(response, "Главная")
