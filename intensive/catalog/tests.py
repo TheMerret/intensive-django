@@ -23,7 +23,7 @@ class CatalogPageTest(TestCase):
         doesn't accept wrong values as id"""
         # we don't test item-detail cause it uses django implementation
         for viewname in ("re-item-detail", "converter-item-detail"):
-            for args in (["hello"], [-1], [0]):
+            for args in (["hello"], [-1], [0], [3.14]):
                 with self.subTest(viewname=viewname, args=args):
                     self.assertRaises(
                         NoReverseMatch, reverse, viewname, args=args
