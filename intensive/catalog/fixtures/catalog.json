@@ -1,0 +1,138 @@
+[
+    {
+        "model": "catalog.tag",
+        "pk": 2,
+        "fields": {
+            "name": "Новинка",
+            "is_published": true,
+            "slug": "new"
+        }
+    },
+    {
+        "model": "catalog.tag",
+        "pk": 3,
+        "fields": {
+            "name": "Распродажа",
+            "is_published": true,
+            "slug": "sale"
+        }
+    },
+    {
+        "model": "catalog.tag",
+        "pk": 4,
+        "fields": {
+            "name": "Уценка",
+            "is_published": true,
+            "slug": "markdown"
+        }
+    },
+    {
+        "model": "catalog.tag",
+        "pk": 5,
+        "fields": {
+            "name": "Лимитированная Коллекция",
+            "is_published": true,
+            "slug": "limited-edition"
+        }
+    },
+    {
+        "model": "catalog.tag",
+        "pk": 6,
+        "fields": {
+            "name": "Премиум",
+            "is_published": true,
+            "slug": "premium"
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 2,
+        "fields": {
+            "name": "Женщинам",
+            "is_published": true,
+            "slug": "woman",
+            "weight": 32767
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 3,
+        "fields": {
+            "name": "Мужчинам",
+            "is_published": true,
+            "slug": "man",
+            "weight": 100
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 2,
+        "fields": {
+            "name": "Светофор",
+            "is_published": true,
+            "text": "Кому в наше время не нужен светофор? Превосходно освещает комнату.",
+            "category": 2,
+            "tags": [
+                2,
+                5
+            ]
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 3,
+        "fields": {
+            "name": "Ржавая девятка",
+            "is_published": true,
+            "text": "Роскошно ржавая, прекрасно стоит на месте.",
+            "category": 3,
+            "tags": [
+                3,
+                4
+            ]
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 4,
+        "fields": {
+            "name": "Вiталик",
+            "is_published": true,
+            "text": "Превосходно, что он есть.",
+            "category": 2,
+            "tags": [
+                2,
+                5,
+                6
+            ]
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 5,
+        "fields": {
+            "name": "Квартира в центре Москвы",
+            "is_published": true,
+            "text": "Витринный образец. Роскошно выглядит.",
+            "category": 3,
+            "tags": [
+                4
+            ]
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 6,
+        "fields": {
+            "name": "Искандер",
+            "is_published": true,
+            "text": "«Исканде́р» (индекс комплекса — 9К720) — семейство российских оперативно-тактических ракетных комплексов (ОТРК): «Искандер», «Искандер-М», «Искандер-К», «Искандер-Э». Разработаны роскошно научно-производственной корпорацией «Конструкторское бюро машиностроения» (КБМ) в городе Коломне Московской области.",
+            "category": 2,
+            "tags": [
+                4,
+                5,
+                6
+            ]
+        }
+    }
+]
