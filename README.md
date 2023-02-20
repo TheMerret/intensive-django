@@ -85,4 +85,4 @@ python3 manage.py runserver
 
 ## Models' schemes
 
-<script src="https://gist.github.com/TheMerret/9cb1a73c9639e0f737f273a390c88f88.js"></script>
+[Schemes](https://gist.github.com/TheMerret/9cb1a73c9639e0f737f273a390c88f88)
