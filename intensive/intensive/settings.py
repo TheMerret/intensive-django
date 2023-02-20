@@ -12,11 +12,14 @@ SECRET_KEY = getenv("SECRET_KEY", "NOTSECRET")
 DEBUG = getenv("DEBUG", "false").lower() == "true"
 
 if DEBUG:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = "*"
 else:
-    ALLOWED_HOSTS = getenv("ALLOWED_HOSTS", ["localhost"])
+    ALLOWED_HOSTS = getenv("ALLOWED_HOSTS", "localhost")
+ALLOWED_HOSTS = ALLOWED_HOSTS.split(",")
 
 REVERSE_REQUEST_COUNT = int(getenv("REVERSE_REQUEST_COUNT", "0"))
+
+GRAPH_APPS = getenv("GRAPH_APPS", "").split(",")
 
 INSTALLED_APPS = [
     "core.apps.CoreConfig",
@@ -49,6 +52,13 @@ if DEBUG:
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
+
+if GRAPH_APPS:
+    INSTALLED_APPS.append("django_extensions")
+    GRAPH_MODELS = {
+        "group_models": True,
+        "app_labels": GRAPH_APPS,
+    }
 
 ROOT_URLCONF = "intensive.urls"
 

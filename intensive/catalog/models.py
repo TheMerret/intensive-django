@@ -33,7 +33,11 @@ class Item(core.models.CatalogCommon):
     text = django.db.models.TextField(
         "Описание",
         help_text="Введите описание объекта",
-        validators=[catalog.validators.excellent_validator],
+        validators=[
+            catalog.validators.ValidateMustContain(
+                "превосходно", "роскошно"
+            ),
+        ],
     )
 
     category = django.db.models.ForeignKey(

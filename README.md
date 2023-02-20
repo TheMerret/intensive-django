@@ -64,7 +64,7 @@ You should use dotenv to configure settings. Example:
 ```
 SECRET_KEY = VERYSECRETKEY
 DEBUG = false
-ALLOWED_HOSTS = ["192.168.0.21"]
+ALLOWED_HOSTS = 192.168.0.21,192.168.0.1
 ```
 
 ### Launch:
@@ -82,3 +82,7 @@ python3 manage.py runserver
 ## For developers
 
 [Django](https://docs.djangoproject.com/en/3.2/) documentation
+
+## Models' schemes
+
+<script src="https://gist.github.com/TheMerret/9cb1a73c9639e0f737f273a390c88f88.js"></script>
