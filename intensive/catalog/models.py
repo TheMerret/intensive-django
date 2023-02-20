@@ -34,9 +34,7 @@ class Item(core.models.CatalogCommon):
         "Описание",
         help_text="Введите описание объекта",
         validators=[
-            catalog.validators.ValidateMustContain(
-                "превосходно", "роскошно"
-            ),
+            catalog.validators.ValidateMustContain("превосходно", "роскошно"),
         ],
     )
 
