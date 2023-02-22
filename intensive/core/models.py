@@ -45,7 +45,7 @@ class CatalogGroupCommon(django.db.models.Model):
         self.normilized_name = core.utils.normilize_name(self.name)
         return super().save(force_insert, force_update, using, update_fields)
 
-    def full_clean(self, exclude=None, validate_unique=True) -> None:
+    def validate_unique(self, exclude):
         self.normilized_name = core.utils.normilize_name(self.name)
         if self._meta.model.objects.filter(
             normilized_name=self.normilized_name
@@ -53,4 +53,4 @@ class CatalogGroupCommon(django.db.models.Model):
             raise django.core.exceptions.ValidationError(
                 {"name": "Похожее имя уже существует"}
             )
-        return super().full_clean(exclude, validate_unique)
+        return super().validate_unique(exclude)
