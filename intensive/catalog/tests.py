@@ -47,6 +47,19 @@ class ModelTest(TestCase):
         super().setUpClass()
         cls.category = catalog.models.Category.objects.first()
         cls.tag = catalog.models.Tag.objects.first()
+        cls.abiguous_category = catalog.models.Category(
+            name="ПРИВЕТ",
+            is_published=True,
+            slug="hello-slug",
+            weight=200,
+        )
+        cls.abiguous_category.save()
+        cls.abiguous_tag = catalog.models.Tag(
+            name="ПРИВЕТ",
+            is_published=True,
+            slug="hello-slug",
+        )
+        cls.abiguous_tag.save()
 
     def setUp(self):
         super().setUp()
@@ -132,6 +145,26 @@ class ModelTest(TestCase):
                     obj.full_clean()
                     obj.save()
                 self.assertEqual(obj.__class__.objects.count(), obj_count)
+
+    def test_fuzzy_name_for_objects(self):
+        """test if similiar names for tag and category couldn't be passed"""
+        for obj in (self.tag, self.category):
+            for name in (
+                "!ПРИВЕТ?",
+                "ПРИ ВЕ Т",
+                "ПриВет",
+                "ПPИBET",
+                "!пP иBE T?",
+            ):
+                with self.subTest(obj=obj, name=name):
+                    obj_count = obj.__class__.objects.count()
+                    obj.name = name
+                    with self.assertRaises(
+                        django.core.exceptions.ValidationError
+                    ):
+                        obj.full_clean()
+                        obj.save()
+                    self.assertEqual(obj.__class__.objects.count(), obj_count)
 
     def test_wrong_text_for_item(self):
         """test if wrong text for item couldn't be passed"""

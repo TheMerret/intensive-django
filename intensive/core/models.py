@@ -1,3 +1,6 @@
+import core.utils
+
+import django.core.exceptions
 import django.db.models
 
 
@@ -23,6 +26,31 @@ class CatalogGroupCommon(django.db.models.Model):
         max_length=200,
         unique=True,
     )
+    normilized_name = django.db.models.CharField(
+        unique=True,
+        editable=False,
+        max_length=150,
+    )
 
     class Meta:
         abstract = True
+
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        self.normilized_name = core.utils.normilize_name(self.name)
+        return super().save(force_insert, force_update, using, update_fields)
+
+    def full_clean(self, exclude=None, validate_unique=True) -> None:
+        self.normilized_name = core.utils.normilize_name(self.name)
+        if self._meta.model.objects.filter(
+            normilized_name=self.normilized_name
+        ).exists():
+            raise django.core.exceptions.ValidationError(
+                {"name": "Похожее имя уже существует"}
+            )
+        return super().full_clean(exclude, validate_unique)
