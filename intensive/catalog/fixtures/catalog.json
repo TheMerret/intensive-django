@@ -5,7 +5,8 @@
         "fields": {
             "name": "Новинка",
             "is_published": true,
-            "slug": "new"
+            "slug": "new",
+            "normilized_name": "hobиhka"
         }
     },
     {
@@ -14,7 +15,8 @@
         "fields": {
             "name": "Распродажа",
             "is_published": true,
-            "slug": "sale"
+            "slug": "sale",
+            "normilized_name": "pacпpoдaжa"
         }
     },
     {
@@ -23,7 +25,8 @@
         "fields": {
             "name": "Уценка",
             "is_published": true,
-            "slug": "markdown"
+            "slug": "markdown",
+            "normilized_name": "yцehka"
         }
     },
     {
@@ -32,7 +35,8 @@
         "fields": {
             "name": "Лимитированная Коллекция",
             "is_published": true,
-            "slug": "limited-edition"
+            "slug": "limited-edition",
+            "normilized_name": "лиmиtиpobahhaяkoллekция"
         }
     },
     {
@@ -41,7 +45,8 @@
         "fields": {
             "name": "Премиум",
             "is_published": true,
-            "slug": "premium"
+            "slug": "premium",
+            "normilized_name": "пpemиym"
         }
     },
     {
@@ -51,6 +56,7 @@
             "name": "Женщинам",
             "is_published": true,
             "slug": "woman",
+            "normilized_name": "жehщиham",
             "weight": 32767
         }
     },
@@ -61,6 +67,7 @@
             "name": "Мужчинам",
             "is_published": true,
             "slug": "man",
+            "normilized_name": "myжчиham",
             "weight": 100
         }
     },
