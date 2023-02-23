@@ -1,0 +1,6 @@
+[flake8]
+inline-quotes = double
+
+exclude = */migrations/
+
+max-complexity = 10

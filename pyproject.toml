@@ -1,7 +1,6 @@
-[tool.flake8]
-inline-quotes = 'double'
 [tool.black]
 line-length = 79
+exclude = ".*/migrations/"
 [tool.isort]
 profile = "black"
 [tool.autoflake]

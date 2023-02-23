@@ -19,6 +19,7 @@ else:
 REVERSE_REQUEST_COUNT = int(getenv("REVERSE_REQUEST_COUNT", "0"))
 
 INSTALLED_APPS = [
+    "core.apps.CoreConfig",
     "about.apps.AboutConfig",
     "catalog.apps.CatalogConfig",
     "homepage.apps.HomepageConfig",

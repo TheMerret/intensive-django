@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class AboutConfig(AppConfig):
+class CoreConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "about"
-    verbose_name = "О проекте"
+    name = "core"
+    verbose_name = "Ядро"
