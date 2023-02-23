@@ -1,9 +1,11 @@
 from glob import glob
+from os import environ
 
 from django.core.exceptions import ImproperlyConfigured
-from django.core.management import CommandError, call_command
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db import DEFAULT_DB_ALIAS, connections
+from django.db.migrations.executor import MigrationExecutor
 
 
 class Command(BaseCommand):
@@ -11,40 +13,43 @@ class Command(BaseCommand):
     requires_migrations_checks = False
 
     def handle(self, *args, **kwargs):
-        is_migrations_good = self.check_migrations()
-        if not is_migrations_good:
+        """Populate database with initial data"""
+        is_migrations_applied = self.apply_migrations()
+        if not is_migrations_applied:
             return
         fixture_paths = glob("*/fixtures/*.json")
         call_command("loaddata", fixture_paths)
-        try:
-            # get creditinals froom env
-            call_command(
-                "createsuperuser", skip_checks=True, interactive=False
-            )
-        except CommandError:
-            # else get from prompt
-            call_command("createsuperuser", skip_checks=True)
+        superuser_env_variables = [
+            "DJANGO_SUPERUSER_USERNAME",
+            "DJANGO_SUPERUSER_EMAIL",
+            "DJANGO_SUPERUSER_PASSWORD",
+        ]
+        is_superuser_prompt_interactive = not all(
+            environ.get(var) for var in superuser_env_variables
+        )
+        call_command(
+            "createsuperuser",
+            interactive=is_superuser_prompt_interactive,
+        )
 
-    def check_migrations(self):
+    def apply_migrations(self):
         """
         Print a warning if the set of migrations on disk don't match the
-        migrations in the database.
+        migrations in the database and automatically apply migrations
+        if user wants.
         """
-        from django.db.migrations.executor import MigrationExecutor
-
         try:
             executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
         except ImproperlyConfigured:
-            # No databases are configured (or the dummy one)
-            return
+            return False
 
         plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
         if plan:
             apps_waiting_migration = sorted(
-                {migration.app_label for migration, backwards in plan}
+                {migration.app_label for migration, _ in plan}
             )
             self.stdout.write(
-                self.style.NOTICE(
+                self.style.WARNING(
                     "\nYou have %(unapplied_migration_count)s unapplied "
                     "migration(s). Your project may not work properly "
                     "until you apply the migrations for app(s): "
@@ -57,19 +62,15 @@ class Command(BaseCommand):
                     }
                 )
             )
-            self.stdout.write(
-                self.style.NOTICE(
-                    "Run 'python manage.py migrate' to apply them."
-                )
-            )
-            answer = None
+            answer = ""
             while not answer or answer not in "yn":
-                answer = input("Do you wish to proceed? [yN] ")
+                answer = input("Apply migrations? [yN] ")
                 if not answer:
                     answer = "n"
                     break
                 else:
                     answer = answer[0].lower()
             if answer != "y":
-                return
+                return False
+            call_command("migrate")
         return True

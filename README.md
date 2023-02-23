@@ -83,6 +83,33 @@ python3 manage.py runserver
 
 [Django](https://docs.djangoproject.com/en/3.2/) documentation
 
+### Custom commands
+
+### `initdata`
+
+If you want to populate your fresh db with fixtures and superuser creditinals you can use
+
+Windows:
+```bash
+python manage.py initdata
+```
+Mac, Linux:
+```bash
+python3 manage.py initdata
+```
+
+This command will check migrations and if there are pending ones you can apply them in place.
+
+After that command will create superuser with creditinals defined in enviroment variables like
+
+```
+DJANGO_SUPERUSER_USERNAME = TheMerret
+DJANGO_SUPERUSER_EMAIL = themerret@email.com
+DJANGO_SUPERUSER_PASSWORD = superuserpassword
+```
+
+You could input all your creditinal from stdin if you haven't specified settings in enviroment variables. 
+
 ## Models' schemes
 
 [Schemes](https://gist.github.com/TheMerret/9cb1a73c9639e0f737f273a390c88f88)
