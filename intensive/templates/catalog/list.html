@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Это страница со списком товаров</h1>
+  <img src="static_dev/img/logo.svg" alt="">
+  <a href="catalog/">
+    Список товаров
+  </a>
+
+  <a href="{% url 'catalog:item-list' %}">
+    Список товаров
+  </a>
+
+  <a href="{% url 'catalog:item-detail' 1 %}">
+    Страница с товаром номер 1
+  </a>
+{% endblock content %}

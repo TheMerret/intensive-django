@@ -4,6 +4,9 @@ import core.models
 
 import django.core.validators
 import django.db.models
+from django.utils.safestring import mark_safe
+
+from sorl.thumbnail import get_thumbnail
 
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
@@ -52,3 +55,24 @@ class Item(core.models.CatalogCommon):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+
+
+class ItemPreview(django.db.models.Model):
+    image = django.db.models.ImageField(
+        "Будет приведено к ширине x1280", upload_to="catalog/"
+    )
+
+    def get_image_x1280(self):
+        return get_thumbnail(self.image, "1280", quality=51)
+
+    def get_image_300x400(self):
+        return get_thumbnail(self.image, "400x300", crop="center", quality=51)
+    
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(
+                f"<img src='{self.image.url}' width=50>"
+            )
+    
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
