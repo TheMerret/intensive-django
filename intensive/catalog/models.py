@@ -6,7 +6,7 @@ import django.core.validators
 import django.db.models
 from django.utils.safestring import mark_safe
 
-from sorl.thumbnail import get_thumbnail
+from django_resized import ResizedImageField
 
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
@@ -56,23 +56,55 @@ class Item(core.models.CatalogCommon):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
 
-
-class ItemPreview(django.db.models.Model):
-    image = django.db.models.ImageField(
-        "Будет приведено к ширине x1280", upload_to="catalog/"
-    )
-
-    def get_image_x1280(self):
-        return get_thumbnail(self.image, "1280", quality=51)
-
-    def get_image_300x400(self):
-        return get_thumbnail(self.image, "400x300", crop="center", quality=51)
-    
     def image_tmb(self):
-        if self.image:
-            return mark_safe(
-                f"<img src='{self.image.url}' width=50>"
-            )
-    
+        if self.preview:
+            return mark_safe(f"<img src='{self.preview.image.url}' width=50>")
+
     image_tmb.short_description = "превью"
     image_tmb.allow_tags = True
+
+
+class Preview(django.db.models.Model):
+    image = ResizedImageField(
+        "Превью",
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="catalog/",
+    )
+    item = django.db.models.OneToOneField(
+        Item,
+        verbose_name=Item._meta.verbose_name,
+        help_text="Какому товару принадлежит превью",
+        on_delete=django.db.models.CASCADE,
+        related_name="preview",
+    )
+
+    class Meta:
+        verbose_name = "Превью"
+        verbose_name_plural = "Превьюшки"
+
+    def __str__(self):
+        return self.image.url
+
+
+class Gallery(django.db.models.Model):
+    image = ResizedImageField(
+        "Фото",
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="catalog/",
+    )
+    item = django.db.models.ForeignKey(
+        Item,
+        on_delete=django.db.models.CASCADE,
+        verbose_name=Item._meta.verbose_name,
+        help_text="Какому товару принадлежит фото",
+        related_name="gallery",
+    )
+
+    class Meta:
+        verbose_name = "Фото"
+        verbose_name_plural = "Фотогалерея"
+
+    def __str__(self):
+        return self.image.url

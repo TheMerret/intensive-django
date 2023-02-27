@@ -7,14 +7,17 @@ class HomePageTest(TestCase):
 
     def test_endpoints_exists(self):
         """test if app endpoints response corresponding code"""
-        for viewname, status_code in (("index", 200), ("coffee", 418)):
+        for viewname, status_code in (
+            ("homepage:index", 200),
+            ("homepage:coffee", 418),
+        ):
             with self.subTest(viewname=viewname, status_code=status_code):
                 response = Client().get(reverse(viewname))
                 self.assertEqual(response.status_code, status_code)
 
     def test_coffee_endpoint_response(self):
         """test if coffee endpoint responses Я чайник"""
-        response = Client().get(reverse("coffee"))
+        response = Client().get(reverse("homepage:coffee"))
         self.assertContains(response, "Я чайник", status_code=418)
 
 
@@ -26,8 +29,8 @@ class MiddlewareTest(TestCase):
         """test if middleware reversing russian words after n requests"""
         n = 10
         for viewname, text, status_code in (
-            ("index", "яанвалГ", 200),  # одно слово
-            ("coffee", "Я кинйач", 418),  # несколько
+            ("homepage:index", "яанвалГ", 200),  # одно слово
+            ("homepage:coffee", "Я кинйач", 418),  # несколько
         ):
             with self.subTest(
                 viewname=viewname, text=text, status_code=status_code
@@ -43,7 +46,7 @@ class MiddlewareTest(TestCase):
         """test if middleware could be disabed"""
         n = 10
         client = Client()
-        response = client.get(reverse("index"))
+        response = client.get(reverse("homepage:index"))
         for _ in range(n - 1):
-            response = client.get(reverse("index"))
+            response = client.get(reverse("homepage:index"))
         self.assertContains(response, "Главная")

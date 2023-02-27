@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Это главная страница</h1>
-  {% load static %}
-
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-
-  <img src="{% static 'img/logo.svg' %}">
-
-  {% with request.resolver_match.view_name as view_name %}
-  <ul class"nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link {% if view_name == 'homepage:home' %}active{% endif %}" href="{% url 'homepage:home' %}"></a>
-    </li>
-  </ul>
-  {% endwith %}
-
+<div class="z-index-n2 view intro-image">
+  <div class="mask bg-success bg-opacity-50 d-flex justify-content-center align-items-center">
+      <div class="container w-50">
+          <div class="row">
+              <div class="col-md-12 text-white text-center">
+                  <h1 class="fw-bold text-capitalize mb-3">
+                      Ёжик и Кошка
+                  </h1>
+                  <hr class="intro-hr w-50 mx-auto">
+                  <h5 class="mb-5 lead">
+                      Чушь какая-то
+                  </h5>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock content %}
