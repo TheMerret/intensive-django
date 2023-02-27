@@ -67,6 +67,12 @@ DEBUG = false
 ALLOWED_HOSTS = 192.168.0.21,192.168.0.1
 ```
 
+You can use example dotenv:
+
+```bash
+cp example.env .env
+```
+
 ### Launch:
 
 #### Django server:
