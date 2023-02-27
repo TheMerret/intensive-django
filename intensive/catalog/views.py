@@ -9,7 +9,5 @@ def item_list(request):
 
 def item_detail(request, item_id):
     template = "catalog/item_detail.html"
-    context = {
-        "item_id": item_id
-    }
+    context = {"item_id": item_id}
     return render(request, template, context)
