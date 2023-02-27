@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 
 from django_resized import ResizedImageField
 
+from tinymce.models import HTMLField
+
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     class Meta:
@@ -33,7 +35,7 @@ class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
 
 
 class Item(core.models.CatalogCommon):
-    text = django.db.models.TextField(
+    text = HTMLField(
         "Описание",
         help_text="Введите описание объекта",
         validators=[
