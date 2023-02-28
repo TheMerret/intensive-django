@@ -64,13 +64,7 @@ class Item(core.models.CatalogCommon):
     image_tmb.allow_tags = True
 
 
-class Preview(django.db.models.Model):
-    image = ResizedImageField(
-        "Превью",
-        size=[300, 300],
-        crop=["middle", "center"],
-        upload_to="catalog/",
-    )
+class Preview(core.models.ImageCommon):
     item = django.db.models.OneToOneField(
         Item,
         verbose_name=Item._meta.verbose_name,
@@ -87,13 +81,7 @@ class Preview(django.db.models.Model):
         return self.image.url
 
 
-class Gallery(django.db.models.Model):
-    image = ResizedImageField(
-        "Фото",
-        size=[300, 300],
-        crop=["middle", "center"],
-        upload_to="catalog/",
-    )
+class Gallery(core.models.ImageCommon):
     item = django.db.models.ForeignKey(
         Item,
         on_delete=django.db.models.CASCADE,

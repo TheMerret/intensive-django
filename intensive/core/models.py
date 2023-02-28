@@ -3,6 +3,8 @@ import core.utils
 import django.core.exceptions
 import django.db.models
 
+from django_resized import ResizedImageField
+
 
 class CatalogCommon(django.db.models.Model):
     name = django.db.models.CharField(
@@ -54,3 +56,18 @@ class CatalogGroupCommon(django.db.models.Model):
                 {"name": "Похожее имя уже существует"}
             )
         return super().validate_unique(exclude)
+
+
+class ImageCommon(django.db.models.Model):
+    image = ResizedImageField(
+        "Фото",
+        size=[300, 300],
+        crop=["middle", "center"],
+        upload_to="catalog/",
+    )
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.image.url
