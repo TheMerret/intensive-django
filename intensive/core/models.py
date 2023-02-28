@@ -3,7 +3,7 @@ import core.utils
 import django.core.exceptions
 import django.db.models
 
-from django_resized import ResizedImageField
+from sorl.thumbnail import get_thumbnail
 
 
 class CatalogCommon(django.db.models.Model):
@@ -59,12 +59,13 @@ class CatalogGroupCommon(django.db.models.Model):
 
 
 class ImageCommon(django.db.models.Model):
-    image = ResizedImageField(
+    image = django.db.models.ImageField(
         "Фото",
-        size=[300, 300],
-        crop=["middle", "center"],
         upload_to="catalog/",
     )
+
+    def get_thumbnail(self, size="300x300"):
+        return get_thumbnail(self.image, size, crop="center", quality=51)
 
     class Meta:
         abstract = True
