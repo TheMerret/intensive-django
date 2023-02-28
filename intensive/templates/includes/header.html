@@ -1,15 +1,16 @@
 {% load static %}
+{% load i18n %}
 <header class="container-fluid d-flex flex-wrap justify-content-center py-3 border-bottom">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img src="{% static 'img/logo.svg' %}" alt="" width="50" height="44">
-        <span class="mx-4 fs-4">Ёжик</span>
+        <span class="mx-4 fs-4">{% translate "Yozhic" %}</span>
     </a>
 
     {% with request.resolver_match.view_name as view_name %}
     <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link {% if view_name == 'homepage:index' %}active{% endif %}" href="{% url 'homepage:index' %}">Главная страница</a></li>
-        <li class="nav-item"><a class="nav-link {% if view_name == 'catalog:item-list' %}active{% endif %}" href="{% url 'catalog:item-list' %}">Каталог товаров</a></li>
-        <li class="nav-item"><a class="nav-link {% if view_name == 'about:about' %}active{% endif %}" href="{% url 'about:about' %}">О проекте</a></li>
+        <li class="nav-item"><a class="nav-link {% if view_name == 'homepage:index' %}active{% endif %}" href="{% url 'homepage:index' %}">{% translate "Home" %}</a></li>
+        <li class="nav-item"><a class="nav-link {% if view_name == 'catalog:item-list' %}active{% endif %}" href="{% url 'catalog:item-list' %}">{% translate "Catalog" %}</a></li>
+        <li class="nav-item"><a class="nav-link {% if view_name == 'about:about' %}active{% endif %}" href="{% url 'about:about' %}">{% translate "About" %}</a></li>
     </ul>
     {% endwith %}
 </header>

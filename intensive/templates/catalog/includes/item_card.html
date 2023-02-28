@@ -1,9 +1,10 @@
 {% load static %}
+{% load i18n %}
 <div class="card">
     <div class="card-header">
         <img src="{% static 'img/cat.jpg' %}" class="card-img-top" alt=" Фото отсутствует">
     </div>
     <div class="card-body">
-        <h5 class="card-title">Котик {{ item_id }}</h5>
+        <h5 class="card-title">{% blocktranslate %}Kitten {{ item_id }}{% endblocktranslate %}</h5>
     </div>  
 </div>
