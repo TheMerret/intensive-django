@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container-fluid my-4">
-<h1>Подробно элемент {{ item_id }}</h1>
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea nulla fugiat aliquid, debitis deleniti veniam assumenda perferendis id similique blanditiis ullam tempora velit aperiam. Minima incidunt cupiditate minus beatae at.
+<div class="container-fluid w-50 my-4">
+    {% include "catalog/includes/item_card.html" %}
 </div>
 {% endblock content %}
