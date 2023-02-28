@@ -4,7 +4,9 @@
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for item_id in "123456789" %}
         <div class="col">
-            {% include "catalog/includes/item_card.html" %}
+            <a href="{% url 'catalog:item-detail' item_id %}" class="text-decoration-none">
+                {% include "catalog/includes/item_card.html" %}
+            </a>
         </div>
         {% endfor %}
     </div>
