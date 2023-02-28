@@ -6,8 +6,6 @@ import django.core.validators
 import django.db.models
 from django.utils.safestring import mark_safe
 
-from django_resized import ResizedImageField
-
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     class Meta:
