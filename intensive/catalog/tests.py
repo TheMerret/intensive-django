@@ -1,10 +1,11 @@
 from unittest import skip
 
-import catalog.models
-
-import django.urls.exceptions
-from django.test import Client, TestCase
+from django.test import Client
+from django.test import TestCase
 from django.urls import reverse
+import django.urls.exceptions
+
+import catalog.models
 
 
 class CatalogPageTest(TestCase):

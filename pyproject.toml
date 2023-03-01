@@ -2,7 +2,10 @@
 line-length = 79
 exclude = ".*/migrations/"
 [tool.isort]
-profile = "black"
+profile = "google"
+known_first_party = ["about","catalog","core","homepage","intensive"]
+lines_after_imports = 2
+skip_glob = "*/migrations"
 [tool.autoflake]
 in-place = true
 remove-unused-variables = true

@@ -4,3 +4,6 @@ inline-quotes = double
 exclude = */migrations/
 
 max-complexity = 10
+
+import-order-style = google
+application-import-names = about,catalog,core,homepage,intensive

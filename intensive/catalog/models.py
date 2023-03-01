@@ -1,24 +1,22 @@
-import catalog.validators
-
-import core.models
-
 import django.core.validators
 import django.db.models
 from django.utils.safestring import mark_safe
-
 from tinymce.models import HTMLField
+
+import catalog.validators
+import core.models
 
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     class Meta:
-        verbose_name = "Тег"
-        verbose_name_plural = "Теги"
+        verbose_name = "тег"
+        verbose_name_plural = "теги"
 
 
 class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     # PositiveSmallIntegerField
     weight = django.db.models.IntegerField(
-        "Вес",
+        "вес",
         help_text="Насколько весома категория",
         default=100,
         validators=[
@@ -28,13 +26,13 @@ class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     )
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
 
 
 class Item(core.models.CatalogCommon):
     text = HTMLField(
-        "Описание",
+        "описание",
         help_text="Введите описание объекта",
         validators=[
             catalog.validators.ValidateMustContain("превосходно", "роскошно"),
@@ -53,12 +51,13 @@ class Item(core.models.CatalogCommon):
     )
 
     class Meta:
-        verbose_name = "Товар"
-        verbose_name_plural = "Товары"
+        verbose_name = "товар"
+        verbose_name_plural = "товары"
 
     def image_tmb(self):
         if self.preview:
-            return mark_safe(f"<img src='{self.preview.image.url}' width=50>")
+            thumbnail = self.preview.get_thumbnail()
+            return mark_safe(f"<img src='{thumbnail.url}'>")
 
     image_tmb.short_description = "превью"
     image_tmb.allow_tags = True
@@ -74,8 +73,8 @@ class Preview(core.models.ImageCommon):
     )
 
     class Meta:
-        verbose_name = "Превью"
-        verbose_name_plural = "Превьюшки"
+        verbose_name = "превью"
+        verbose_name_plural = "превьюшки"
 
     def __str__(self):
         return self.image.url
@@ -91,8 +90,8 @@ class Gallery(core.models.ImageCommon):
     )
 
     class Meta:
-        verbose_name = "Фото"
-        verbose_name_plural = "Фотогалерея"
+        verbose_name = "фото"
+        verbose_name_plural = "фотогалерея"
 
     def __str__(self):
         return self.image.url
