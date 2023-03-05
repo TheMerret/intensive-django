@@ -13,10 +13,10 @@ class CatalogPageTest(TestCase):
     def test_endpoints_exists(self):
         """test if app endpoints response 200 code"""
         for viewname, args in (
-            ("item-list", []),
-            ("item-detail", [1]),
-            ("re-item-detail", [1]),
-            ("converter-item-detail", [1]),
+            ("catalog:item-list", []),
+            ("catalog:item-detail", [1]),
+            ("catalog:re-item-detail", [1]),
+            ("catalog:converter-item-detail", [1]),
         ):
             with self.subTest(viewname=viewname, args=args):
                 response = Client().get(reverse(viewname, args=args))
@@ -26,7 +26,10 @@ class CatalogPageTest(TestCase):
         """test if catalog item detail
         doesn't accept wrong values as id"""
         # we don't test item-detail cause it uses django implementation
-        for viewname in ("re-item-detail", "converter-item-detail"):
+        for viewname in (
+            "catalog:re-item-detail",
+            "catalog:converter-item-detail",
+        ):
             for args in (["hello"], [-1], [0], [3.14]):
                 with self.subTest(viewname=viewname, args=args):
                     self.assertRaises(

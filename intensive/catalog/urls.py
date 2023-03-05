@@ -2,6 +2,9 @@ from catalog import converters, views
 
 from django.urls import path, re_path, register_converter
 
+
+app_name = "catalog"
+
 # N* according to ISO 80000-2
 register_converter(converters.PositiveInteger, "N*")
 

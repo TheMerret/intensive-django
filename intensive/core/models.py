@@ -3,6 +3,8 @@ import core.utils
 import django.core.exceptions
 import django.db.models
 
+from sorl.thumbnail import get_thumbnail
+
 
 class CatalogCommon(django.db.models.Model):
     name = django.db.models.CharField(
@@ -54,3 +56,19 @@ class CatalogGroupCommon(django.db.models.Model):
                 {"name": "Похожее имя уже существует"}
             )
         return super().validate_unique(exclude)
+
+
+class ImageCommon(django.db.models.Model):
+    image = django.db.models.ImageField(
+        "Фото",
+        upload_to="catalog/",
+    )
+
+    def get_thumbnail(self, size="300x300"):
+        return get_thumbnail(self.image, size, crop="center", quality=51)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.image.url

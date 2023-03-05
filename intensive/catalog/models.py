@@ -4,6 +4,7 @@ import core.models
 
 import django.core.validators
 import django.db.models
+from django.utils.safestring import mark_safe
 
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
@@ -52,3 +53,44 @@ class Item(core.models.CatalogCommon):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+
+    def image_tmb(self):
+        if self.preview:
+            return mark_safe(f"<img src='{self.preview.image.url}' width=50>")
+
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
+
+
+class Preview(core.models.ImageCommon):
+    item = django.db.models.OneToOneField(
+        Item,
+        verbose_name=Item._meta.verbose_name,
+        help_text="Какому товару принадлежит превью",
+        on_delete=django.db.models.CASCADE,
+        related_name="preview",
+    )
+
+    class Meta:
+        verbose_name = "Превью"
+        verbose_name_plural = "Превьюшки"
+
+    def __str__(self):
+        return self.image.url
+
+
+class Gallery(core.models.ImageCommon):
+    item = django.db.models.ForeignKey(
+        Item,
+        on_delete=django.db.models.CASCADE,
+        verbose_name=Item._meta.verbose_name,
+        help_text="Какому товару принадлежит фото",
+        related_name="gallery",
+    )
+
+    class Meta:
+        verbose_name = "Фото"
+        verbose_name_plural = "Фотогалерея"
+
+    def __str__(self):
+        return self.image.url
