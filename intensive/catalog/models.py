@@ -56,7 +56,7 @@ class Item(core.models.CatalogCommon):
 
     def image_tmb(self):
         if self.preview:
-            thumbnail = self.preview.get_thumbnail()
+            thumbnail = self.preview.get_thumbnail("50x50")
             return mark_safe(f"<img src='{thumbnail.url}'>")
 
     image_tmb.short_description = "превью"

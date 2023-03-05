@@ -47,8 +47,8 @@ class ModelTest(TestCase):
     fixtures = ["catalog.json"]
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
+        super().setUpTestData()
         cls.category = catalog.models.Category.objects.first()
         cls.tag = catalog.models.Tag.objects.first()
         cls.abiguous_category = catalog.models.Category(
