@@ -9,6 +9,7 @@ import core.models
 
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     class Meta:
+        ordering = ("slug",)
         verbose_name = "тег"
         verbose_name_plural = "теги"
 
@@ -26,11 +27,30 @@ class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     )
 
     class Meta:
+        ordering = ("id", "weight")
         verbose_name = "категория"
         verbose_name_plural = "категории"
 
 
+class ItemManager(django.db.models.Manager):
+    def published(self):
+        return (
+            self.get_queryset()
+            .filter(is_published=True)
+            .filter(category__is_published=True)
+            .select_related("category")
+            .order_by("category")
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "tags", queryset=Tag.objects.all()
+                )
+            ).only("name", "text", "category__name")
+        )
+
+
 class Item(core.models.CatalogCommon):
+    objects = ItemManager()
+
     text = HTMLField(
         "описание",
         help_text="Введите описание объекта",
@@ -51,6 +71,7 @@ class Item(core.models.CatalogCommon):
     )
 
     class Meta:
+        ordering = ("-text", "-name", "id")
         verbose_name = "товар"
         verbose_name_plural = "товары"
 
@@ -73,6 +94,7 @@ class Preview(core.models.ImageCommon):
     )
 
     class Meta:
+        ordering = ("image",)
         verbose_name = "превью"
         verbose_name_plural = "превьюшки"
 
@@ -90,6 +112,7 @@ class Gallery(core.models.ImageCommon):
     )
 
     class Meta:
+        ordering = ("image",)
         verbose_name = "фото"
         verbose_name_plural = "фотогалерея"
 

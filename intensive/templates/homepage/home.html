@@ -17,4 +17,15 @@
       </div>
     </div>
   </div>
+  <div class="container m-5">
+    <h2 class="d-flex align-items-center justify-content-center">Мы рекомендуем</h2>
+    {% for item in items %}
+      <div>
+        <h5>{{ item.name }}</h5>
+        <p>{{ item.text }}</p>
+      </div>
+    {% empty %}
+      <p>Список пуст. Эй, админ, добавь инфы!</p>
+    {% endfor %}
+  </div>
 {% endblock content %}

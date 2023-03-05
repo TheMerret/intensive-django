@@ -11,6 +11,8 @@ import catalog.models
 class CatalogPageTest(TestCase):
     """test catalog page"""
 
+    fixtures = ["catalog.json"]  # for item detail
+
     def test_endpoints_exists(self):
         """test if app endpoints response 200 code"""
         for viewname, args in (
@@ -212,3 +214,20 @@ class ModelTest(TestCase):
                 self.assertEqual(
                     catalog.models.Category.objects.count(), category_count
                 )
+
+
+class ContextTest(TestCase):
+    """test context dictionaries"""
+
+    fixtures = ["catalog.json"]
+
+    def test_homepage_shows_correct_context(self):
+        response = Client().get(reverse("homepage:index"))
+        self.assertIn("items", response.context)
+
+    def test_nome_count_item(self):
+        response = django.test.Client().get(
+            reverse("homepage:index")
+        )
+        items = response.context["items"]
+        self.assertEqual(items.count(), 5)
