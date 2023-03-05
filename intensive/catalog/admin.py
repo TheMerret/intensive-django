@@ -1,4 +1,5 @@
 from django.contrib import admin
+from sorl.thumbnail.admin import AdminImageMixin
 
 import catalog.models
 import core.models
@@ -19,6 +20,14 @@ admin.site.register(catalog.models.Preview)
 admin.site.register(catalog.models.Gallery)
 
 
+class InlinePreview(AdminImageMixin, admin.TabularInline):
+    model = catalog.models.Preview
+
+
+class InlineGallery(AdminImageMixin, admin.TabularInline):
+    model = catalog.models.Gallery
+
+
 @admin.register(catalog.models.Item)
 class ItemAdmin(CatalogCommonAdmin):
     list_display = (
@@ -27,3 +36,4 @@ class ItemAdmin(CatalogCommonAdmin):
         "image_tmb",
     )
     filter_horizontal = (catalog.models.Item.tags.field.name,)
+    inlines = [InlinePreview, InlineGallery]

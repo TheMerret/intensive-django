@@ -10,3 +10,8 @@ skip_glob = "*/migrations"
 in-place = true
 remove-unused-variables = true
 remove-all-unused-imports = true
+[tool.djlint]
+indent=2
+profile="django"
+use_gitignore = true
+format_attribute_template_tags=true

@@ -1,5 +1,8 @@
+import re
+
 import django.core.exceptions
 from django.utils.deconstruct import deconstructible
+from django.utils.html import strip_tags
 
 
 def excellent_validator(value):
@@ -14,6 +17,10 @@ def excellent_validator(value):
 @deconstructible
 class ValidateMustContain:
     def __init__(self, *values):
+        word_groups = "|".join(values)
+        self.words_regex = re.compile(
+            rf"\b({word_groups})\b", flags=re.IGNORECASE
+        )
         self.values = values
         self.message = (
             "В значении должно обязательно содержаться одно слово из"
@@ -21,6 +28,6 @@ class ValidateMustContain:
         )
 
     def __call__(self, value):
-        value = value.lower()
-        if not any(v in value for v in self.values):
+        value = strip_tags(value)
+        if not self.words_regex.match(value):
             raise django.core.exceptions.ValidationError(self.message)

@@ -3,7 +3,7 @@ import time
 
 import django.core.exceptions
 import django.db.models
-from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import get_thumbnail, ImageField
 
 import core.utils
 
@@ -70,7 +70,7 @@ def get_item_media_path(instance, filename):
 
 
 class ImageCommon(django.db.models.Model):
-    image = django.db.models.ImageField(
+    image = ImageField(
         "фото",
         upload_to=get_item_media_path,
     )
