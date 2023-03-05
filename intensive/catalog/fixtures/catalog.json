@@ -24,7 +24,7 @@
         "pk": 3,
         "fields": {
             "name": "Уценка",
-            "is_published": true,
+            "is_published": false,
             "slug": "markdown",
             "normilized_name": "yцehka"
         }
@@ -34,7 +34,7 @@
         "pk": 4,
         "fields": {
             "name": "Лимитированная Коллекция",
-            "is_published": true,
+            "is_published": false,
             "slug": "limited-edition",
             "normilized_name": "лиmиtиpobahhaяkoллekция"
         }
@@ -54,7 +54,7 @@
         "pk": 1,
         "fields": {
             "name": "Женщинам",
-            "is_published": true,
+            "is_published": false,
             "slug": "woman",
             "normilized_name": "жehщиham",
             "weight": 32767
@@ -77,11 +77,12 @@
         "fields": {
             "name": "Светофор",
             "is_published": true,
-            "text": "Кому в наше время не нужен светофор? Превосходно освещает комнату.",
-            "category": 1,
+            "text": "<p>Кому в наше время не нужен светофор? Превосходно освещает комнату.</p>",
+            "is_on_main": false,
+            "category": 2,
             "tags": [
-                1,
-                4
+                4,
+                1
             ]
         }
     },
@@ -92,10 +93,11 @@
             "name": "Ржавая девятка",
             "is_published": true,
             "text": "Роскошно ржавая, прекрасно стоит на месте.",
+            "is_on_main": true,
             "category": 2,
             "tags": [
-                2,
-                3
+                3,
+                2
             ]
         }
     },
@@ -106,10 +108,11 @@
             "name": "Вiталик",
             "is_published": true,
             "text": "Превосходно, что он есть.",
+            "is_on_main": true,
             "category": 1,
             "tags": [
-                1,
                 4,
+                1,
                 5
             ]
         }
@@ -120,10 +123,12 @@
         "fields": {
             "name": "Квартира в центре Москвы",
             "is_published": true,
-            "text": "Витринный образец. Роскошно выглядит.",
+            "text": "<p>Витринный образец. Роскошно выглядит.</p>",
+            "is_on_main": true,
             "category": 2,
             "tags": [
-                3
+                3,
+                5
             ]
         }
     },
@@ -132,12 +137,13 @@
         "pk": 5,
         "fields": {
             "name": "Искандер",
-            "is_published": true,
+            "is_published": false,
             "text": "«Исканде́р» (индекс комплекса — 9К720) — семейство российских оперативно-тактических ракетных комплексов (ОТРК): «Искандер», «Искандер-М», «Искандер-К», «Искандер-Э». Разработаны роскошно научно-производственной корпорацией «Конструкторское бюро машиностроения» (КБМ) в городе Коломне Московской области.",
+            "is_on_main": false,
             "category": 1,
             "tags": [
-                3,
                 4,
+                3,
                 5
             ]
         }

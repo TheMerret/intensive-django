@@ -6,7 +6,7 @@ import catalog.models
 
 def item_list(request):
     template = "catalog/list.html"
-    items = catalog.models.Item.objects.published()
+    items = catalog.models.Item.objects.on_list()
     context = {
         "items": items,
     }
@@ -15,7 +15,7 @@ def item_list(request):
 
 def item_detail(request, item_id):
     item = get_object_or_404(
-        catalog.models.Item.objects.filter(is_published=True), pk=item_id
+        catalog.models.Item.objects.detail(item_id)
     )
     template = "catalog/item_detail.html"
     context = {"item": item}

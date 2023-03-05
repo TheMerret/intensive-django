@@ -6,7 +6,7 @@ import catalog.models
 
 def home(request):
     template = "homepage/home.html"
-    items = catalog.models.Item.objects.all().order_by("text", "name")
+    items = catalog.models.Item.objects.on_main_page()
     context = {
         "items": items,
     }

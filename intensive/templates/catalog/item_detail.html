@@ -1,8 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
 {% load i18n %}
 {% block title %}
   {% translate "Item" %}
 {% endblock title %}
 {% block content %}
-  <div class="container-fluid w-50 my-4">{% include "catalog/includes/item_card.html" %}</div>
+  <div class="container my-5">
+    <h1 class="d-flex align-items-center justify-content-center mb-5">{{ item.name }}</h1>
+    <img src="{{ item.preview.image.url }}"
+         class="img-fluid rounded mx-auto d-block mb-3"
+         alt="Фото отсутствует"
+         height=""
+         width=""/>
+    <div class="fs-3">
+      <h2 class="d-flex align-items-center justify-content-center mb-3">Описание</h2>
+      {{ item.text | safe }}
+      <h2 class="d-flex align-items-center justify-content-center mb-3">Категория</h2>
+      {{ item.category.name }}
+      <h2 class="d-flex align-items-center justify-content-center mb-3">Теги</h2>
+      <ul>
+        {% for tag in item.tags.all %}
+          <li>{{ tag.name }}</li>
+        {% empty %}
+          Нема
+        {% endfor %}
+      </ul>
+      <h2 class="d-flex align-items-center justify-content-center mb-3">Галлерея</h2>
+      {% for photo in item.gallery.all %}
+        <img src="{{ photo.image.url }}"
+             class="img-fluid rounded mx-auto d-block mb-3"
+             alt="Фото отсутствует"
+             height=""
+             width=""/>
+      {% empty %}
+        Нема
+      {% endfor %}
+    </div>
+  </div>
 {% endblock content %}

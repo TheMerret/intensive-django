@@ -29,5 +29,5 @@ class ValidateMustContain:
 
     def __call__(self, value):
         value = strip_tags(value)
-        if not self.words_regex.match(value):
+        if not self.words_regex.search(value):
             raise django.core.exceptions.ValidationError(self.message)

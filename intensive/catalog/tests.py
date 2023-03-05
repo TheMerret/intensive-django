@@ -225,9 +225,24 @@ class ContextTest(TestCase):
         response = Client().get(reverse("homepage:index"))
         self.assertIn("items", response.context)
 
-    def test_nome_count_item(self):
+    def test_home_count_item(self):
         response = django.test.Client().get(
             reverse("homepage:index")
         )
         items = response.context["items"]
-        self.assertEqual(items.count(), 5)
+        self.assertEqual(items.count(), 2)
+
+    def test_catalog_list_shows_correct_context(self):
+        response = Client().get(reverse("catalog:item-list"))
+        self.assertIn("items", response.context)
+
+    def test_catalog_list_count_item(self):
+        response = django.test.Client().get(
+            reverse("catalog:item-list")
+        )
+        items = response.context["items"]
+        self.assertEqual(items.count(), 3)
+
+    def test_catalog_item_shows_correct_context(self):
+        response = Client().get(reverse("catalog:item-detail", args=[1]))
+        self.assertIn("item", response.context)

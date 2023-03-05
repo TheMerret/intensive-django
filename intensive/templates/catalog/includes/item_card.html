@@ -3,13 +3,10 @@
 <div class="card">
   <div class="card-header">
     {{ item.category.name }}
-    <img src="{% static 'img/cat.jpg' %}"
-         class="card-img-top"
-         alt="Фото отсутствует" height="" width=""/>
   </div>
   <div class="card-body">
     <h5 class="card-title">{{ item.name }}</h5>
-    <p class="card-text">{{ item.text }}</p>
+    <p class="card-text">{{ item.text | truncatechars:10 }}</p>
     {% for tag in item.tags.all %}
       <span class="badge rounded-pill text-bg-primary">{{ tag }}</span>
     {% endfor %}
