@@ -1,9 +1,21 @@
 {% load static %}
+{% load i18n %}
 <footer class="container-fluid d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
     <div class="col-md-4 d-flex align-items-center">
       <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
         <img src="{% static 'img/logo.svg' %}" alt="" width="50" height="44">
       </a>
-      <span class="mb-3 mb-md-0 text-muted">© 2022 Yozhic, Inc</span>
+      <span class="mb-3 mb-md-0 text-muted">© <span id="copyright-year"><noscript>{% now "Y" %}</noscript></span> Yozhic, Inc</span>
     </div>
-  </footer>
+</footer>
+<script>
+  const SECONDS = 1000;
+  const MINUTES = 60;
+  const HOURS = 60;
+  const DAY = 24;
+  var server_datetime = new Date({% now "U" %} * SECONDS);
+  var local_datetime = new Date();
+  var hours_delta = Math.abs(local_datetime - server_datetime) / SECONDS / MINUTES / HOURS / DAY;
+  var datetime = hours_delta > 23 ? server_datetime : local_datetime;
+  document.getElementById("copyright-year").innerHTML = datetime.getFullYear();
+</script>

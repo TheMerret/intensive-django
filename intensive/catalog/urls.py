@@ -1,22 +1,23 @@
-from catalog import converters, views
+import django.urls
 
-from django.urls import path, re_path, register_converter
+from catalog import converters
+from catalog import views
 
 
 app_name = "catalog"
 
 # N* according to ISO 80000-2
-register_converter(converters.PositiveInteger, "N*")
+django.urls.register_converter(converters.PositiveInteger, "N*")
 
 urlpatterns = [
-    path("", views.item_list, name="item-list"),
-    path("<int:item_id>", views.item_detail, name="item-detail"),
-    re_path(
+    django.urls.path("", views.item_list, name="item-list"),
+    django.urls.path("<int:item_id>", views.item_detail, name="item-detail"),
+    django.urls.re_path(
         r"^re/(?P<item_id>[1-9]\d*)/$",
         views.item_detail,
         name="re-item-detail",
     ),
-    path(
+    django.urls.path(
         "converter/<N*:item_id>/",
         views.item_detail,
         name="converter-item-detail",

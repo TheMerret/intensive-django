@@ -1,8 +1,8 @@
-from django.test import Client, TestCase, override_settings
+import django.test
 from django.urls import reverse
 
 
-class HomePageTest(TestCase):
+class HomePageTest(django.test.TestCase):
     """test homepage"""
 
     def test_endpoints_exists(self):
@@ -12,17 +12,17 @@ class HomePageTest(TestCase):
             ("homepage:coffee", 418),
         ):
             with self.subTest(viewname=viewname, status_code=status_code):
-                response = Client().get(reverse(viewname))
+                response = django.test.Client().get(reverse(viewname))
                 self.assertEqual(response.status_code, status_code)
 
     def test_coffee_endpoint_response(self):
         """test if coffee endpoint responses Я чайник"""
-        response = Client().get(reverse("homepage:coffee"))
+        response = django.test.Client().get(reverse("homepage:coffee"))
         self.assertContains(response, "Я чайник", status_code=418)
 
 
-@override_settings(REVERSE_REQUEST_COUNT=10)
-class MiddlewareTest(TestCase):
+@django.test.override_settings(REVERSE_REQUEST_COUNT=10)
+class MiddlewareTest(django.test.TestCase):
     """test reverse middleware"""
 
     def test_reversing_words_every_n_request(self):
@@ -35,17 +35,17 @@ class MiddlewareTest(TestCase):
             with self.subTest(
                 viewname=viewname, text=text, status_code=status_code
             ):
-                client = Client()
+                client = django.test.Client()
                 response = client.get(reverse(viewname))
                 for _ in range(n - 1):
                     response = client.get(reverse(viewname))
                 self.assertContains(response, text, status_code=status_code)
 
-    @override_settings(REVERSE_REQUEST_COUNT=0)
+    @django.test.override_settings(REVERSE_REQUEST_COUNT=0)
     def test_disabling_middleware(self):
         """test if middleware could be disabed"""
         n = 10
-        client = Client()
+        client = django.test.Client()
         response = client.get(reverse("homepage:index"))
         for _ in range(n - 1):
             response = client.get(reverse("homepage:index"))

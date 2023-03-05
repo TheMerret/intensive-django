@@ -1,17 +1,16 @@
-import core.utils
-
 import django.core.exceptions
 import django.db.models
-
 from sorl.thumbnail import get_thumbnail
+
+import core.utils
 
 
 class CatalogCommon(django.db.models.Model):
     name = django.db.models.CharField(
-        "Имя", help_text="Назовите объект", max_length=150
+        "имя", help_text="Назовите объект", max_length=150
     )
     is_published = django.db.models.BooleanField(
-        "Опубликовано", help_text="Опубликован ли объект", default=True
+        "опубликовано", help_text="Опубликован ли объект", default=True
     )
 
     class Meta:
@@ -23,7 +22,7 @@ class CatalogCommon(django.db.models.Model):
 
 class CatalogGroupCommon(django.db.models.Model):
     slug = django.db.models.SlugField(
-        "Строковый идентификатор",
+        "строковый идентификатор",
         help_text="Человекопонятный URL для объекта",
         max_length=200,
         unique=True,
@@ -60,7 +59,7 @@ class CatalogGroupCommon(django.db.models.Model):
 
 class ImageCommon(django.db.models.Model):
     image = django.db.models.ImageField(
-        "Фото",
+        "фото",
         upload_to="catalog/",
     )
 

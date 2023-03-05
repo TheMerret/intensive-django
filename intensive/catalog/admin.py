@@ -1,8 +1,7 @@
-import catalog.models
-
-import core.models
-
 from django.contrib import admin
+
+import catalog.models
+import core.models
 
 
 class CatalogCommonAdmin(admin.ModelAdmin):

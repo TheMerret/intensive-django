@@ -34,6 +34,10 @@ jobs:
       uses: py-actions/flake8@v2
       with:
         plugins: "pep8-naming flake8-import-order flake8-quotes"
+    - name: build translation
+      run: |
+        sudo apt update && sudo apt install -y gettext
+        django-admin compilemessages
     - name: Run Tests
       run: |
         cd intensive
