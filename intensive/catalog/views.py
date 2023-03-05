@@ -14,9 +14,7 @@ def item_list(request):
 
 
 def item_detail(request, item_id):
-    item = get_object_or_404(
-        catalog.models.Item.objects.detail(item_id)
-    )
+    item = get_object_or_404(catalog.models.Item.objects.detail(item_id))
     template = "catalog/item_detail.html"
     context = {"item": item}
     return render(request, template, context)

@@ -226,9 +226,7 @@ class ContextTest(TestCase):
         self.assertIn("items", response.context)
 
     def test_home_count_item(self):
-        response = django.test.Client().get(
-            reverse("homepage:index")
-        )
+        response = django.test.Client().get(reverse("homepage:index"))
         items = response.context["items"]
         self.assertEqual(items.count(), 2)
 
@@ -237,9 +235,7 @@ class ContextTest(TestCase):
         self.assertIn("items", response.context)
 
     def test_catalog_list_count_item(self):
-        response = django.test.Client().get(
-            reverse("catalog:item-list")
-        )
+        response = django.test.Client().get(reverse("catalog:item-list"))
         items = response.context["items"]
         self.assertEqual(items.count(), 3)
 
