@@ -1,3 +1,6 @@
+import pathlib
+import time
+
 import django.core.exceptions
 import django.db.models
 from sorl.thumbnail import get_thumbnail
@@ -57,10 +60,19 @@ class CatalogGroupCommon(django.db.models.Model):
         return super().validate_unique(exclude)
 
 
+def get_item_media_path(instance, filename):
+    creation_timestamp = int(time.time())
+    filename = pathlib.Path(filename)
+    basename, suffix = filename.stem, filename.suffix
+    filename = f"{basename}_{creation_timestamp}{suffix}"
+    media_path = pathlib.Path("catalog") / str(instance.item.id) / filename
+    return media_path
+
+
 class ImageCommon(django.db.models.Model):
     image = django.db.models.ImageField(
         "фото",
-        upload_to="catalog/",
+        upload_to=get_item_media_path,
     )
 
     def get_thumbnail(self, size="300x300"):

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Item" %}{% endblock title %}
 {% block content %}
 <div class="container-fluid w-50 my-4">
     {% include "catalog/includes/item_card.html" %}

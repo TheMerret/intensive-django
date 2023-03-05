@@ -146,7 +146,7 @@
         "model": "catalog.preview",
         "pk": 8,
         "fields": {
-            "image": "catalog/Army2016demo-075.jpg",
+            "image": "catalog/6/Army2016demo-075_1678010727.jpg",
             "item": 6
         }
     },
@@ -154,7 +154,7 @@
         "model": "catalog.preview",
         "pk": 9,
         "fields": {
-            "image": "catalog/Apartamenty-v-Moskva-Siti.jpg",
+            "image": "catalog/5/Apartamenty-v-Moskva-Siti_1678010716.jpg",
             "item": 5
         }
     },
@@ -162,7 +162,7 @@
         "model": "catalog.preview",
         "pk": 10,
         "fields": {
-            "image": "catalog/vitalik.jpg",
+            "image": "catalog/4/vitalik_1678010695.jpg",
             "item": 4
         }
     },
@@ -170,7 +170,7 @@
         "model": "catalog.preview",
         "pk": 11,
         "fields": {
-            "image": "catalog/devyatka.jpg",
+            "image": "catalog/3/devyatka_1678010687.jpg",
             "item": 3
         }
     },
@@ -178,7 +178,7 @@
         "model": "catalog.preview",
         "pk": 12,
         "fields": {
-            "image": "catalog/svetofor.jpg",
+            "image": "catalog/2/svetofor_1678010605.jpg",
             "item": 2
         }
     },
@@ -186,7 +186,7 @@
         "model": "catalog.gallery",
         "pk": 11,
         "fields": {
-            "image": "catalog/camouflaged_iskander.jpg",
+            "image": "catalog/6/camouflaged_iskander_1678011087.jpg",
             "item": 6
         }
     },
@@ -194,7 +194,7 @@
         "model": "catalog.gallery",
         "pk": 12,
         "fields": {
-            "image": "catalog/iskander-m.jpg",
+            "image": "catalog/6/iskander-m_1678011054.jpg",
             "item": 6
         }
     },
@@ -202,7 +202,7 @@
         "model": "catalog.gallery",
         "pk": 13,
         "fields": {
-            "image": "catalog/svetafor-cool.jpg",
+            "image": "catalog/2/svetafor-cool_1678011045.jpg",
             "item": 2
         }
     },
@@ -210,7 +210,7 @@
         "model": "catalog.gallery",
         "pk": 14,
         "fields": {
-            "image": "catalog/svetafor-sky.jpg",
+            "image": "catalog/2/svetafor-sky_1678011036.jpg",
             "item": 2
         }
     },
@@ -218,7 +218,7 @@
         "model": "catalog.gallery",
         "pk": 15,
         "fields": {
-            "image": "catalog/devyatka-bad.jpg",
+            "image": "catalog/3/devyatka-bad_1678011009.jpg",
             "item": 3
         }
     },
@@ -226,7 +226,7 @@
         "model": "catalog.gallery",
         "pk": 16,
         "fields": {
-            "image": "catalog/devyatka-nice.jpg",
+            "image": "catalog/3/devyatka-nice_1678010973.jpg",
             "item": 3
         }
     },
@@ -234,7 +234,7 @@
         "model": "catalog.gallery",
         "pk": 17,
         "fields": {
-            "image": "catalog/vitalik-bad.jpg",
+            "image": "catalog/4/vitalik-bad_1678010962.jpg",
             "item": 4
         }
     },
@@ -242,7 +242,7 @@
         "model": "catalog.gallery",
         "pk": 18,
         "fields": {
-            "image": "catalog/vitalik-handsome.jpg",
+            "image": "catalog/4/vitalik-handsome_1678010916.jpg",
             "item": 4
         }
     },
@@ -250,7 +250,7 @@
         "model": "catalog.gallery",
         "pk": 19,
         "fields": {
-            "image": "catalog/apartamenty-luxuary.jpg",
+            "image": "catalog/5/apartamenty-luxuary_1678010830.jpg",
             "item": 5
         }
     },
@@ -258,7 +258,7 @@
         "model": "catalog.gallery",
         "pk": 20,
         "fields": {
-            "image": "catalog/apartamenty-city.jpg",
+            "image": "catalog/5/apartamenty-city_1678010825.jpg",
             "item": 5
         }
     }

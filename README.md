@@ -91,7 +91,7 @@ python3 manage.py runserver
 
 ### Custom commands
 
-### `initdata`
+#### `initdata`
 
 If you want to populate your fresh db with fixtures and superuser creditinals you can use
 
@@ -115,6 +115,14 @@ DJANGO_SUPERUSER_PASSWORD = superuserpassword
 ```
 
 You could input all your creditinal from stdin if you haven't specified settings in enviroment variables. 
+
+### Translation
+
+To build translation blob you shoud run command below in `intensive` directory: 
+
+```bash
+django-admin makemessages
+```
 
 ## Models' schemes
 

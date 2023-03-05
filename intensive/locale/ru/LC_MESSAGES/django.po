@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 23:10+0300\n"
+"POT-Creation-Date: 2023-03-05 12:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,12 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\about\about.html:4 .\templates\includes\header.html:13
+#: .\templates\about\about.html:3 .\templates\about\about.html:6
+#: .\templates\includes\header.html:13
 msgid "About"
 msgstr "О проекте"
 
-#: .\templates\base.html:17
+#: .\templates\base.html:17 .\templates\homepage\home.html:3
 msgid "Shop"
 msgstr "Магазин"
 
@@ -37,11 +38,19 @@ msgstr "Контента нет"
 msgid "Kitten %(item_id)s"
 msgstr "Котик %(item_id)s"
 
-#: .\templates\homepage\home.html:10
+#: .\templates\catalog\item_detail.html:3
+msgid "Item"
+msgstr "Товар"
+
+#: .\templates\catalog\list.html:3
+msgid "Items"
+msgstr "Товары"
+
+#: .\templates\homepage\home.html:11
 msgid "Hadgehog & Cat"
 msgstr "Ёжик и Котик"
 
-#: .\templates\homepage\home.html:14
+#: .\templates\homepage\home.html:15
 msgid "Best goods for best people"
 msgstr "Лучшие товары для лучших людей"
 
