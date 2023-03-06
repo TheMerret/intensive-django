@@ -221,24 +221,26 @@ class ContextTest(TestCase):
 
     fixtures = ["catalog.json"]
 
-    def test_homepage_shows_correct_context(self):
-        response = Client().get(reverse("homepage:index"))
-        self.assertIn("items", response.context)
+    def test_view_shows_correct_context(self):
+        for viewname, context_key, *args in (
+            ("homepage:index", "items"),
+            ("catalog:item-list", "items"),
+            ("catalog:item-detail", "item", 1),
+        ):
+            with self.subTest(
+                viewname=viewname, context_key=context_key, args=args
+            ):
+                response = Client().get(reverse(viewname, args=args))
+                self.assertIn(context_key, response.context)
 
-    def test_home_count_item(self):
-        response = django.test.Client().get(reverse("homepage:index"))
-        items = response.context["items"]
-        self.assertEqual(items.count(), 2)
-
-    def test_catalog_list_shows_correct_context(self):
-        response = Client().get(reverse("catalog:item-list"))
-        self.assertIn("items", response.context)
-
-    def test_catalog_list_count_item(self):
-        response = django.test.Client().get(reverse("catalog:item-list"))
-        items = response.context["items"]
-        self.assertEqual(items.count(), 3)
-
-    def test_catalog_item_shows_correct_context(self):
-        response = Client().get(reverse("catalog:item-detail", args=[1]))
-        self.assertIn("item", response.context)
+    def test_view_context_cout_item(self):
+        for viewname, item_cout in (
+            ("homepage:index", 2),
+            ("catalog:item-list", 3),
+        ):
+            with self.subTest(
+                viewname=viewname, item_cout=item_cout,
+            ):
+                response = django.test.Client().get(reverse(viewname))
+                items = response.context["items"]
+                self.assertEqual(items.count(), item_cout)
