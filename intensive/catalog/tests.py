@@ -239,7 +239,8 @@ class ContextTest(TestCase):
             ("catalog:item-list", 3),
         ):
             with self.subTest(
-                viewname=viewname, item_cout=item_cout,
+                viewname=viewname,
+                item_cout=item_cout,
             ):
                 response = django.test.Client().get(reverse(viewname))
                 items = response.context["items"]
