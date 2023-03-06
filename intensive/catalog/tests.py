@@ -222,6 +222,7 @@ class ContextTest(TestCase):
     fixtures = ["catalog.json"]
 
     def test_view_shows_correct_context(self):
+        """test view has context with correct items"""
         for viewname, context_key, *args in (
             ("homepage:index", "items"),
             ("catalog:item-list", "items"),
@@ -234,6 +235,7 @@ class ContextTest(TestCase):
                 self.assertIn(context_key, response.context)
 
     def test_view_context_cout_item(self):
+        """test view has context with correct item count"""
         for viewname, item_cout in (
             ("homepage:index", 2),
             ("catalog:item-list", 3),
@@ -245,3 +247,9 @@ class ContextTest(TestCase):
                 response = django.test.Client().get(reverse(viewname))
                 items = response.context["items"]
                 self.assertEqual(items.count(), item_cout)
+
+    def test_homepage_context_only_necessary_fields(self):
+        """test homepage has context with items with only necessary fields"""
+        # necessary_fields = ("name", "category.name", "text", "tags.name")
+        # response = django.test.Client().get(reverse("homepage:index"))
+        # item = response.context["items"].first()
