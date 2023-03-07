@@ -2,8 +2,10 @@ import django.test
 from django.urls import reverse
 
 
-class HomePageTest(django.test.TestCase):
-    """test homepage"""
+class HomePageViewsTest(django.test.TestCase):
+    """test homepage views"""
+
+    fixtures = ["catalog.json"]
 
     def test_endpoints_exists(self):
         """test if app endpoints response corresponding code"""
@@ -19,6 +21,17 @@ class HomePageTest(django.test.TestCase):
         """test if coffee endpoint responses Я чайник"""
         response = django.test.Client().get(reverse("homepage:coffee"))
         self.assertContains(response, "Я чайник", status_code=418)
+
+    def test_homepage_shows_correct_context(self):
+        """test homepage shows context with correct items"""
+        response = django.test.Client().get(reverse("homepage:index"))
+        self.assertIn("items", response.context)
+
+    def test_view_context_cout_item(self):
+        """test homepage context has correct number of nums"""
+        response = django.test.Client().get(reverse("homepage:index"))
+        items = response.context["items"]
+        self.assertEqual(items.count(), 2)
 
 
 @django.test.override_settings(REVERSE_REQUEST_COUNT=10)
