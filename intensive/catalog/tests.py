@@ -8,10 +8,10 @@ import django.urls.exceptions
 import catalog.models
 
 
-class CatalogPageTest(TestCase):
-    """test catalog page"""
+class CatalogPageViewsTest(TestCase):
+    """test catalog page views"""
 
-    fixtures = ["catalog.json"]  # for item detail
+    fixtures = ["catalog.json"]
 
     def test_endpoints_exists(self):
         """test if app endpoints response 200 code"""
@@ -41,6 +41,24 @@ class CatalogPageTest(TestCase):
                         viewname,
                         args=args,
                     )
+
+    def test_catalog_shows_correct_context(self):
+        """test catalog shows context with correct items"""
+        for viewname, context_key, *args in (
+            ("catalog:item-list", "items"),
+            ("catalog:item-detail", "item", 1),
+        ):
+            with self.subTest(
+                viewname=viewname, context_key=context_key, args=args
+            ):
+                response = Client().get(reverse(viewname, args=args))
+                self.assertIn(context_key, response.context)
+
+    def test_catalog_context_cout_item(self):
+        """test catalog shows context with correct number of items"""
+        response = django.test.Client().get(reverse("catalog:item-list"))
+        items = response.context["items"]
+        self.assertEqual(items.count(), 3)
 
 
 class ModelTest(TestCase):
@@ -214,42 +232,3 @@ class ModelTest(TestCase):
                 self.assertEqual(
                     catalog.models.Category.objects.count(), category_count
                 )
-
-
-class ContextTest(TestCase):
-    """test context dictionaries"""
-
-    fixtures = ["catalog.json"]
-
-    def test_view_shows_correct_context(self):
-        """test view has context with correct items"""
-        for viewname, context_key, *args in (
-            ("homepage:index", "items"),
-            ("catalog:item-list", "items"),
-            ("catalog:item-detail", "item", 1),
-        ):
-            with self.subTest(
-                viewname=viewname, context_key=context_key, args=args
-            ):
-                response = Client().get(reverse(viewname, args=args))
-                self.assertIn(context_key, response.context)
-
-    def test_view_context_cout_item(self):
-        """test view has context with correct item count"""
-        for viewname, item_cout in (
-            ("homepage:index", 2),
-            ("catalog:item-list", 3),
-        ):
-            with self.subTest(
-                viewname=viewname,
-                item_cout=item_cout,
-            ):
-                response = django.test.Client().get(reverse(viewname))
-                items = response.context["items"]
-                self.assertEqual(items.count(), item_cout)
-
-    def test_homepage_context_only_necessary_fields(self):
-        """test homepage has context with items with only necessary fields"""
-        # necessary_fields = ("name", "category.name", "text", "tags.name")
-        # response = django.test.Client().get(reverse("homepage:index"))
-        # item = response.context["items"].first()
