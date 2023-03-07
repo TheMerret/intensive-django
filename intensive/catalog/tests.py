@@ -65,16 +65,16 @@ class CatalogPageViewsTest(TestCase):
         response = django.test.Client().get(reverse("catalog:item-list"))
         items = response.context["items"]
         necessary_fields = {
-                catalog.models.Category: {"id", "name"},
-                catalog.models.Item: {
-                    "text",
-                    "tags",
-                    "name",
-                    "category_id",
-                    "id",
-                },
-                catalog.models.Tag: {"id", "name"},
-            }
+            catalog.models.Category: {"id", "name"},
+            catalog.models.Item: {
+                "text",
+                "tags",
+                "name",
+                "category_id",
+                "id",
+            },
+            catalog.models.Tag: {"id", "name"},
+        }
         loaded_fields = items.query.get_loaded_field_names()
         self.assertEqual(loaded_fields, necessary_fields)
 
