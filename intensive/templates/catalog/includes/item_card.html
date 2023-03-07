@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <h5 class="card-title">{{ item.name }}</h5>
-    <p class="card-text">{{ item.text | truncatechars:10 }}</p>
+    <p class="card-text">{{ item.text | truncatewords_html:10 | safe }}</p>
     {% for tag in item.tags.all %}
       <span class="badge rounded-pill text-bg-primary">{{ tag }}</span>
     {% endfor %}
