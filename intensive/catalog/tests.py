@@ -54,11 +54,40 @@ class CatalogPageViewsTest(TestCase):
                 response = Client().get(reverse(viewname, args=args))
                 self.assertIn(context_key, response.context)
 
-    def test_catalog_context_cout_item(self):
-        """test catalog shows context with correct number of items"""
+    def test_item_list_context_cout_item(self):
+        """test catalog item list shows context with correct number of items"""
         response = django.test.Client().get(reverse("catalog:item-list"))
         items = response.context["items"]
         self.assertEqual(items.count(), 3)
+
+    def test_catalog_item_list_context_has_only_necessary_fields(self):
+        """test catalog item list context has only necessary fields in item"""
+        response = django.test.Client().get(reverse("catalog:item-list"))
+        items = response.context["items"]
+        necessary_fields = {
+                catalog.models.Category: {"id", "name"},
+                catalog.models.Item: {
+                    "text",
+                    "tags",
+                    "name",
+                    "category_id",
+                    "id",
+                },
+                catalog.models.Tag: {"id", "name"},
+            }
+        loaded_fields = items.query.get_loaded_field_names()
+        self.assertEqual(loaded_fields, necessary_fields)
+
+    def test_catalog_item_detail_context_has_only_necessary_fields(self):
+        """test catalog item detail context has only necessary fields"""
+        item = catalog.models.Item.objects.detail(1)
+        necessary_fields = {
+            catalog.models.Tag: {"name", "id"},
+            catalog.models.Item: {"tags", "id", "text", "category_id", "name"},
+            catalog.models.Category: {"id", "name"},
+        }
+        loaded_fields = item.query.get_loaded_field_names()
+        self.assertEqual(loaded_fields, necessary_fields)
 
 
 class ModelTest(TestCase):
