@@ -7,11 +7,20 @@
 {% block content %}
   <div class="container my-5">
     <h1 class="d-flex align-items-center justify-content-center mb-5">{{ item.name }}</h1>
-    <img src="{{ item.preview.image.url }}"
-         class="img-fluid rounded mx-auto d-block mb-3"
-         alt="Фото отсутствует"
-         height=""
-         width=""/>
+    <div class="card mb-3">
+      <img src="{{ item.preview.image.url }}"
+           class="card-img"
+           alt="Фото отсутствует"
+           height=""
+           width=""/>
+      <div class="card-img-overlay">
+        <a class="btn btn-light btn-outline-dark float-end"
+           href="{{ item.preview.image.url }}"
+           download="">
+          <img src="{% static 'img/download.svg' %}" alt="" width="50" height="50"/>
+        </a>
+      </div>
+    </div>
     <div class="fs-3">
       <h2 class="d-flex align-items-center justify-content-center mb-3">Описание</h2>
       {{ item.text | safe }}
@@ -27,11 +36,20 @@
       </ul>
       <h2 class="d-flex align-items-center justify-content-center mb-3">Галлерея</h2>
       {% for photo in item.gallery.all %}
-        <img src="{{ photo.image.url }}"
-             class="img-fluid rounded mx-auto d-block mb-3"
-             alt="Фото отсутствует"
-             height=""
-             width=""/>
+        <div class="card mb-3">
+          <img src="{{ photo.image.url }}"
+               class="card-img"
+               alt="Фото отсутствует"
+               height=""
+               width=""/>
+          <div class="card-img-overlay">
+            <a class="btn btn-light btn-outline-dark float-end"
+               href="{{ photo.image.url }}"
+               download="">
+              <img src="{% static 'img/download.svg' %}" alt="" width="50" height="50"/>
+            </a>
+          </div>
+        </div>
       {% empty %}
         Нема
       {% endfor %}
