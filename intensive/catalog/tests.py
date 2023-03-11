@@ -42,23 +42,26 @@ class CatalogPageViewsTest(TestCase):
                         args=args,
                     )
 
-    def test_catalog_shows_correct_context(self):
-        """test catalog shows context with correct items"""
-        for viewname, context_key, *args in (
-            ("catalog:item-list", "items"),
-            ("catalog:item-detail", "item", 1),
-        ):
-            with self.subTest(
-                viewname=viewname, context_key=context_key, args=args
-            ):
-                response = Client().get(reverse(viewname, args=args))
-                self.assertIn(context_key, response.context)
+    def test_item_list_context_has_correct_key(self):
+        """test item detail context has correct key"""
+        response = Client().get(reverse("catalog:item-list"))
+        self.assertIn("items", response.context)
+
+    def test_item_detail_context_has_correct_key(self):
+        """test item detail context has correct key"""
+        response = Client().get(reverse("catalog:item-detail", args=[1]))
+        self.assertIn("item", response.context)
 
     def test_item_list_context_cout_item(self):
         """test catalog item list shows context with correct number of items"""
         response = django.test.Client().get(reverse("catalog:item-list"))
         items = response.context["items"]
         self.assertEqual(items.count(), 3)
+
+    def test_item_detail_context_has_correct_model(self):
+        """test item detail context has correct model"""
+        response = Client().get(reverse("catalog:item-detail", args=[1]))
+        self.assertIsInstance(response.context["item"], catalog.models.Item)
 
     def test_catalog_item_list_context_has_only_necessary_fields(self):
         """test catalog item list context has only necessary fields in item"""
@@ -80,14 +83,41 @@ class CatalogPageViewsTest(TestCase):
 
     def test_catalog_item_detail_context_has_only_necessary_fields(self):
         """test catalog item detail context has only necessary fields"""
-        item = catalog.models.Item.objects.detail(1)
-        necessary_fields = {
-            catalog.models.Tag: {"name", "id"},
-            catalog.models.Item: {"tags", "id", "text", "category_id", "name"},
-            catalog.models.Category: {"id", "name"},
+        item_necessary_fields = {"id", "name", "text", "category_id"}
+        item_extra_fields = {"is_on_main", "image", "is_published"}
+        category_necessary_fields = {"id", "name"}
+        category_extra_fields = {
+            "is_published",
+            "weight",
+            "slug",
+            "normilized_name",
         }
-        loaded_fields = item.query.get_loaded_field_names()
-        self.assertEqual(loaded_fields, necessary_fields)
+        tag_necessary_fields = {"id", "name"}
+        tag_extra_fields = {"is_published", "slug", "normilized_name"}
+        gallery_necessary_fields = {"image", "item_id"}
+
+        response = django.test.Client().get(
+            reverse("catalog:item-detail", args=[1])
+        )
+        item = response.context["item"]
+
+        for f in item_necessary_fields:
+            self.assertIn(f, item.__dict__)
+        for f in item_extra_fields:
+            self.assertNotIn(f, item.__dict__)
+        tag = item.tags.first()
+        for f in tag_necessary_fields:
+            self.assertIn(f, tag.__dict__)
+        for f in tag_extra_fields:
+            self.assertNotIn(f, tag.__dict__)
+        category = item.category
+        for f in category_necessary_fields:
+            self.assertIn(f, category.__dict__)
+        for f in category_extra_fields:
+            self.assertNotIn(f, category.__dict__)
+        gallery = item.gallery
+        for f in gallery_necessary_fields:
+            self.assertNotIn(f, gallery.__dict__)
 
 
 class ModelTest(TestCase):

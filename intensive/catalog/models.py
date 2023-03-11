@@ -48,7 +48,7 @@ class ItemManager(django.db.models.Manager):
             .filter(category__is_published=True)
             .prefetch_related(
                 django.db.models.Prefetch(
-                    "tags", queryset=Tag.objects.published()
+                    "tags", queryset=Tag.objects.published().only("name")
                 )
             )
         )
@@ -71,7 +71,12 @@ class ItemManager(django.db.models.Manager):
         return (
             self.published()
             .filter(pk=item_id)
-            .prefetch_related("gallery")
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "gallery",
+                    queryset=Gallery.objects.only("image", "item_id"),
+                )
+            )
             .only(
                 "name",
                 "preview",
