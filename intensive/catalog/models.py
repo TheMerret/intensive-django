@@ -67,10 +67,9 @@ class ItemManager(django.db.models.Manager):
             .only("name", "category__name", "text", "tags__name")
         )
 
-    def detail(self, item_id):
+    def detailed(self):
         return (
             self.published()
-            .filter(pk=item_id)
             .prefetch_related(
                 django.db.models.Prefetch(
                     "gallery",
