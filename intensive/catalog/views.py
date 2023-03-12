@@ -1,4 +1,3 @@
-from django.core.mail import send_mail
 import django.shortcuts
 
 import catalog.forms
@@ -16,7 +15,7 @@ def item_list(request):
 
 def item_detail(request, item_id):
     item = django.shortcuts.get_object_or_404(
-        catalog.models.Item.objects.detail(item_id)
+        catalog.models.Item.objects.detailed(), pk=item_id
     )
     template = "catalog/item_detail.html"
     context = {"item": item}
@@ -93,7 +92,7 @@ def feedback(request):
 
     if form.is_valid():
         name = form.cleaned_data.get("name")
-        send_mail(
+        django.shortcuts.get_object_or_404send_mail(
             "Subject here",
             name,
             "from@example.com",
