@@ -27,4 +27,12 @@ urlpatterns = [
     django.urls.path(
         "unverified", views.unverified_items, name="unverified-items"
     ),
+    django.urls.path("tag", views.tag_create, name="tag-create"),
+    django.urls.path(
+        "tag/<int:item_id>/delete", views.tag_delete, name="tag-delete"
+    ),
+    django.urls.path(
+        "tag/<int:item_id>/update", views.tag_create, name="tag-update"
+    ),
+    django.urls.path("feedback", views.feedback, name="feedback"),
 ]
