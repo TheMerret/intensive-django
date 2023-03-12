@@ -34,13 +34,13 @@ class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     )
 
     class Meta:
-        ordering = ("id", "weight")
+        ordering = ("weight", "id")
         verbose_name = "категория"
         verbose_name_plural = "категории"
 
 
 class ItemManager(django.db.models.Manager):
-    def _published(self):
+    def published(self):
         return (
             self.get_queryset()
             .filter(is_published=True)
@@ -48,31 +48,34 @@ class ItemManager(django.db.models.Manager):
             .filter(category__is_published=True)
             .prefetch_related(
                 django.db.models.Prefetch(
-                    "tags", queryset=Tag.objects.published()
+                    "tags", queryset=Tag.objects.published().only("name")
                 )
             )
         )
 
     def on_list(self):
         return (
-            self._published()
+            self.published()
             .order_by("category__name")
             .only("name", "category__name", "text", "tags__name")
         )
 
     def on_main_page(self):
         return (
-            self._published()
+            self.published()
             .filter(is_on_main=True)
-            .order_by("name")
             .only("name", "category__name", "text", "tags__name")
         )
 
-    def detail(self, item_id):
+    def detailed(self):
         return (
-            self._published()
-            .filter(pk=item_id)
-            .prefetch_related("gallery")
+            self.published()
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "gallery",
+                    queryset=Gallery.objects.only("image"),
+                )
+            )
             .only(
                 "name",
                 "preview",

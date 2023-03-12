@@ -1,6 +1,8 @@
 import django.test
 from django.urls import reverse
 
+import catalog.models
+
 
 class HomePageViewsTest(django.test.TestCase):
     """test homepage views"""
@@ -32,6 +34,24 @@ class HomePageViewsTest(django.test.TestCase):
         response = django.test.Client().get(reverse("homepage:index"))
         items = response.context["items"]
         self.assertEqual(items.count(), 2)
+
+    def test_homepage_item_list_context_has_only_necessary_fields(self):
+        """test homepage item list context has only necessary fields in item"""
+        response = django.test.Client().get(reverse("homepage:index"))
+        items = response.context["items"]
+        necessary_fields = {
+            catalog.models.Category: {"id", "name"},
+            catalog.models.Item: {
+                "text",
+                "tags",
+                "name",
+                "category_id",
+                "id",
+            },
+            catalog.models.Tag: {"id", "name"},
+        }
+        loaded_fields = items.query.get_loaded_field_names()
+        self.assertEqual(loaded_fields, necessary_fields)
 
 
 @django.test.override_settings(REVERSE_REQUEST_COUNT=10)
