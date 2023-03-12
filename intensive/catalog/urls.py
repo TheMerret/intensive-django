@@ -22,4 +22,9 @@ urlpatterns = [
         views.item_detail,
         name="converter-item-detail",
     ),
+    django.urls.path("new", views.new_items, name="new-items"),
+    django.urls.path("friday", views.friday_items, name="friday-items"),
+    django.urls.path(
+        "unverified", views.unverified_items, name="unverified-items"
+    ),
 ]

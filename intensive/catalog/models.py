@@ -1,3 +1,6 @@
+import datetime
+import random
+
 import django.core.validators
 import django.db.models
 from django.utils.safestring import mark_safe
@@ -85,6 +88,34 @@ class ItemManager(django.db.models.Manager):
             )
         )
 
+    def new(self):
+        week_ago = datetime.datetime.now() - datetime.timedelta(days=7)
+        limit = 5
+        items_last_week = self.on_list().filter(
+            creation_date__date__gte=week_ago
+        )
+        ids = items_last_week.values_list("id", flat=True)
+        rand_ids = random.choices(ids, k=limit)
+        rand_items = self.get_queryset().filter(id__in=rand_ids)
+        return rand_items
+
+    def friday(self):
+        weekday = 6
+        limit = 5
+        return self.on_list().filter(update_date__week_day=weekday)[:limit]
+
+    def unverified(self):
+        return self.on_list().filter(
+            django.db.models.Q(
+                creation_date__lt=django.db.models.F("update_date")
+                + datetime.timedelta(seconds=1)
+            )
+            & django.db.models.Q(
+                update_date__lt=django.db.models.F("creation_date")
+                + datetime.timedelta(seconds=1)
+            )
+        )
+
 
 class Item(core.models.CatalogCommon):
     objects = ItemManager()
@@ -112,6 +143,13 @@ class Item(core.models.CatalogCommon):
     )
     tags = django.db.models.ManyToManyField(
         Tag, verbose_name=Tag._meta.verbose_name
+    )
+
+    creation_date = django.db.models.DateTimeField(
+        "дата создания", auto_now_add=True
+    )
+    update_date = django.db.models.DateTimeField(
+        "дата изменения", auto_now=True
     )
 
     class Meta:

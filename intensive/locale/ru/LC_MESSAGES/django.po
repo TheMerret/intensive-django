@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-05 12:22+0300\n"
+"POT-Creation-Date: 2023-03-08 18:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,48 +20,59 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\about\about.html:3 .\templates\about\about.html:6
-#: .\templates\includes\header.html:13
+#: .\templates\about\about.html:4 .\templates\about\about.html:8
+#: .\templates\includes\header.html:60
 msgid "About"
 msgstr "О проекте"
 
-#: .\templates\base.html:17 .\templates\homepage\home.html:3
+#: .\templates\base.html:31 .\templates\homepage\home.html:4
 msgid "Shop"
 msgstr "Магазин"
 
-#: .\templates\base.html:22
+#: .\templates\base.html:39
 msgid "There is no content"
 msgstr "Контента нет"
 
-#: .\templates\catalog\includes\item_card.html:8
-#, python-format
-msgid "Kitten %(item_id)s"
-msgstr "Котик %(item_id)s"
-
-#: .\templates\catalog\item_detail.html:3
+#: .\templates\catalog\item_detail.html:5
 msgid "Item"
 msgstr "Товар"
 
-#: .\templates\catalog\list.html:3
+#: .\templates\catalog\list.html:4 .\templates\catalog\list_date.html:4
 msgid "Items"
 msgstr "Товары"
 
-#: .\templates\homepage\home.html:11
+#: .\templates\homepage\home.html:12
 msgid "Hadgehog & Cat"
 msgstr "Ёжик и Котик"
 
-#: .\templates\homepage\home.html:15
+#: .\templates\homepage\home.html:14
 msgid "Best goods for best people"
 msgstr "Лучшие товары для лучших людей"
 
-#: .\templates\includes\header.html:6
+#: .\templates\includes\header.html:7
 msgid "Yozhic"
 msgstr "Ёжик"
 
-#: .\templates\includes\header.html:11
+#: .\templates\includes\header.html:16
 msgid "Home"
 msgstr "Главная"
 
-#: .\templates\includes\header.html:12
+#: .\templates\includes\header.html:24
 msgid "Catalog"
 msgstr "Каталог"
+
+#: .\templates\includes\header.html:36
+msgid "New"
+msgstr "Новинка"
+
+#: .\templates\includes\header.html:43
+msgid "Friday"
+msgstr "Пятничные"
+
+#: .\templates\includes\header.html:50
+msgid "Unverified"
+msgstr "Непроверенные"
+
+#: .\templates\includes\header.html:64
+msgid "Admin"
+msgstr "Админка"
