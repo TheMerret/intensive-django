@@ -55,3 +55,14 @@ class FeedbackTests(django.test.TestCase):
         self.assertRedirects(
             response, django.urls.reverse("feedback:feedback")
         )
+
+    def test_feedback_record_saved(self):
+        """test after form input new feedback record saved"""
+        feedbacks_count = feedback.models.Feedback.objects.count()
+        data = {"text": "Test text", "email": "test@test.ru"}
+        response = django.test.Client().post(
+            django.urls.reverse("feedback:feedback"), data=data
+        )
+        self.assertRedirects(
+            response, django.urls.reverse("feedback:feedback")
+        )
