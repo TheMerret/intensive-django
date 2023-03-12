@@ -15,9 +15,9 @@ def feedback_view(request):
         email = form.cleaned_data["email"]
         django.core.mail.send_mail(
             "Обратная связь.",
-            text,
-            email,
-            [django.conf.settings.FEEDBACK_EMAIL],
+            f"Вы нам написали:\n\n{text}\n\nОбещаем все исправить!",
+            django.conf.settings.FEEDBACK_EMAIL,
+            [email],
             fail_silently=False,
         )
         django.contrib.messages.success(request, "Сообщение отправлено")
