@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+  {% translate "Feedback" %}
+{% endblock title %}
+{% block content %}
+  <div class="container my-5">
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+      {% for msg in messages %}<div class="alert alert-primary" role="alert">{{ msg }}</div>{% endfor %}
+      {% if form.errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          <div class="{% if field.errors %}is-invalid{% endif %}">{{ field }}</div>
+          <div id="{{ field.html_name }}HelpText" class="form-text">{{ field.help_text }}</div>
+          {% if form.errors %}
+            {% for error in field.errors %}<div class="invalid-feedback">{{ error|escape }}</div>{% endfor %}
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </div>
+{% endblock content %}

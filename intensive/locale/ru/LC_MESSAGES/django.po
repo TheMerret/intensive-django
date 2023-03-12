@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-08 18:24+0300\n"
+"POT-Creation-Date: 2023-03-12 15:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,8 @@ msgstr ""
 msgid "About"
 msgstr "О проекте"
 
-#: .\templates\base.html:31 .\templates\homepage\home.html:4
+#: .\templates\base.html:31 .\templates\catalog\feedback.html:4
+#: .\templates\homepage\home.html:4
 msgid "Shop"
 msgstr "Магазин"
 
@@ -40,6 +41,10 @@ msgstr "Товар"
 #: .\templates\catalog\list.html:4 .\templates\catalog\list_date.html:4
 msgid "Items"
 msgstr "Товары"
+
+#: .\templates\feedback\feedback.html:4 .\templates\includes\header.html:67
+msgid "Feedback"
+msgstr "Обратная связь"
 
 #: .\templates\homepage\home.html:12
 msgid "Hadgehog & Cat"
@@ -73,6 +78,6 @@ msgstr "Пятничные"
 msgid "Unverified"
 msgstr "Непроверенные"
 
-#: .\templates\includes\header.html:64
+#: .\templates\includes\header.html:71
 msgid "Admin"
 msgstr "Админка"
