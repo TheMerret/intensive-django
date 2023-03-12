@@ -33,7 +33,12 @@ class ItemAdmin(CatalogCommonAdmin):
     list_display = (
         core.models.CatalogCommon.name.field.name,
         core.models.CatalogCommon.is_published.field.name,
-        "image_tmb",
+        catalog.models.Item.is_on_main.field.name,
+        catalog.models.Item.image_tmb,
+    )
+    list_editable = (
+        core.models.CatalogCommon.is_published.field.name,
+        catalog.models.Item.is_on_main.field.name,
     )
     filter_horizontal = (catalog.models.Item.tags.field.name,)
     inlines = [InlinePreview, InlineGallery]

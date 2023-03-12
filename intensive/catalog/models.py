@@ -7,8 +7,16 @@ import catalog.validators
 import core.models
 
 
+class TagManager(django.db.models.Manager):
+    def published(self):
+        return self.get_queryset().filter(is_published=True)
+
+
 class Tag(core.models.CatalogCommon, core.models.CatalogGroupCommon):
+    objects = TagManager()
+
     class Meta:
+        ordering = ("slug",)
         verbose_name = "тег"
         verbose_name_plural = "теги"
 
@@ -26,17 +34,70 @@ class Category(core.models.CatalogCommon, core.models.CatalogGroupCommon):
     )
 
     class Meta:
+        ordering = ("id", "weight")
         verbose_name = "категория"
         verbose_name_plural = "категории"
 
 
+class ItemManager(django.db.models.Manager):
+    def _published(self):
+        return (
+            self.get_queryset()
+            .filter(is_published=True)
+            .select_related("category")
+            .filter(category__is_published=True)
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "tags", queryset=Tag.objects.published()
+                )
+            )
+        )
+
+    def on_list(self):
+        return (
+            self._published()
+            .order_by("category__name")
+            .only("name", "category__name", "text", "tags__name")
+        )
+
+    def on_main_page(self):
+        return (
+            self._published()
+            .filter(is_on_main=True)
+            .order_by("name")
+            .only("name", "category__name", "text", "tags__name")
+        )
+
+    def detail(self, item_id):
+        return (
+            self._published()
+            .filter(pk=item_id)
+            .prefetch_related("gallery")
+            .only(
+                "name",
+                "preview",
+                "text",
+                "category__name",
+                "tags__name",
+            )
+        )
+
+
 class Item(core.models.CatalogCommon):
+    objects = ItemManager()
+
     text = HTMLField(
         "описание",
         help_text="Введите описание объекта",
         validators=[
             catalog.validators.ValidateMustContain("превосходно", "роскошно"),
         ],
+    )
+    is_on_main = django.db.models.BooleanField(
+        "на главной ли",
+        help_text="Сделайте это поле положительным, "
+        "если хотите видеть товар на главной странице",
+        default=False,
     )
 
     category = django.db.models.ForeignKey(
@@ -51,6 +112,7 @@ class Item(core.models.CatalogCommon):
     )
 
     class Meta:
+        ordering = ("name", "id")
         verbose_name = "товар"
         verbose_name_plural = "товары"
 
@@ -73,6 +135,7 @@ class Preview(core.models.ImageCommon):
     )
 
     class Meta:
+        ordering = ("image",)
         verbose_name = "превью"
         verbose_name_plural = "превьюшки"
 
@@ -90,6 +153,7 @@ class Gallery(core.models.ImageCommon):
     )
 
     class Meta:
+        ordering = ("image",)
         verbose_name = "фото"
         verbose_name_plural = "фотогалерея"
 

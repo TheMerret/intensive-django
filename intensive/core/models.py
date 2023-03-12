@@ -3,7 +3,8 @@ import time
 
 import django.core.exceptions
 import django.db.models
-from sorl.thumbnail import get_thumbnail, ImageField
+from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import ImageField
 
 import core.utils
 
@@ -51,9 +52,13 @@ class CatalogGroupCommon(django.db.models.Model):
 
     def validate_unique(self, exclude):
         self.normilized_name = core.utils.normilize_name(self.name)
-        if self._meta.model.objects.filter(
-            normilized_name=self.normilized_name
-        ).exists():
+        if (
+            self._meta.model.objects.filter(
+                normilized_name=self.normilized_name
+            )
+            .exclude(id=self.id)
+            .exists()
+        ):
             raise django.core.exceptions.ValidationError(
                 {"name": "Похожее имя уже существует"}
             )

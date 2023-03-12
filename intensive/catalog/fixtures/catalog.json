@@ -1,7 +1,7 @@
 [
     {
         "model": "catalog.tag",
-        "pk": 2,
+        "pk": 1,
         "fields": {
             "name": "Новинка",
             "is_published": true,
@@ -11,7 +11,7 @@
     },
     {
         "model": "catalog.tag",
-        "pk": 3,
+        "pk": 2,
         "fields": {
             "name": "Распродажа",
             "is_published": true,
@@ -21,27 +21,27 @@
     },
     {
         "model": "catalog.tag",
-        "pk": 4,
+        "pk": 3,
         "fields": {
             "name": "Уценка",
-            "is_published": true,
+            "is_published": false,
             "slug": "markdown",
             "normilized_name": "yцehka"
         }
     },
     {
         "model": "catalog.tag",
-        "pk": 5,
+        "pk": 4,
         "fields": {
             "name": "Лимитированная Коллекция",
-            "is_published": true,
+            "is_published": false,
             "slug": "limited-edition",
             "normilized_name": "лиmиtиpobahhaяkoллekция"
         }
     },
     {
         "model": "catalog.tag",
-        "pk": 6,
+        "pk": 5,
         "fields": {
             "name": "Премиум",
             "is_published": true,
@@ -51,10 +51,10 @@
     },
     {
         "model": "catalog.category",
-        "pk": 2,
+        "pk": 1,
         "fields": {
             "name": "Женщинам",
-            "is_published": true,
+            "is_published": false,
             "slug": "woman",
             "normilized_name": "жehщиham",
             "weight": 32767
@@ -62,7 +62,7 @@
     },
     {
         "model": "catalog.category",
-        "pk": 3,
+        "pk": 2,
         "fields": {
             "name": "Мужчинам",
             "is_published": true,
@@ -73,15 +73,31 @@
     },
     {
         "model": "catalog.item",
-        "pk": 2,
+        "pk": 1,
         "fields": {
             "name": "Светофор",
             "is_published": true,
-            "text": "Кому в наше время не нужен светофор? Превосходно освещает комнату.",
+            "text": "<p>Кому в наше время не нужен светофор? Превосходно освещает комнату.</p>",
+            "is_on_main": false,
             "category": 2,
             "tags": [
-                2,
-                5
+                4,
+                1
+            ]
+        }
+    },
+    {
+        "model": "catalog.item",
+        "pk": 2,
+        "fields": {
+            "name": "Ржавая девятка",
+            "is_published": true,
+            "text": "Роскошно ржавая, прекрасно стоит на месте.",
+            "is_on_main": true,
+            "category": 2,
+            "tags": [
+                3,
+                2
             ]
         }
     },
@@ -89,13 +105,15 @@
         "model": "catalog.item",
         "pk": 3,
         "fields": {
-            "name": "Ржавая девятка",
+            "name": "Вiталик",
             "is_published": true,
-            "text": "Роскошно ржавая, прекрасно стоит на месте.",
-            "category": 3,
+            "text": "Превосходно, что он есть.",
+            "is_on_main": true,
+            "category": 1,
             "tags": [
-                3,
-                4
+                4,
+                1,
+                5
             ]
         }
     },
@@ -103,14 +121,14 @@
         "model": "catalog.item",
         "pk": 4,
         "fields": {
-            "name": "Вiталик",
+            "name": "Квартира в центре Москвы",
             "is_published": true,
-            "text": "Превосходно, что он есть.",
+            "text": "<p>Витринный образец. Роскошно выглядит.</p>",
+            "is_on_main": true,
             "category": 2,
             "tags": [
-                2,
-                5,
-                6
+                3,
+                5
             ]
         }
     },
@@ -118,148 +136,136 @@
         "model": "catalog.item",
         "pk": 5,
         "fields": {
-            "name": "Квартира в центре Москвы",
-            "is_published": true,
-            "text": "Витринный образец. Роскошно выглядит.",
-            "category": 3,
-            "tags": [
-                4
-            ]
-        }
-    },
-    {
-        "model": "catalog.item",
-        "pk": 6,
-        "fields": {
             "name": "Искандер",
-            "is_published": true,
+            "is_published": false,
             "text": "«Исканде́р» (индекс комплекса — 9К720) — семейство российских оперативно-тактических ракетных комплексов (ОТРК): «Искандер», «Искандер-М», «Искандер-К», «Искандер-Э». Разработаны роскошно научно-производственной корпорацией «Конструкторское бюро машиностроения» (КБМ) в городе Коломне Московской области.",
-            "category": 2,
+            "is_on_main": false,
+            "category": 1,
             "tags": [
                 4,
-                5,
-                6
+                3,
+                5
             ]
         }
     },
     {
         "model": "catalog.preview",
-        "pk": 8,
+        "pk": 1,
         "fields": {
             "image": "catalog/6/Army2016demo-075_1678010727.jpg",
-            "item": 6
+            "item": 5
         }
     },
     {
         "model": "catalog.preview",
-        "pk": 9,
+        "pk": 2,
         "fields": {
             "image": "catalog/5/Apartamenty-v-Moskva-Siti_1678010716.jpg",
-            "item": 5
+            "item": 4
         }
     },
     {
         "model": "catalog.preview",
-        "pk": 10,
+        "pk": 3,
         "fields": {
             "image": "catalog/4/vitalik_1678010695.jpg",
-            "item": 4
+            "item": 3
         }
     },
     {
         "model": "catalog.preview",
-        "pk": 11,
+        "pk": 4,
         "fields": {
             "image": "catalog/3/devyatka_1678010687.jpg",
-            "item": 3
+            "item": 2
         }
     },
     {
         "model": "catalog.preview",
-        "pk": 12,
+        "pk": 5,
         "fields": {
             "image": "catalog/2/svetofor_1678010605.jpg",
-            "item": 2
+            "item": 1
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 11,
+        "pk": 1,
         "fields": {
             "image": "catalog/6/camouflaged_iskander_1678011087.jpg",
-            "item": 6
+            "item": 5
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 12,
+        "pk": 2,
         "fields": {
             "image": "catalog/6/iskander-m_1678011054.jpg",
-            "item": 6
+            "item": 5
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 13,
+        "pk": 3,
         "fields": {
             "image": "catalog/2/svetafor-cool_1678011045.jpg",
-            "item": 2
+            "item": 1
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 14,
+        "pk": 4,
         "fields": {
             "image": "catalog/2/svetafor-sky_1678011036.jpg",
+            "item": 1
+        }
+    },
+    {
+        "model": "catalog.gallery",
+        "pk": 5,
+        "fields": {
+            "image": "catalog/3/devyatka-bad_1678011009.jpg",
             "item": 2
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 15,
-        "fields": {
-            "image": "catalog/3/devyatka-bad_1678011009.jpg",
-            "item": 3
-        }
-    },
-    {
-        "model": "catalog.gallery",
-        "pk": 16,
+        "pk": 6,
         "fields": {
             "image": "catalog/3/devyatka-nice_1678010973.jpg",
+            "item": 2
+        }
+    },
+    {
+        "model": "catalog.gallery",
+        "pk": 7,
+        "fields": {
+            "image": "catalog/4/vitalik-bad_1678010962.jpg",
             "item": 3
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 17,
-        "fields": {
-            "image": "catalog/4/vitalik-bad_1678010962.jpg",
-            "item": 4
-        }
-    },
-    {
-        "model": "catalog.gallery",
-        "pk": 18,
+        "pk": 8,
         "fields": {
             "image": "catalog/4/vitalik-handsome_1678010916.jpg",
+            "item": 3
+        }
+    },
+    {
+        "model": "catalog.gallery",
+        "pk": 9,
+        "fields": {
+            "image": "catalog/5/apartamenty-luxuary_1678010830.jpg",
             "item": 4
         }
     },
     {
         "model": "catalog.gallery",
-        "pk": 19,
-        "fields": {
-            "image": "catalog/5/apartamenty-luxuary_1678010830.jpg",
-            "item": 5
-        }
-    },
-    {
-        "model": "catalog.gallery",
-        "pk": 20,
+        "pk": 10,
         "fields": {
             "image": "catalog/5/apartamenty-city_1678010825.jpg",
-            "item": 5
+            "item": 4
         }
     }
 ]

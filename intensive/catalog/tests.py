@@ -8,8 +8,10 @@ import django.urls.exceptions
 import catalog.models
 
 
-class CatalogPageTest(TestCase):
-    """test catalog page"""
+class CatalogPageViewsTest(TestCase):
+    """test catalog page views"""
+
+    fixtures = ["catalog.json"]
 
     def test_endpoints_exists(self):
         """test if app endpoints response 200 code"""
@@ -39,6 +41,24 @@ class CatalogPageTest(TestCase):
                         viewname,
                         args=args,
                     )
+
+    def test_catalog_shows_correct_context(self):
+        """test catalog shows context with correct items"""
+        for viewname, context_key, *args in (
+            ("catalog:item-list", "items"),
+            ("catalog:item-detail", "item", 1),
+        ):
+            with self.subTest(
+                viewname=viewname, context_key=context_key, args=args
+            ):
+                response = Client().get(reverse(viewname, args=args))
+                self.assertIn(context_key, response.context)
+
+    def test_catalog_context_cout_item(self):
+        """test catalog shows context with correct number of items"""
+        response = django.test.Client().get(reverse("catalog:item-list"))
+        items = response.context["items"]
+        self.assertEqual(items.count(), 3)
 
 
 class ModelTest(TestCase):
