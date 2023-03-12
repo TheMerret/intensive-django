@@ -73,7 +73,7 @@ class ItemManager(django.db.models.Manager):
             .prefetch_related(
                 django.db.models.Prefetch(
                     "gallery",
-                    queryset=Gallery.objects.only("image", "item_id"),
+                    queryset=Gallery.objects.only("image"),
                 )
             )
             .only(

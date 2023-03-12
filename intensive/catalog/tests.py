@@ -81,20 +81,10 @@ class CatalogPageViewsTest(TestCase):
         loaded_fields = items.query.get_loaded_field_names()
         self.assertEqual(loaded_fields, necessary_fields)
 
-    def test_catalog_item_detail_context_has_only_necessary_fields(self):
-        """test catalog item detail context has only necessary fields"""
+    def test_catalog_item_detail_context_item_has_only_necessary_fields(self):
+        """test catalog item detail context item has only necessary fields"""
         item_necessary_fields = {"id", "name", "text", "category_id"}
         item_extra_fields = {"is_on_main", "image", "is_published"}
-        category_necessary_fields = {"id", "name"}
-        category_extra_fields = {
-            "is_published",
-            "weight",
-            "slug",
-            "normilized_name",
-        }
-        tag_necessary_fields = {"id", "name"}
-        tag_extra_fields = {"is_published", "slug", "normilized_name"}
-        gallery_necessary_fields = {"image", "item_id"}
 
         response = django.test.Client().get(
             reverse("catalog:item-detail", args=[1])
@@ -105,16 +95,59 @@ class CatalogPageViewsTest(TestCase):
             self.assertIn(f, item.__dict__)
         for f in item_extra_fields:
             self.assertNotIn(f, item.__dict__)
-        tag = item.tags.first()
-        for f in tag_necessary_fields:
-            self.assertIn(f, tag.__dict__)
-        for f in tag_extra_fields:
-            self.assertNotIn(f, tag.__dict__)
+
+    def test_catalog_category_detail_context_item_has_only_necessary_fields(
+        self,
+    ):
+        """test catalog item detail context category has only necessary
+        fields"""
+        category_necessary_fields = {"id", "name"}
+        category_extra_fields = {
+            "is_published",
+            "weight",
+            "slug",
+            "normilized_name",
+        }
+
+        response = django.test.Client().get(
+            reverse("catalog:item-detail", args=[1])
+        )
+        item = response.context["item"]
         category = item.category
         for f in category_necessary_fields:
             self.assertIn(f, category.__dict__)
         for f in category_extra_fields:
             self.assertNotIn(f, category.__dict__)
+
+    def test_catalog_tag_detail_context_item_has_only_necessary_fields(
+        self,
+    ):
+        """test catalog item detail context tag has only necessary
+        fields"""
+        tag_necessary_fields = {"id", "name"}
+        tag_extra_fields = {"is_published", "slug", "normilized_name"}
+
+        response = django.test.Client().get(
+            reverse("catalog:item-detail", args=[1])
+        )
+        item = response.context["item"]
+        tag = item.tags.first()
+        for f in tag_necessary_fields:
+            self.assertIn(f, tag.__dict__)
+        for f in tag_extra_fields:
+            self.assertNotIn(f, tag.__dict__)
+
+    def test_catalog_gallery_detail_context_item_has_only_necessary_fields(
+        self,
+    ):
+        """test catalog item detail context gallery has only necessary
+        fields"""
+        gallery_necessary_fields = {"image", "item_id"}
+
+        response = django.test.Client().get(
+            reverse("catalog:item-detail", args=[1])
+        )
+        item = response.context["item"]
         gallery = item.gallery
         for f in gallery_necessary_fields:
             self.assertNotIn(f, gallery.__dict__)
