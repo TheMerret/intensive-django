@@ -47,6 +47,7 @@ class FeedbackTests(django.test.TestCase):
         self.assertEqual(mail_help_text, "Ваша почта")
 
     def test_redirect(self):
+        """test after form input redirects back"""
         data = {"text": "Test text", "email": "test@test.ru"}
         response = django.test.Client().post(
             django.urls.reverse("feedback:feedback"), data=data, follow=True
