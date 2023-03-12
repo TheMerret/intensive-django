@@ -2,7 +2,6 @@ import django.test
 import django.urls
 
 import feedback.forms
-import feedback.models
 
 
 class FeedbackTests(django.test.TestCase):
