@@ -69,3 +69,27 @@ class FeedbackTests(django.test.TestCase):
         self.assertEqual(
             feedbacks_count + 1, feedback.models.Feedback.objects.count()
         )
+
+    def test_feedback_attachments_saved(self):
+        """test after form input with attachments new attachments records saved"""
+        feedbacks_count = feedback.models.Feedback.objects.count()
+        attachments_count = feedback.models.Feedback.objects.count()
+        with open("feedback/fixtures/file.jpg", "rb") as f1, open("feedback/fixtures/file.txt", "rt") as f2:
+            data = {
+                "text": "Test text",
+                "email": "test@test.ru",
+                "attachments": [f1, f2],
+            }
+            response = django.test.Client().post(
+                django.urls.reverse("feedback:feedback"), data=data
+            )
+        self.assertRedirects(
+            response, django.urls.reverse("feedback:feedback")
+        )
+        self.assertEqual(
+            feedbacks_count + 1, feedback.models.Feedback.objects.count()
+        )
+        self.assertEqual(
+            attachments_count + 2,
+            feedback.models.Attachment.objects.count(),  # two files sent
+        )
