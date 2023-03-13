@@ -1,11 +1,39 @@
 [
 {
+    "model": "feedback.contact",
+    "pk": 1,
+    "fields": {
+        "email": "email@email.com"
+    }
+},
+{
+    "model": "feedback.contact",
+    "pk": 2,
+    "fields": {
+        "email": "hatehedgehogs@yandex.ru"
+    }
+},
+{
+    "model": "feedback.contact",
+    "pk": 3,
+    "fields": {
+        "email": "lovedjango@danila.com"
+    }
+},
+{
+    "model": "feedback.contact",
+    "pk": 4,
+    "fields": {
+        "email": "angry@email.com"
+    }
+},
+{
     "model": "feedback.feedback",
     "pk": 1,
     "fields": {
         "text": "Текст обратной связи",
         "created_on": "2023-03-12T17:37:18.172Z",
-        "email": "email@email.com",
+        "contact": 1,
         "status": "received"
     }
 },
@@ -15,7 +43,7 @@
     "fields": {
         "text": "Исправьте логотип",
         "created_on": "2023-03-12T17:40:15.648Z",
-        "email": "hatehedgehogs@yandex.ru",
+        "contact": 2,
         "status": "processing"
     }
 },
@@ -25,8 +53,34 @@
     "fields": {
         "text": "все нравиться просто во!",
         "created_on": "2023-03-12T17:41:02.216Z",
-        "email": "lovedjango@danila.com",
+        "contact": 3,
         "status": "processing"
+    }
+},
+{
+    "model": "feedback.feedback",
+    "pk": 4,
+    "fields": {
+        "text": "Гневный комментарий с файлами",
+        "created_on": "2023-03-13T17:07:39.205Z",
+        "contact": 4,
+        "status": "received"
+    }
+},
+{
+    "model": "feedback.attachment",
+    "pk": 1,
+    "fields": {
+        "feedback": 4,
+        "file": "uploads/4/file_1678727259.jpg"
+    }
+},
+{
+    "model": "feedback.attachment",
+    "pk": 2,
+    "fields": {
+        "feedback": 4,
+        "file": "uploads/4/file_1678727259.txt"
     }
 }
 ]

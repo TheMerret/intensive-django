@@ -23,7 +23,11 @@ def feedback_view(request):
             [email],
             fail_silently=False,
         )
-        fb = form.save()
+        contact = feedback.models.Contact(email=email)
+        contact.save()
+        fb = form.save(commit=False)
+        fb.contact = contact
+        fb.save()
         files = request.FILES.getlist("attachments")
         for file in files:
             attachment = feedback.models.Attachment(feedback=fb, file=file)

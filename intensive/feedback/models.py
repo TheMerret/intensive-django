@@ -4,6 +4,16 @@ import time
 import django.db.models
 
 
+class Contact(django.db.models.Model):
+    email = django.db.models.EmailField(
+        "почта", help_text="Ваша почта", max_length=150
+    )
+
+    class Meta:
+        verbose_name = "контакты"
+        verbose_name_plural = "контакты"
+
+
 class Feedback(django.db.models.Model):
     class Status(django.db.models.TextChoices):
         RECEIVED = "received"
@@ -17,8 +27,11 @@ class Feedback(django.db.models.Model):
     created_on = django.db.models.DateTimeField(
         "дата создания", auto_now_add=True
     )
-    email = django.db.models.EmailField(
-        "почта", help_text="Ваша почта", max_length=150
+    contact = django.db.models.ForeignKey(
+        Contact,
+        on_delete=django.db.models.CASCADE,
+        verbose_name=Contact._meta.verbose_name,
+        related_name="feedbacks",
     )
     status = django.db.models.CharField(
         "статус обработки",

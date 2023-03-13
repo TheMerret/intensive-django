@@ -4,6 +4,12 @@ import feedback.models
 
 
 class FeedbackForm(django.forms.ModelForm):
+    email = django.forms.EmailField(
+        label=feedback.models.Contact.email.field.verbose_name.capitalize(),
+        widget=django.forms.EmailInput(),
+        required=True,
+        help_text=feedback.models.Contact.email.field.help_text,
+    )
     attachments = django.forms.FileField(
         label=feedback.models.Attachment.file.field.verbose_name.capitalize(),
         widget=django.forms.ClearableFileInput(attrs={"multiple": True}),
@@ -20,5 +26,4 @@ class FeedbackForm(django.forms.ModelForm):
         model = feedback.models.Feedback
         fields = (
             feedback.models.Feedback.text.field.name,
-            feedback.models.Feedback.email.field.name,
         )
