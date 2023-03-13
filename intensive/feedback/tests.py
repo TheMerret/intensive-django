@@ -72,7 +72,7 @@ class FeedbackTests(django.test.TransactionTestCase):
 
     def test_feedback_attachments_saved(self):
         """test after form input with attachments new attachments
-          records saved"""
+        records saved"""
         attachments_count = feedback.models.Attachment.objects.count()
         with open("feedback/fixtures/file.jpg", "rb") as f1, open(
             "feedback/fixtures/file.txt", "r"

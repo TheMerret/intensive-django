@@ -24,6 +24,4 @@ class FeedbackForm(django.forms.ModelForm):
 
     class Meta:
         model = feedback.models.Feedback
-        fields = (
-            feedback.models.Feedback.text.field.name,
-        )
+        fields = (feedback.models.Feedback.text.field.name,)
