@@ -5,7 +5,7 @@
 {% endblock title %}
 {% block content %}
   <div class="container my-5">
-    <form method="post" class="needs-validation" novalidate>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
       {% csrf_token %}
       {% for msg in messages %}<div class="alert alert-primary" role="alert">{{ msg }}</div>{% endfor %}
       {% if form.errors %}
@@ -25,7 +25,7 @@
           {% endif %}
         </div>
       {% endfor %}
-      <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
-  </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </form>
+</div>
 {% endblock content %}

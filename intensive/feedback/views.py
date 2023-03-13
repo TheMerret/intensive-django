@@ -4,11 +4,14 @@ import django.core.mail
 import django.shortcuts
 
 import feedback.forms
+import feedback.models
 
 
 def feedback_view(request):
     template = "feedback/feedback.html"
-    form = feedback.forms.FeedbackForm(request.POST or None)
+    form = feedback.forms.FeedbackForm(
+        request.POST or None, request.FILES or None
+    )
     context = {"form": form}
     if request.method == "POST" and form.is_valid():
         text = form.cleaned_data["text"]
@@ -20,7 +23,11 @@ def feedback_view(request):
             [email],
             fail_silently=False,
         )
-        form.save()
+        fb = form.save()
+        files = request.FILES.getlist("attachments")
+        for file in files:
+            attachment = feedback.models.Attachment(feedback=fb, file=file)
+            attachment.save()
         django.contrib.messages.success(request, "Сообщение отправлено")
         return django.shortcuts.redirect("feedback:feedback")
     return django.shortcuts.render(request, template, context)
