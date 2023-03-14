@@ -16,9 +16,9 @@ class Contact(django.db.models.Model):
 
 class Feedback(django.db.models.Model):
     class Status(django.db.models.TextChoices):
-        RECEIVED = "received"
-        PROCESSING = "processing"
-        ANSWERED = "answered"
+        RECEIVED = "received", "получено"
+        PROCESSING = "processing", "в обработке"
+        ANSWERED = "answered",  "ответ дан"
 
     text = django.db.models.TextField(
         "текст обратной связи",
@@ -66,3 +66,6 @@ class Attachment(django.db.models.Model):
         upload_to=get_file_media_path,
         help_text="Прикрепите, если нужно, файлы",
     )
+
+    def __str__(self):
+        return self.text[:15]
