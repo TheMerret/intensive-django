@@ -3,9 +3,9 @@ import django.db.models
 
 class Feedback(django.db.models.Model):
     class Status(django.db.models.TextChoices):
-        RECEIVED = "received"
-        PROCESSING = "processing"
-        ANSWERED = "answered"
+        RECEIVED = "received", "получено"
+        PROCESSING = "processing", "в обработке"
+        ANSWERED = "answered",  "ответ дан"
 
     text = django.db.models.TextField(
         "текст обратной связи",
@@ -27,3 +27,6 @@ class Feedback(django.db.models.Model):
     class Meta:
         verbose_name = "обратная связь"
         verbose_name_plural = "обратная связь"
+
+    def __str__(self):
+        return self.text[:15]
