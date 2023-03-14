@@ -5,7 +5,7 @@ class Feedback(django.db.models.Model):
     class Status(django.db.models.TextChoices):
         RECEIVED = "received", "получено"
         PROCESSING = "processing", "в обработке"
-        ANSWERED = "answered",  "ответ дан"
+        ANSWERED = "answered", "ответ дан"
 
     text = django.db.models.TextField(
         "текст обратной связи",
