@@ -59,6 +59,13 @@
                   {% endif %}"
            href="{% url 'about:about' %}">{% translate "About" %}</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link
+                  {% if view_name == 'feedback:feedback' %}
+                    active
+                  {% endif %}"
+           href="{% url 'feedback:feedback' %}">{% translate "Feedback" %}</a>
+      </li>
       {% if user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'admin:index' %}">{% translate "Admin" %}</a>

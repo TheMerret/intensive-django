@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+    {% translate "Shop" %}
+{% endblock title %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {{ form.as_ul }}
+        </ul>
+        <input type="submit" value="Поехали в модель!"/>
+    </form>
+{% endblock content %}
