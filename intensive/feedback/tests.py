@@ -2,6 +2,7 @@ import django.test
 import django.urls
 
 import feedback.forms
+import feedback.models
 
 
 class FeedbackTests(django.test.TestCase):
@@ -54,3 +55,15 @@ class FeedbackTests(django.test.TestCase):
         self.assertRedirects(
             response, django.urls.reverse("feedback:feedback")
         )
+
+    def test_feedback_record_saved(self):
+        """test after form input new feedback record saved"""
+        text = "Test text"
+        email = "test@test.ru"
+        data = {"text": text, "email": email}
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"), data=data
+        )
+        fb = feedback.models.Feedback.objects.first()
+        self.assertEqual(fb.email, email)
+        self.assertEqual(fb.text, text)

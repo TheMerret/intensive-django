@@ -20,6 +20,7 @@ def feedback_view(request):
             [email],
             fail_silently=False,
         )
+        form.save()
         django.contrib.messages.success(request, "Сообщение отправлено")
         return django.shortcuts.redirect("feedback:feedback")
     return django.shortcuts.render(request, template, context)

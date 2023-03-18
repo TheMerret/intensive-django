@@ -1,0 +1,32 @@
+[
+{
+    "model": "feedback.feedback",
+    "pk": 1,
+    "fields": {
+        "text": "Текст обратной связи",
+        "created_on": "2023-03-12T17:37:18.172Z",
+        "email": "email@email.com",
+        "status": "received"
+    }
+},
+{
+    "model": "feedback.feedback",
+    "pk": 2,
+    "fields": {
+        "text": "Исправьте логотип",
+        "created_on": "2023-03-12T17:40:15.648Z",
+        "email": "hatehedgehogs@yandex.ru",
+        "status": "processing"
+    }
+},
+{
+    "model": "feedback.feedback",
+    "pk": 3,
+    "fields": {
+        "text": "все нравиться просто во!",
+        "created_on": "2023-03-12T17:41:02.216Z",
+        "email": "lovedjango@danila.com",
+        "status": "processing"
+    }
+}
+]
