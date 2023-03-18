@@ -5,10 +5,10 @@ import feedback.forms
 import feedback.models
 
 
-class FeedbackTests(django.test.TestCase):
+class FeedbackTests(django.test.TransactionTestCase):
     @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
+    def setUpClass(cls) -> None:
+        super().setUpClass()
         cls.form = feedback.forms.FeedbackForm()
 
     def test_form_key_in_context(self):
@@ -65,5 +65,28 @@ class FeedbackTests(django.test.TestCase):
             django.urls.reverse("feedback:feedback"), data=data
         )
         fb = feedback.models.Feedback.objects.first()
-        self.assertEqual(fb.email, email)
+        self.assertEqual(fb.contact.email, email)
         self.assertEqual(fb.text, text)
+
+    def test_feedback_attachments_saved(self):
+        """test after form input with attachments new attachments
+        records saved"""
+        attachments_count = feedback.models.Attachment.objects.count()
+        with open("feedback/fixtures/file.jpg", "rb") as f1, open(
+            "feedback/fixtures/file.txt", "r"
+        ) as f2:
+            data = {
+                "text": "Test text",
+                "email": "test@test.ru",
+                "attachments": [f1, f2],
+            }
+            django.test.Client().post(
+                django.urls.reverse("feedback:feedback"), data=data
+            )
+
+        self.assertEqual(
+            attachments_count + 2,  # two files sent
+            feedback.models.Attachment.objects.count(),
+        )
+        # however directories stay
+        feedback.models.Attachment.objects.all().delete()
