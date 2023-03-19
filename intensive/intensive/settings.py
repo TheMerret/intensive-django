@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "catalog.apps.CatalogConfig",
     "homepage.apps.HomepageConfig",
     "feedback.apps.FeedbackConfig",
+    "users.apps.UsersConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -111,6 +112,10 @@ AUTH_PASSWORD_VALIDATORS = [
         "NumericPasswordValidator",
     },
 ]
+
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = LOGIN_URL
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 LANGUAGE_CODE = "ru-ru"
