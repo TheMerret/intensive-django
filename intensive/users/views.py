@@ -1,3 +1,79 @@
-from django.shortcuts import render
+import datetime
 
-# Create your views here.
+from django.conf import settings
+import django.contrib.auth
+import django.contrib.sites.shortcuts
+import django.core.mail
+from django.http import HttpResponseNotFound
+import django.shortcuts
+import django.urls
+import django.utils.timezone
+
+import users.forms
+import users.models
+
+
+def signup(request):
+    template = "users/signup.html"
+    form = users.forms.SignupForm(request.POST or None)
+    context = {"form": form}
+    if form.is_valid():
+        user = form.save(commit=False)
+        user.is_active = settings.IS_USER_ACTIVE
+        activation_url = request.build_absolute_uri(
+            django.urls.reverse(
+                "users:activate", kwargs=dict(username=user.username)
+            )
+        )
+        email = form.cleaned_data["email"]
+        django.core.mail.send_mail(
+            "Активация аккаунта.",
+            f"Перейдите по ссылке,"
+            f"чтобы активировать учетную запись:\n\n{activation_url}",
+            django.conf.settings.FEEDBACK_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+        user.save()
+        profile = users.models.Profile(user=user)
+        profile.save()
+        new_user = django.contrib.auth.authenticate(
+            username=form.cleaned_data["username"],
+            password=form.cleaned_data["password1"],
+        )
+        django.contrib.auth.login(request, new_user)
+        return django.shortcuts.render(request, "users/signup_done.html")
+    return django.shortcuts.render(request, template, context=context)
+
+
+def activate(request, username):
+    template = "users/activate_done.html"
+    user = django.shortcuts.get_object_or_404(
+        users.models.User, username=username
+    )
+    success = False
+    timedelta_ago_joined = user.date_joined - django.utils.timezone.localtime()
+    if timedelta_ago_joined <= datetime.timedelta(hours=12):
+        user.is_active = True
+        user.save()
+        success = True
+    context = {"success": success}
+    return django.shortcuts.render(request, template, context=context)
+
+
+def users_list(request):
+    if not request.user.is_superuser:
+        raise HttpResponseNotFound()
+    template = "users/users_list.html"
+    users_list = users.models.User.objects.filter(is_active=True)
+    context = {"users": users_list}
+    return django.shortcuts.render(request, template, context=context)
+
+
+def user_detail(request, user_id):
+    if not request.user.is_superuser:
+        return HttpResponseNotFound()
+    template = "users/user_detail.html"
+    user = django.shortcuts.get_object_or_404(users.models.User, pk=user_id)
+    context = {"user": user}
+    return django.shortcuts.render(request, template, context=context)

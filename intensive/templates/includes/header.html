@@ -8,6 +8,50 @@
   </a>
   {% with request.resolver_match.view_name as view_name %}
     <ul class="nav nav-pills">
+      <div class="btn-group">
+        {% if request.user.is_authenticated %}
+          <button class="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  data-bs-auto-close="true"
+                  aria-expanded="false">
+            {% if request.user.first_name %}
+              {{ request.user.first_name }}
+            {% else %}
+              {{ request.user.email }}
+            {% endif %}
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="">Профиль</a>
+            </li>
+            {% if request.user.is_superuser %}
+              <li>
+                <a class="dropdown-item" href="{% url 'users:users-list' %}">Список пользователей</a>
+              </li>
+            {% endif %}
+            <li>
+              <a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a>
+            </li>
+          </ul>
+        {% else %}
+          <button class="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  data-bs-auto-close="true"
+                  aria-expanded="false">
+            Аккаунт
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="{% url 'users:login' %}">Вход</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'users:signup' %}">Создать аккаунт</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
       <li class="nav-item">
         <a class="nav-link
                   {% if view_name == 'homepage:index' %}
@@ -51,7 +95,6 @@
           </li>
         </ul>
       </div>
-      <li class="nav-item"></li>
       <li class="nav-item">
         <a class="nav-link
                   {% if view_name == 'about:about' %}
