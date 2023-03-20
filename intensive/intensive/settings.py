@@ -119,6 +119,11 @@ IS_USER_ACTIVE = True if DEBUG else IS_USER_ACTIVE
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "/"
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "users.backends.AuthenticationEmailBackend",
+]
+
 LOCALE_PATHS = [BASE_DIR / "locale"]
 LANGUAGE_CODE = "ru-ru"
 
