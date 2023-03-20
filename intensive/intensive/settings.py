@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-IS_USER_ACTIVE = getenv("DEBUG", "false").lower() == "true"
+IS_USER_ACTIVE = getenv("IS_USER_ACTIVE", "false").lower() == "true"
 IS_USER_ACTIVE = True if DEBUG else IS_USER_ACTIVE
 
 LOGIN_URL = "/auth/login/"

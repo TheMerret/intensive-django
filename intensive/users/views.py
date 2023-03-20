@@ -38,7 +38,6 @@ def signup(request):
         user.save()
         profile = users.models.Profile(user=user)
         profile.save()
-        django.contrib.auth.login(request, user)
         return django.shortcuts.render(request, "users/signup_done.html")
     return django.shortcuts.render(request, template, context=context)
 
