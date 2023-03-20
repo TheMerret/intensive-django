@@ -6,6 +6,23 @@ from django.db import models
 import sorl.thumbnail
 
 
+class UserProfileManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .select_related("profile")
+            .filter(is_active=True)
+        )
+
+
+class UserProxy(User):
+    object = UserProfileManager()
+
+    class Meta:
+        proxy = True
+
+
 def get_user_media_path(instance, filename):
     creation_timestamp = int(time.time())
     filename = pathlib.Path(filename)
