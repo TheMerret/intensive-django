@@ -28,10 +28,10 @@ class Profile(models.Model):
     )
 
     def get_thumbnail(self):
-        print("hello")
-        return sorl.thumbnail.get_thumbnail(
-            self.image, "300x300", crop="center", quality=51
-        )
+        if self.image:
+            return sorl.thumbnail.get_thumbnail(
+                self.image, "300x300", crop="center", quality=51
+            )
 
     class Meta:
         verbose_name = "Дополнительное поле"

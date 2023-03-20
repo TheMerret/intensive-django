@@ -2,6 +2,7 @@ import datetime
 
 from django.conf import settings
 import django.contrib.auth
+from django.contrib.auth.decorators import login_required
 import django.contrib.sites.shortcuts
 import django.core.mail
 from django.http import HttpResponseNotFound
@@ -52,13 +53,18 @@ def activate(request, username):
         users.models.User, username=username
     )
     success = False
+    status_code = 410
     timedelta_ago_joined = user.date_joined - django.utils.timezone.localtime()
+    timedelta_ago_joined = timedelta_ago_joined.replace(microsecond=0)
     if timedelta_ago_joined <= datetime.timedelta(hours=12):
         user.is_active = True
         user.save()
         success = True
+        status_code = 200
     context = {"success": success}
-    return django.shortcuts.render(request, template, context=context)
+    return django.shortcuts.render(
+        request, template, context=context, status=status_code
+    )
 
 
 def users_list(request):
@@ -77,3 +83,22 @@ def user_detail(request, user_id):
     user = django.shortcuts.get_object_or_404(users.models.User, pk=user_id)
     context = {"user": user}
     return django.shortcuts.render(request, template, context=context)
+
+
+@login_required
+def profile(request):
+    template = "users/profile.html"
+    user_form = users.forms.UserForm(
+        request.POST or None, instance=request.user
+    )
+    profile_form = users.forms.ProfileForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=request.user.profile,
+    )
+    context = {"forms": (user_form, profile_form)}
+    if user_form.is_valid() and profile_form.is_valid():
+        user_form.save()
+        profile_form.save()
+        return django.shortcuts.redirect("users:profile")
+    return django.shortcuts.render(request, template, context)

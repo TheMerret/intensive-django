@@ -23,7 +23,7 @@
           </button>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" href="">Профиль</a>
+              <a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a>
             </li>
             {% if request.user.is_superuser %}
               <li>

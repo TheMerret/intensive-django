@@ -79,4 +79,5 @@ urlpatterns = [
         users.views.user_detail,
         name="user-detail",
     ),
+    django.urls.path("profile", users.views.profile, name="profile"),
 ]
