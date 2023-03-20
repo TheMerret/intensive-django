@@ -1,12 +1,45 @@
-from django.contrib.auth.forms import UserCreationForm
+import django.contrib.auth.forms
 from django.contrib.auth.models import User
 import django.forms
 
 import users.models
 
 
-class SignupForm(UserCreationForm):
+class LoginForm(django.contrib.auth.forms.AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
+
+class PasswordChangeForm(django.contrib.auth.forms.PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
+
+class PasswordResetForm(django.contrib.auth.forms.PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
+
+class SetPasswordForm(django.contrib.auth.forms.SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
+
+class SignupForm(django.contrib.auth.forms.UserCreationForm):
     email = django.forms.EmailField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = User
@@ -14,12 +47,25 @@ class SignupForm(UserCreationForm):
 
 
 class UserForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = User
         fields = ("email", "first_name", "last_name")
 
 
 class ProfileForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = users.models.Profile
         fields = ("birthday", "image")
+        widgets = {
+            "birthday": django.forms.DateInput(attrs={"type": "date"}),
+        }

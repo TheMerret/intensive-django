@@ -1,6 +1,7 @@
 import django.contrib.auth.views
 import django.urls
 
+import users.forms
 import users.views
 
 
@@ -10,7 +11,8 @@ urlpatterns = [
     django.urls.path(
         "login/",
         django.contrib.auth.views.LoginView.as_view(
-            template_name="users/login.html"
+            template_name="users/login.html",
+            authentication_form=users.forms.LoginForm,
         ),
         name="login",
     ),
@@ -26,6 +28,7 @@ urlpatterns = [
         django.contrib.auth.views.PasswordChangeView.as_view(
             template_name="users/password_change.html",
             success_url=django.urls.reverse_lazy("users:password-change-done"),
+            form_class=users.forms.PasswordChangeForm,
         ),
         name="password-change",
     ),
@@ -42,6 +45,7 @@ urlpatterns = [
             template_name="users/password_reset.html",
             email_template_name="users/password_reset_email.html",
             success_url=django.urls.reverse_lazy("users:password-reset-done"),
+            form_class=users.forms.PasswordResetForm,
         ),
         name="password-reset",
     ),
@@ -59,6 +63,7 @@ urlpatterns = [
             success_url=django.urls.reverse_lazy(
                 "users:password-reset-complite"
             ),
+            form_class=users.forms.SetPasswordForm,
         ),
         name="password-reset-confirm",
     ),

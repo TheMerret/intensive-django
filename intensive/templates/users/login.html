@@ -33,7 +33,9 @@
       {% endfor %}
       <button type="submit" class="btn btn-primary">Войти</button>
       <div class="mt-2">
-        <a href="{% url 'users:password-reset' %}">Забыли пароль?</a>
+        <a class="text-decoration-none" href="{% url 'users:password-reset' %}">Забыли пароль?</a>
+        или 
+        <a class="text-decoration-none" href="{% url 'users:signup' %}">Зарегистрироваться</a>
       </div>
     </form>
   </div>
