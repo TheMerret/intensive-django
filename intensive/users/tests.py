@@ -1,6 +1,8 @@
 import datetime
 from unittest import mock
 
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user
 import django.test
 import django.urls
 import django.utils.timezone
@@ -18,6 +20,14 @@ class UserTest(django.test.TestCase):
             "password1": "Hardpwd1",
             "password2": "Hardpwd1",
         }
+
+        cls.user = User(
+            username="testuser",
+            email="testuser@yandex.ru",
+            password="testpswd",
+            is_active=True,
+        )
+        cls.user.save()
         return super().setUpTestData()
 
     def test_signup_activate(self):
@@ -65,3 +75,23 @@ class UserTest(django.test.TestCase):
         self.assertEqual(response.status_code, 410)
         user = users.models.User.objects.get(username=username)
         self.assertFalse(user.is_active)
+
+    def test_login_username(self):
+        """test can login with username"""
+        login_data = {"username": self.user.username, "password": "testpswd"}
+        client = django.test.Client()
+        client.post(
+            django.urls.reverse("users:login"), data=login_data
+        )
+        user = get_user(client)
+        self.assertTrue(user.is_authenticated)
+
+    def test_login_email(self):
+        """test can login with username"""
+        login_data = {"username": self.user.email, "password": "testpswd"}
+        client = django.test.Client()
+        client.post(
+            django.urls.reverse("users:login"), data=login_data
+        )
+        user = get_user(client)
+        self.assertFalse(user.is_authenticated)

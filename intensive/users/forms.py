@@ -44,7 +44,6 @@ class SignupForm(django.contrib.auth.forms.UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        print("hello")
         if (
             User.objects.filter(
                 email=email
@@ -68,7 +67,6 @@ class UserForm(django.forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        print("hello")
         if (
             User.objects.filter(
                 email=email
