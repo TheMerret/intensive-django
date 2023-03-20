@@ -38,11 +38,7 @@ def signup(request):
         user.save()
         profile = users.models.Profile(user=user)
         profile.save()
-        new_user = django.contrib.auth.authenticate(
-            username=form.cleaned_data["username"],
-            password=form.cleaned_data["password1"],
-        )
-        django.contrib.auth.login(request, new_user)
+        django.contrib.auth.login(request, user)
         return django.shortcuts.render(request, "users/signup_done.html")
     return django.shortcuts.render(request, template, context=context)
 
@@ -55,7 +51,9 @@ def activate(request, username):
     success = False
     status_code = 410
     timedelta_ago_joined = user.date_joined - django.utils.timezone.localtime()
-    timedelta_ago_joined = timedelta_ago_joined.replace(microsecond=0)
+    timedelta_ago_joined -= datetime.timedelta(
+        microseconds=timedelta_ago_joined.microseconds
+    )
     if timedelta_ago_joined <= datetime.timedelta(hours=12):
         user.is_active = True
         user.save()

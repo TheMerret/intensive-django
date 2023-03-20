@@ -8,6 +8,7 @@ import django.utils.timezone
 import users.models
 
 
+@django.test.override_settings(IS_USER_ACTIVE=False)
 class UserTest(django.test.TestCase):
     @classmethod
     def setUpTestData(cls):
