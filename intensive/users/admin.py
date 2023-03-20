@@ -11,7 +11,7 @@ class InlineProfile(admin.TabularInline):
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = (InlineProfile, )
+    inlines = (InlineProfile,)
 
 
 admin.site.unregister(User)

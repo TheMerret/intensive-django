@@ -20,7 +20,6 @@ class UserForm(django.forms.ModelForm):
 
 
 class ProfileForm(django.forms.ModelForm):
-
     class Meta:
         model = users.models.Profile
         fields = ("birthday", "image")
