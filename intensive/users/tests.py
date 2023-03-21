@@ -1,8 +1,8 @@
 import datetime
 from unittest import mock
 
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 import django.test
 import django.urls
 import django.utils.timezone
