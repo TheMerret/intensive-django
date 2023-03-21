@@ -79,9 +79,7 @@ class UserTest(django.test.TestCase):
         """test can login with username"""
         login_data = {"username": self.user.username, "password": "testpswd"}
         client = django.test.Client()
-        client.post(
-            django.urls.reverse("users:login"), data=login_data
-        )
+        client.post(django.urls.reverse("users:login"), data=login_data)
         user = get_user(client)
         self.assertTrue(user.is_authenticated)
 
@@ -89,8 +87,6 @@ class UserTest(django.test.TestCase):
         """test can login with username"""
         login_data = {"username": self.user.email, "password": "testpswd"}
         client = django.test.Client()
-        client.post(
-            django.urls.reverse("users:login"), data=login_data
-        )
+        client.post(django.urls.reverse("users:login"), data=login_data)
         user = get_user(client)
         self.assertTrue(user.is_authenticated)
