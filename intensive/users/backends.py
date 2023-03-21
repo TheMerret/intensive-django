@@ -8,8 +8,9 @@ class AuthenticationEmailBackend(BaseBackend):
         UserModel = get_user_model()  # noqa:N806
         if username is None or password is None:
             return
+        email = username
         try:
-            user = UserModel.objects.get(email=username)
+            user = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
             return None
         else:

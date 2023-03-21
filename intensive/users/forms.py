@@ -48,9 +48,10 @@ class SignupForm(django.contrib.auth.forms.UserCreationForm):
             raise django.core.exceptions.ValidationError(
                 "Пользователь с таким email уже существует"
             )
+        return email
 
     class Meta:
-        model = User
+        model = users.models.UserProxy
         fields = ["username", "email", "password1", "password2"]
 
 
@@ -61,7 +62,7 @@ class UserForm(django.forms.ModelForm):
             field.field.widget.attrs["class"] = "form-control"
 
     class Meta:
-        model = User
+        model = users.models.UserProxy
         fields = ("email", "first_name", "last_name")
 
 

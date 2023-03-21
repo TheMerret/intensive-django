@@ -1,5 +1,6 @@
 import datetime
 
+import axes.models
 from django.conf import settings
 import django.contrib.auth
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.http import HttpResponseNotFound
 import django.shortcuts
 import django.urls
 import django.utils.timezone
+import jwt
 
 import users.forms
 import users.models
@@ -99,3 +101,13 @@ def profile(request):
         profile_form.save()
         return django.shortcuts.redirect("users:profile")
     return django.shortcuts.render(request, template, context)
+
+
+def reactivate(request, token):
+    reactivate_data = jwt.decode(
+        token, settings.SECRET_KEY, algorithms="HS256"
+    )
+    username = reactivate_data["username"]
+    # axes.attempts.reset_user_attempts(request, credentials)
+    axes.models.AccessAttempt.objects.filter(username=username).delete()
+    return django.shortcuts.redirect("homepage:index")
