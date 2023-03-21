@@ -21,13 +21,12 @@ class UserTest(django.test.TestCase):
             "password2": "Hardpwd1",
         }
 
-        cls.user = User(
+        cls.user = User.objects.create_user(
             username="testuser",
             email="testuser@yandex.ru",
             password="testpswd",
             is_active=True,
         )
-        cls.user.save()
         return super().setUpTestData()
 
     def test_signup_activate(self):
@@ -94,4 +93,4 @@ class UserTest(django.test.TestCase):
             django.urls.reverse("users:login"), data=login_data
         )
         user = get_user(client)
-        self.assertFalse(user.is_authenticated)
+        self.assertTrue(user.is_authenticated)
