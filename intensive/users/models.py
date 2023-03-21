@@ -17,7 +17,7 @@ class UserProfileManager(UserManager):
 
 
 class UserProxy(User):
-    object = UserProfileManager()
+    objects = UserProfileManager()
 
     class Meta:
         proxy = True

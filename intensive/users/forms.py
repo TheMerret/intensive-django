@@ -60,15 +60,6 @@ class UserForm(django.forms.ModelForm):
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
 
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        if User.objects.filter(email=email).exists():
-            raise django.core.exceptions.ValidationError(
-                "Пользователь с таким email уже существует"
-            )
-
-        return email
-
     class Meta:
         model = User
         fields = ("email", "first_name", "last_name")
