@@ -75,5 +75,7 @@ class ProfileForm(django.forms.ModelForm):
         model = users.models.Profile
         fields = ("birthday", "image")
         widgets = {
-            "birthday": django.forms.DateInput(attrs={"type": "date"}),
+            "birthday": django.forms.DateInput(
+                attrs={"type": "date"}, format="%Y-%m-%d"
+            ),
         }
