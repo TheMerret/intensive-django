@@ -68,7 +68,7 @@ def users_list(request):
     if not request.user.is_superuser:
         raise HttpResponseNotFound()
     template = "users/users_list.html"
-    users_list = users.models.User.objects.filter(is_active=True)
+    users_list = users.models.UserProxy.objects.all()
     context = {"users": users_list}
     return django.shortcuts.render(request, template, context=context)
 
