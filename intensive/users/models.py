@@ -1,12 +1,12 @@
 import pathlib
 import time
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.db import models
 import sorl.thumbnail
 
 
-class UserProfileManager(models.Manager):
+class UserProfileManager(UserManager):
     def get_queryset(self):
         return (
             super()
