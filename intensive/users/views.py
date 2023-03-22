@@ -7,6 +7,7 @@ import django.contrib.sites.shortcuts
 import django.core.mail
 from django.http import HttpResponseNotFound
 import django.shortcuts
+import django.template.loader
 import django.urls
 import django.utils.timezone
 
@@ -27,10 +28,12 @@ def signup(request):
             )
         )
         email = form.cleaned_data["email"]
+        email_content = django.template.loader.render_to_string(
+            "users/activate_email.html", {"activation_url": activation_url}
+        )
         django.core.mail.send_mail(
             "Активация аккаунта.",
-            f"Перейдите по ссылке,"
-            f"чтобы активировать учетную запись:\n\n{activation_url}",
+            email_content,
             django.conf.settings.FEEDBACK_EMAIL,
             [email],
             fail_silently=False,
