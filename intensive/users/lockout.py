@@ -5,6 +5,7 @@ import axes.helpers
 import django.conf
 import django.core.mail
 import django.urls
+import django.utils.timezone
 import jwt
 
 import users.models
@@ -14,7 +15,7 @@ def get_lockout_response(request, credentials):
     if request.axes_failures_since_start == axes.helpers.get_failure_limit(
         request, credentials
     ):
-        send_reactivate_message(request, credentials)
+        first_lockout_callback(request, credentials)
     prev = django.conf.settings.AXES_LOCKOUT_CALLABLE
     django.conf.settings.AXES_LOCKOUT_CALLABLE = None
     resp = axes.helpers.get_lockout_response(request, credentials)
@@ -22,24 +23,29 @@ def get_lockout_response(request, credentials):
     return resp
 
 
-def send_reactivate_message(request, credentials):
+def first_lockout_callback(request, credentials):
     username = axes.helpers.get_client_username(request, credentials)
     try:
         user = users.models.UserProxy.objects.get(username=username)
     except users.models.UserProxy.DoesNotExist:
         return
+    user.is_active = False
+    user.save()
     email = user.email
-    expired = datetime.datetime.now() + datetime.timedelta(days=7)
+    expired = django.utils.timezone.localtime() + datetime.timedelta(days=7)
     token = jwt.encode(
         {"username": user.username, "exp": expired},
         django.conf.settings.SECRET_KEY,
-        algorithm="HS256"
+        algorithm="HS256",
     )
-    reactivate_url = request.build_absolute_uri(
-            django.urls.reverse(
-                "users:reactivate", kwargs=dict(token=token)
-            )
-        )
+    reactivate_url = django.urls.reverse(
+        "users:reactivate", kwargs=dict(token=token)
+    )
+    send_reactivate_email(email, request, reactivate_url)
+
+
+def send_reactivate_email(email, request, reactivate_url):
+    reactivate_url = request.build_absolute_uri(reactivate_url)
     django.core.mail.send_mail(
         "Восстановление.",
         f"Перейдите по ссылке,"

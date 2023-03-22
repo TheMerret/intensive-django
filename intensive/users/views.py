@@ -104,10 +104,26 @@ def profile(request):
 
 
 def reactivate(request, token):
-    reactivate_data = jwt.decode(
-        token, settings.SECRET_KEY, algorithms="HS256"
+    template = "users/activate_done.html"
+    try:
+        reactivate_data = jwt.decode(
+            token, settings.SECRET_KEY, algorithms="HS256"
+        )
+    except jwt.InvalidTokenError:
+        success = False
+        status_code = 401
+    else:
+        username = reactivate_data["username"]
+        # axes.attempts.reset_user_attempts(request, credentials)
+        axes.models.AccessAttempt.objects.filter(username=username).delete()
+        user = django.shortcuts.get_object_or_404(
+            users.models.User, username=username
+        )
+        user.is_active = True
+        user.save()
+        success = True
+        status_code = 200
+    context = {"success": success}
+    return django.shortcuts.render(
+        request, template, context=context, status=status_code
     )
-    username = reactivate_data["username"]
-    # axes.attempts.reset_user_attempts(request, credentials)
-    axes.models.AccessAttempt.objects.filter(username=username).delete()
-    return django.shortcuts.redirect("homepage:index")
