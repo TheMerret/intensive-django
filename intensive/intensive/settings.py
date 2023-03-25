@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "django_cleanup.apps.CleanupConfig",
     "tinymce",
+    "axes",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "intensive.middleware.ReverseMiddleware",
+    "axes.middleware.AxesMiddleware",
 ]
 
 if DEBUG:
@@ -120,9 +122,16 @@ LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "/"
 
 AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
     "django.contrib.auth.backends.ModelBackend",
     "users.backends.AuthenticationEmailBackend",
 ]
+
+# https://django-axes.readthedocs.io/en/latest/4_configuration.html
+AXES_ONLY_USER_FAILURES = True
+AXES_FAILURE_LIMIT = 3
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCKOUT_CALLABLE = "users.lockout.get_lockout_response"
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 LANGUAGE_CODE = "ru-ru"

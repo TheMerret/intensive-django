@@ -5,8 +5,15 @@ from django.contrib.auth.models import User, UserManager
 from django.db import models
 import sorl.thumbnail
 
+import users.utils
+
 
 class UserProfileManager(UserManager):
+    @classmethod
+    def normalize_email(cls, email):
+        email = users.utils.normilize_email(email)
+        return email
+
     def get_queryset(self):
         return (
             super()

@@ -85,4 +85,7 @@ urlpatterns = [
         name="user-detail",
     ),
     django.urls.path("profile", users.views.profile, name="profile"),
+    django.urls.path(
+        "reactivate/<str:token>", users.views.reactivate, name="reactivate"
+    ),
 ]
