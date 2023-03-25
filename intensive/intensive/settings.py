@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "catalog.apps.CatalogConfig",
     "homepage.apps.HomepageConfig",
     "feedback.apps.FeedbackConfig",
+    "users.apps.UsersConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -111,6 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
         "NumericPasswordValidator",
     },
 ]
+
+IS_USER_ACTIVE = getenv("IS_USER_ACTIVE", "false").lower() == "true"
+IS_USER_ACTIVE = True if DEBUG else IS_USER_ACTIVE
+
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/"
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 LANGUAGE_CODE = "ru-ru"
