@@ -1,9 +1,26 @@
 import pathlib
 import time
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.db import models
 import sorl.thumbnail
+
+
+class UserProfileManager(UserManager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .select_related("profile")
+            .filter(is_active=True)
+        )
+
+
+class UserProxy(User):
+    objects = UserProfileManager()
+
+    class Meta:
+        proxy = True
 
 
 def get_user_media_path(instance, filename):

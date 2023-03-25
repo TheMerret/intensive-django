@@ -1,5 +1,6 @@
 import django.contrib.auth.forms
 from django.contrib.auth.models import User
+import django.core.exceptions
 import django.forms
 
 import users.models
@@ -40,6 +41,13 @@ class SignupForm(django.contrib.auth.forms.UserCreationForm):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if email and User.objects.filter(email=email).exists():
+            raise django.core.exceptions.ValidationError(
+                "Пользователь с таким email уже существует"
+            )
 
     class Meta:
         model = User
