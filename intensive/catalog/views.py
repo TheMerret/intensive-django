@@ -1,7 +1,5 @@
-import django.shortcuts
 import django.views.generic
 
-import catalog.forms
 import catalog.models
 
 

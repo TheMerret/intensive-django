@@ -1,7 +1,6 @@
 import django.conf
 import django.contrib
 import django.core.mail
-import django.shortcuts
 import django.urls
 import django.views.generic
 

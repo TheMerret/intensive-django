@@ -2,9 +2,7 @@ import datetime
 
 import axes.models
 from django.conf import settings
-import django.contrib.auth
-from django.contrib.auth.mixins import LoginRequiredMixin
-import django.contrib.sites.shortcuts
+import django.contrib.auth.mixins
 import django.core.mail
 from django.http import HttpResponseNotFound
 import django.shortcuts
@@ -106,7 +104,10 @@ class ProfileDoneView(django.views.generic.TemplateView):
     template_name = "users/profile_done.html"
 
 
-class ProfileView(LoginRequiredMixin, django.views.generic.UpdateView):
+class ProfileView(
+    django.contrib.auth.mixins.LoginRequiredMixin,
+    django.views.generic.UpdateView,
+):
     template_name = "users/profile.html"
     model = users.models.UserProxy
     form_class = users.forms.UserProfileMultiForm
