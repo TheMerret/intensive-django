@@ -11,7 +11,6 @@ class HomeView(django.views.generic.ListView):
 
 
 class CoffeeView(django.views.generic.View):
-
     def get(self, request):
         if request.user.is_authenticated:
             request.user.profile.coffee_count += 1
