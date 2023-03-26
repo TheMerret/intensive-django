@@ -1,3 +1,4 @@
+import betterforms.multiform
 import django.contrib.auth.forms
 from django.contrib.auth.models import User
 import django.core.exceptions
@@ -80,3 +81,10 @@ class ProfileForm(django.forms.ModelForm):
                 attrs={"type": "date"}, format="%Y-%m-%d"
             ),
         }
+
+
+class UserProfileMultiForm(betterforms.multiform.MultiModelForm):
+    form_classes = {
+        "user": UserForm,
+        "profile": ProfileForm,
+    }
