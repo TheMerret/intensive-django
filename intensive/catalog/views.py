@@ -25,19 +25,35 @@ def item_detail(request, item_id):
     item = django.shortcuts.get_object_or_404(
         catalog.models.Item.objects.detailed(), pk=item_id
     )
+    medium_value = 0
+    all_rating = ItemRating.objects.filter(item=item)
+    for i in all_rating:
+        medium_value += i.score
+    medium_value /= all_rating.count()
     form = ItemRatingForm(
         request.POST or None,
         instance=item.ratings.filter(user=request.user).first()
     )
     if form.is_valid():
-        rating = form.save(commit=False)
-        rating.user = request.user
-        rating.item = item
-        rating.save()
+        if form.instance is not None:
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.item = item
+            rating.save()
+        else:
+            score = form.cleaned_data["score"]
+            rating = ItemRating.objects.create(
+                user=request.user,
+                item=item,
+                score=score
+            )
+            rating.clean()
+            rating.save()
         return django.shortcuts.redirect("catalog:item-detail", item_id=item_id)
     context = {
         "item": item,
         "form": form,
+        "score": medium_value,
     }
     return django.shortcuts.render(request, template, context)
 
