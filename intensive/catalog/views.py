@@ -1,7 +1,14 @@
 import django.shortcuts
 
+from django.contrib import messages
+
 import catalog.forms
 import catalog.models
+from rating.models import ItemRating
+import django.urls
+from rating.forms import ItemRatingForm
+import django.views.generic
+from django.views.generic.edit import FormMixin, UpdateView, ProcessFormView
 
 
 def item_list(request):
@@ -11,17 +18,32 @@ def item_list(request):
         "items": items,
     }
     return django.shortcuts.render(request, template, context)
-
+#----------------------------------------------------------------------------------
 
 def item_detail(request, item_id):
+    template = "catalog/item_detail.html"
     item = django.shortcuts.get_object_or_404(
         catalog.models.Item.objects.detailed(), pk=item_id
     )
-    template = "catalog/item_detail.html"
-    context = {"item": item}
+    form = ItemRatingForm(
+        request.POST or None,
+        instance=item.ratings.filter(user=request.user).first()
+    )
+    if form.is_valid():
+        rating = form.save(commit=False)
+        rating.user = request.user
+        rating.item = item
+        rating.save()
+        return django.shortcuts.redirect("catalog:item-detail", item_id=item_id)
+    context = {
+        "item": item,
+        "form": form,
+    }
     return django.shortcuts.render(request, template, context)
 
 
+
+#----------------------------------------------------------------------
 def new_items(request):
     template = "catalog/list_date.html"
     items = catalog.models.Item.objects.new()
