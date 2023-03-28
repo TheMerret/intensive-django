@@ -24,6 +24,7 @@ GRAPH_APPS = getenv("GRAPH_APPS", "")
 GRAPH_APPS = GRAPH_APPS.split(",") if GRAPH_APPS else ""
 
 INSTALLED_APPS = [
+    "rating.apps.RatingConfig",
     "core.apps.CoreConfig",
     "about.apps.AboutConfig",
     "catalog.apps.CatalogConfig",

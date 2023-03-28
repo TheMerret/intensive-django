@@ -53,6 +53,22 @@
       {% empty %}
         Нема
       {% endfor %}
+      <h2 class="d-flex align-items-center justify-content-center mb-3">Оценка товара</h2>
+      <p>{{ score }}/{{ all_score }}</p>
+      {% if request.user.is_authenticated %}
+        <div class="mt-2">
+          <form method="post">
+            {% csrf_token %}
+            <ul>
+                {{ form.as_ul }}
+            </ul>
+            <input type="submit" value="Отправить">
+            {% ifnotequal form.score.value None %}
+            <input type="submit" name="delete" value="Удалить оценку">
+            {% endifnotequal %}
+          </form>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}
