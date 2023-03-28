@@ -26,31 +26,34 @@ def item_detail(request, item_id):
     for i in all_rating:
         medium_value += i.score
     medium_value /= all_rating.count() or 1
-    form = ItemRatingForm(
-        request.POST or None,
-        instance=item.ratings.filter(user=request.user).first(),
-    )
-    if form.is_valid():
-        if form.instance is not None:
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.item = item
-            rating.save()
-        else:
-            score = form.cleaned_data["score"]
-            rating = ItemRating.objects.create(
-                user=request.user, item=item, score=score
-            )
-            rating.clean()
-            rating.save()
-        return django.shortcuts.redirect(
-            "catalog:item-detail", item_id=item_id
+    if request.user.is_authenticated:
+        form = ItemRatingForm(
+            request.POST or None,
+            instance=item.ratings.filter(user=request.user).first(),
         )
-    context = {
-        "item": item,
-        "form": form,
-        "score": medium_value,
-    }
+        if form.is_valid():
+            if form.instance is not None:
+                rating = form.save(commit=False)
+                rating.user = request.user
+                rating.item = item
+                rating.save()
+            else:
+                score = form.cleaned_data["score"]
+                rating = ItemRating.objects.create(
+                    user=request.user, item=item, score=score
+                )
+                rating.clean()
+                rating.save()
+            return django.shortcuts.redirect(
+                "catalog:item-detail", item_id=item_id
+            )
+        context = {
+            "item": item,
+            "form": form,
+            "score": medium_value,
+        }
+    else:
+        context = {"item": item, "score": medium_value}
     return django.shortcuts.render(request, template, context)
 
 

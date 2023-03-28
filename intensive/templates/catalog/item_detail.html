@@ -55,15 +55,17 @@
       {% endfor %}
       <h2 class="d-flex align-items-center justify-content-center mb-3">Оценка товара</h2>
       <p>{{ score }}</p>
-      <div class="mt-2">
-        <form method="post">
-          {% csrf_token %}
-          <ul>
-              {{ form.as_ul }}
-          </ul>
-          <input type="submit" value="Отправить">
-        </form>
-      </div>
+      {% if request.user.is_authenticated %}
+        <div class="mt-2">
+          <form method="post">
+            {% csrf_token %}
+            <ul>
+                {{ form.as_ul }}
+            </ul>
+            <input type="submit" value="Отправить">
+          </form>
+        </div>
+      {% endif %}
     </div>
   </div>
 {% endblock content %}
