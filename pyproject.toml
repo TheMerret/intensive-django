@@ -3,7 +3,7 @@ line-length = 79
 exclude = ".*/migrations/"
 [tool.isort]
 profile = "google"
-known_first_party = ["about","catalog","core","homepage","intensive", "feedback", "users"]
+known_first_party = ["about","catalog","core","homepage","intensive", "feedback", "users", "rating"]
 lines_after_imports = 2
 skip_glob = "*/migrations"
 [tool.autoflake]

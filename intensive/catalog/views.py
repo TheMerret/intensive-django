@@ -1,11 +1,10 @@
-import django.views.generic
 import django.shortcuts
 import django.urls
-from rating.forms import ItemRatingForm
-from rating.models import ItemRating
-
+import django.views.generic
 
 import catalog.models
+from rating.forms import ItemRatingForm
+from rating.models import ItemRating
 
 
 class ItemListView(django.views.generic.ListView):
