@@ -25,7 +25,8 @@ def item_detail(request, item_id):
     all_rating = ItemRating.objects.filter(item=item)
     for i in all_rating:
         medium_value += i.score
-    medium_value /= all_rating.count() or 1
+    all_score = all_rating.count()
+    medium_value /= all_score or 1
     if request.user.is_authenticated:
         form = ItemRatingForm(
             request.POST or None,
@@ -56,9 +57,10 @@ def item_detail(request, item_id):
             "item": item,
             "form": form,
             "score": medium_value,
+            "all_score": all_score,
         }
     else:
-        context = {"item": item, "score": medium_value}
+        context = {"item": item, "score": medium_value, "all_score": all_score}
     return django.shortcuts.render(request, template, context)
 
 
