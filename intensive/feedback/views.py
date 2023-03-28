@@ -1,19 +1,19 @@
 import django.conf
 import django.contrib
 import django.core.mail
-import django.shortcuts
+import django.urls
+import django.views.generic
 
 import feedback.forms
 import feedback.models
 
 
-def feedback_view(request):
-    template = "feedback/feedback.html"
-    form = feedback.forms.FeedbackForm(
-        request.POST or None, request.FILES or None
-    )
-    context = {"form": form}
-    if request.method == "POST" and form.is_valid():
+class FeedbackView(django.views.generic.FormView):
+    template_name = "feedback/feedback.html"
+    form_class = feedback.forms.FeedbackForm
+    success_url = django.urls.reverse_lazy("feedback:feedback")
+
+    def form_valid(self, form):
         text = form.cleaned_data["text"]
         email = form.cleaned_data["email"]
         django.core.mail.send_mail(
@@ -28,10 +28,9 @@ def feedback_view(request):
         fb = form.save(commit=False)
         fb.contact = contact
         fb.save()
-        files = request.FILES.getlist("attachments")
+        files = self.request.FILES.getlist("attachments")
         for file in files:
             attachment = feedback.models.Attachment(feedback=fb, file=file)
             attachment.save()
-        django.contrib.messages.success(request, "Сообщение отправлено")
-        return django.shortcuts.redirect("feedback:feedback")
-    return django.shortcuts.render(request, template, context)
+        django.contrib.messages.success(self.request, "Сообщение отправлено")
+        return super().form_valid(form)
