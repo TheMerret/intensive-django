@@ -57,7 +57,9 @@ class ItemDetailView(
     def form_valid(self, form):
         form = ItemRatingForm(
             self.request.POST or None,
-            instance=self.object.ratings.filter(user=self.request.user).first(),
+            instance=self.object.ratings.filter(
+                user=self.request.user
+            ).first(),
         )
         if form.instance is not None:
             if "delete" in self.request.POST:
