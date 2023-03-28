@@ -33,10 +33,15 @@ def item_detail(request, item_id):
         )
         if form.is_valid():
             if form.instance is not None:
-                rating = form.save(commit=False)
-                rating.user = request.user
-                rating.item = item
-                rating.save()
+                if "delete" in request.POST:
+                    ItemRating.objects.get(
+                        item=item, user=request.user
+                    ).delete()
+                else:
+                    rating = form.save(commit=False)
+                    rating.user = request.user
+                    rating.item = item
+                    rating.save()
             else:
                 score = form.cleaned_data["score"]
                 rating = ItemRating.objects.create(

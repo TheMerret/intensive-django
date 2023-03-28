@@ -63,6 +63,9 @@
                 {{ form.as_ul }}
             </ul>
             <input type="submit" value="Отправить">
+            {% ifnotequal form.score.value None %}
+            <input type="submit" name="delete" value="Удалить оценку">
+            {% endifnotequal %}
           </form>
         </div>
       {% endif %}
