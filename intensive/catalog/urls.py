@@ -11,9 +11,7 @@ django.urls.register_converter(converters.PositiveInteger, "N*")
 
 urlpatterns = [
     django.urls.path("", views.item_list, name="item-list"),
-    django.urls.path(
-        "<int:item_id>", views.item_detail, name="item-detail"
-    ),
+    django.urls.path("<int:item_id>", views.item_detail, name="item-detail"),
     django.urls.path("new", views.new_items, name="new-items"),
     django.urls.path("friday", views.friday_items, name="friday-items"),
     django.urls.path(

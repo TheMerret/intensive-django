@@ -25,7 +25,7 @@ def item_detail(request, item_id):
     all_rating = ItemRating.objects.filter(item=item)
     for i in all_rating:
         medium_value += i.score
-    medium_value /= (all_rating.count() or 1)
+    medium_value /= all_rating.count() or 1
     form = ItemRatingForm(
         request.POST or None,
         instance=item.ratings.filter(user=request.user).first(),

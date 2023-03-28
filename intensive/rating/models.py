@@ -11,6 +11,7 @@ class ItemRating(models.Model):
         NEUTRAL = 3, "нейтрально"
         ADORATION = 4, "обожание"
         LOVE = 5, "любовь"
+
     user = models.ForeignKey(
         UserProxy,
         on_delete=models.CASCADE,
