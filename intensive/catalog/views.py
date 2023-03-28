@@ -82,54 +82,6 @@ class ItemDetailView(
         )
 
 
-def item_detail(request, item_id):
-    template = "catalog/item_detail.html"
-    item = django.shortcuts.get_object_or_404(
-        catalog.models.Item.objects.detailed(), pk=item_id
-    )
-    medium_value = 0
-    all_rating = ItemRating.objects.filter(item=item)
-    for i in all_rating:
-        medium_value += i.score
-    all_score = all_rating.count()
-    medium_value /= all_score or 1
-    if request.user.is_authenticated:
-        form = ItemRatingForm(
-            request.POST or None,
-            instance=item.ratings.filter(user=request.user).first(),
-        )
-        if form.is_valid():
-            if form.instance is not None:
-                if "delete" in request.POST:
-                    ItemRating.objects.get(
-                        item=item, user=request.user
-                    ).delete()
-                else:
-                    rating = form.save(commit=False)
-                    rating.user = request.user
-                    rating.item = item
-                    rating.save()
-            else:
-                score = form.cleaned_data["score"]
-                rating = ItemRating.objects.create(
-                    user=request.user, item=item, score=score
-                )
-                rating.clean()
-                rating.save()
-            return django.shortcuts.redirect(
-                "catalog:item-detail", item_id=item_id
-            )
-        context = {
-            "item": item,
-            "form": form,
-            "score": medium_value,
-            "all_score": all_score,
-        }
-    else:
-        context = {"item": item, "score": medium_value, "all_score": all_score}
-    return django.shortcuts.render(request, template, context)
-
-
 class NewItemView(django.views.generic.ListView):
     template_name = "catalog/list_date.html"
     queryset = catalog.models.Item.objects.new()
