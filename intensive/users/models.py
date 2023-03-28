@@ -3,6 +3,7 @@ import time
 
 from django.contrib.auth.models import User, UserManager
 from django.db import models
+import django.utils.timezone
 import sorl.thumbnail
 
 import users.utils
@@ -20,6 +21,17 @@ class UserProfileManager(UserManager):
             .get_queryset()
             .select_related("profile")
             .filter(is_active=True)
+        )
+
+    def birthdays(self):
+        today = django.utils.timezone.localtime().date()
+        return (
+            self.get_queryset()
+            .filter(
+                profile__birthday__day=today.day,
+                profile__birthday__month=today.month,
+            )
+            .only("username", "email")
         )
 
 

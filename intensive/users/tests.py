@@ -10,6 +10,7 @@ import django.urls
 import django.utils.timezone
 
 import users.models
+from .models import Profile
 
 
 @django.test.override_settings(IS_USER_ACTIVE=False)
@@ -173,3 +174,53 @@ class UserTest(django.test.TestCase):
         self.assertFalse(
             User.objects.get(username=self.user.username).is_active
         )
+
+    def test_birthday_context_positive(self):
+        profile = Profile.objects.create(
+            user=self.user, birthday=django.utils.timezone.localtime().date()
+        )
+        profile.clean()
+        profile.save()
+        response = django.test.Client().get(
+            django.urls.reverse("homepage:index")
+        )
+        context = [i.username for i in response.context["birthdays"]]
+        self.assertIn("testuser", context)
+
+        year = django.utils.timezone.localtime().year + 1
+        if (year % 4 == 0) and (year % 100 != 0) or (year % 400 == 0):
+            add_time = datetime.timedelta(days=366)
+        else:
+            add_time = datetime.timedelta(days=365)
+        mocked_time = django.utils.timezone.localtime() + add_time
+
+        with mock.patch(
+            "django.utils.timezone.localtime",
+            mock.Mock(return_value=mocked_time),
+        ):
+            response = django.test.Client().get(
+                django.urls.reverse("homepage:index")
+            )
+            context = [i.username for i in response.context["birthdays"]]
+            self.assertIn("testuser", context)
+        profile.delete()
+
+    def test_birthday_context_negative(self):
+        profile = Profile.objects.create(
+            user=self.user, birthday=django.utils.timezone.localtime().date()
+        )
+        profile.clean()
+        profile.save()
+        mocked_time = django.utils.timezone.localtime() + datetime.timedelta(
+            days=23
+        )
+        with mock.patch(
+            "django.utils.timezone.localtime",
+            mock.Mock(return_value=mocked_time),
+        ):
+            response = django.test.Client().get(
+                django.urls.reverse("homepage:index")
+            )
+            context = [i.username for i in response.context["birthdays"]]
+            self.assertNotIn("testuser", context)
+        profile.delete()
