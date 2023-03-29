@@ -26,3 +26,4 @@ class ItemRating(models.Model):
         "оценка товара",
         choices=Score.choices,
     )
+    updated_at = models.DateTimeField(auto_now=True)
