@@ -109,12 +109,9 @@
           </li>
           {% if request.user.is_authenticated %}
           <li>
-            <a class="dropdown-item" href="#">Мои товары</a>
+            <a class="dropdown-item" href="{% url 'statistic:items' %}">Мои товары</a>
           </li>
           {% endif %}
-          <li>
-            <a class="dropdown-item" href="#">Товары</a>
-          </li>
         </ul>
       </div>
       <li class="nav-item">
