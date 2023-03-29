@@ -28,14 +28,10 @@ class UserStatistic(django.views.generic.TemplateView):
         max_score = max_min.get("score__max")
         min_score = max_min.get("score__min")
         context["best_rating"] = (
-            user.item_rating.filter(score=max_score)
-            .only("item__name")
-            .first()
+            user.item_rating.filter(score=max_score).only("item__name").first()
         )
         context["worst_rating"] = (
-            user.item_rating.filter(score=min_score)
-            .only("item__name")
-            .first()
+            user.item_rating.filter(score=min_score).only("item__name").first()
         )
         context["rating_count"] = user.item_rating.count()
         context["rating_mean"] = user.item_rating.aggregate(
