@@ -29,23 +29,25 @@ class ItemStatistic(django.views.generic.DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         medium_value = 0
-        max_score, min_score = [0, None], [6, None]
         all_rating = rating.models.ItemRating.objects.filter(item=self.object)
         for i in all_rating:
             medium_value += i.score
-            if i.score > max_score[0]:
-                max_score[0] = i.score
-                max_score[1] = i.user.username
-            if i.score < min_score[0]:
-                min_score[0] = i.score
-                min_score[1] = i.user.username
         all_score = all_rating.count()
         medium_value /= all_score or 1
+        max_min = all_rating.aggregate(
+            django.db.models.Max("score"), django.db.models.Min("score")
+        )
+        max_score = max_min.get("score__max")
+        min_score = max_min.get("score__min")
         self.extra_context = {
             "score": medium_value,
             "all_score": all_score,
-            "max_score": max_score[1],
-            "min_score": min_score[1],
+            "max_score": all_rating.filter(score=max_score)
+            .first()
+            .user.username,
+            "min_score": all_rating.filter(score=min_score)
+            .first()
+            .user.username,
         }
         return super().get(request, *args, **kwargs)
 
