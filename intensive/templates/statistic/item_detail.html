@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+  {% translate "User" %}
+{% endblock title %}
+{% block content %}
+  <div class="container my-5">
+    <h1 class="d-flex align-items-center justify-content-center mb-5">{{ item.name }}</h1>
+    <ul>
+      <li>
+        Средняя оценка: {{ score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Кол-во оценок: {{ all_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Поставил максимальную оценку: {{ max_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Поставил минимальую оценку: {{ min_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+    </ul>
+  </div>
+{% endblock content %}

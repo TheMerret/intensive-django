@@ -66,7 +66,6 @@ class ItemDetailView(
                     item=self.object, user=self.request.user
                 ).delete()
             else:
-                print("hello")
                 rating = form.save(commit=False)
                 rating.user = self.request.user
                 rating.item = self.object
