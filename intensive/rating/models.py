@@ -29,4 +29,4 @@ class ItemRating(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ("-score",)
+        ordering = ("-updated_at",)

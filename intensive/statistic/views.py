@@ -9,13 +9,15 @@ import users.models
 
 class ItemStatisticListView(
     django.contrib.auth.mixins.LoginRequiredMixin,
-    django.views.generic.ListView
+    django.views.generic.ListView,
 ):
     template_name = "statistic/item_list.html"
     context_object_name = "item_rating"
 
     def get_queryset(self):
-        return rating.models.ItemRating.objects.filter(user=self.request.user)
+        return rating.models.ItemRating.objects.filter(
+            user=self.request.user
+        ).order_by("-score")
 
 
 class ItemStatistic(django.views.generic.DetailView):
@@ -43,7 +45,7 @@ class ItemStatistic(django.views.generic.DetailView):
             "score": medium_value,
             "all_score": all_score,
             "max_score": max_score[1],
-            "min_score": min_score[1]
+            "min_score": min_score[1],
         }
         return super().get(request, *args, **kwargs)
 

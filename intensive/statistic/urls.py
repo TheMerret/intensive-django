@@ -18,11 +18,11 @@ urlpatterns = [
     django.urls.path(
         "item_list",
         statistic.views.ItemStatisticListView.as_view(),
-        name="items"
+        name="items",
     ),
     django.urls.path(
         "item/<int:item_id>",
         statistic.views.ItemStatistic.as_view(),
         name="item-statistic",
-    )
+    ),
 ]
