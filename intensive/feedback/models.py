@@ -74,5 +74,5 @@ class Attachment(django.db.models.Model):
         return self.text[:15]
 
     class Meta:
-        verbose_name = "прикрепления",
+        verbose_name = ("прикрепления",)
         verbose_name_plural = "прикрепления"
