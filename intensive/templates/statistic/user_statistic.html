@@ -9,10 +9,10 @@
     <h1 class="d-flex align-items-center justify-content-center mb-5">{{ user.username }}</h1>
     <ul>
       <li>
-        Лучший товар: {{ best_rating.item | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+        Лучший товар: {{ best_rating | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
       </li>
       <li>
-        Худший товар: {{ worst_rating.item | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+        Худший товар: {{ worst_rating | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
       </li>
       <li>
         Количество оценок: {{ rating_count | default:'<span class="fw-light fst-italic">отсутствует</span>' }}

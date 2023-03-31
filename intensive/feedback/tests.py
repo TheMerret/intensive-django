@@ -90,3 +90,45 @@ class FeedbackTests(django.test.TransactionTestCase):
         )
         # however directories stay
         feedback.models.Attachment.objects.all().delete()
+
+    def test_validation_text_empty(self):
+        text = ""
+        email = "test@test.ru"
+        data = {"text": text, "email": email}
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"), data=data
+        )
+
+        self.assertFalse(
+            feedback.models.Feedback.objects.filter(
+                contact__email="test@mail.ru"
+            ).exists()
+        )
+
+    def test_validation_email(self):
+        text = "Тестовый текст с непонятной почтой"
+        email = "testpochtawithoutdog.cat"
+        data = {"text": text, "email": email}
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"), data=data
+        )
+
+        self.assertFalse(
+            feedback.models.Feedback.objects.filter(
+                text="Тестовый текст с непонятной почтой"
+            ).exists()
+        )
+
+    def test_validation_email_empty(self):
+        text = "Сегодня без почты:)"
+        email = ""
+        data = {"text": text, "email": email}
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"), data=data
+        )
+
+        self.assertFalse(
+            feedback.models.Feedback.objects.filter(
+                text="Сегодня без почты:)"
+            ).exists()
+        )

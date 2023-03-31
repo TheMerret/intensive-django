@@ -15,9 +15,11 @@ class ItemStatisticListView(
     context_object_name = "item_rating"
 
     def get_queryset(self):
-        return rating.models.ItemRating.objects.filter(
-            user=self.request.user
-        ).order_by("-score")
+        return (
+            rating.models.ItemRating.objects
+            .statistic_list()
+            .filter(user_id=self.request.user.id)
+        )
 
 
 class ItemStatistic(django.views.generic.DetailView):
@@ -28,20 +30,22 @@ class ItemStatistic(django.views.generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        medium_value = 0
-        all_rating = rating.models.ItemRating.objects.filter(item=self.object)
-        for i in all_rating:
-            medium_value += i.score
-        all_score = all_rating.count()
-        medium_value /= all_score or 1
+        all_rating = (
+            rating.models.ItemRating.objects.statistic_detail().filter(
+                item_id=self.object.id
+            )
+        )
+        average = all_rating.aggregate(django.db.models.Avg("score")).get(
+            "score__avg"
+        )
         max_min = all_rating.aggregate(
             django.db.models.Max("score"), django.db.models.Min("score")
         )
         max_score = max_min.get("score__max")
         min_score = max_min.get("score__min")
         self.extra_context = {
-            "score": medium_value,
-            "all_score": all_score,
+            "score": average,
+            "all_score": all_rating.count(),
             "max_score": all_rating.filter(score=max_score)
             .first()
             .user.username,
@@ -54,7 +58,7 @@ class ItemStatistic(django.views.generic.DetailView):
 
 class UserListView(django.views.generic.ListView):
     template_name = "statistic/user_list.html"
-    model = users.models.UserProxy
+    queryset = users.models.UserProxy.objects.simple_list_users()
     context_object_name = "users"
 
 
@@ -73,13 +77,14 @@ class UserStatistic(django.views.generic.TemplateView):
         )
         max_score = max_min.get("score__max")
         min_score = max_min.get("score__min")
-        context["best_rating"] = (
-            user.item_rating.filter(score=max_score).only("item__name").first()
+        item = catalog.models.Item.objects.only("name")
+        context["best_rating"] = item.filter(ratings__score=max_score).first()
+        context["worst_rating"] = item.filter(ratings__score=min_score).first()
+        context["rating_count"] = (
+            rating.models.ItemRating.objects.filter(user_id=user.id)
+            .only("id")
+            .count()
         )
-        context["worst_rating"] = (
-            user.item_rating.filter(score=min_score).only("item__name").first()
-        )
-        context["rating_count"] = user.item_rating.count()
         context["rating_mean"] = user.item_rating.aggregate(
             django.db.models.Avg("score")
         ).get("score__avg")

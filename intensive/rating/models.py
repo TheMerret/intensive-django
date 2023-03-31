@@ -4,7 +4,33 @@ from catalog.models import Item
 from users.models import UserProxy
 
 
+class RatingManager(models.Manager):
+    def available(self):
+        return (
+            self.get_queryset()
+            .select_related("user")
+            .only("user__id", "score")
+        )
+
+    def statistic_list(self):
+        return (
+            self.get_queryset()
+            .select_related("item")
+            .only("item__name")
+            .order_by("-score")
+        )
+
+    def statistic_detail(self):
+        return (
+            self.get_queryset()
+            .select_related("user", "item")
+            .only("score", "item__name", "user__username", "user__id")
+        )
+
+
 class ItemRating(models.Model):
+    objects = RatingManager()
+
     class Score(models.IntegerChoices):
         HATRED = 1, "ненависть"
         NEPRIYAZN = 2, "неприязнь"
@@ -27,6 +53,3 @@ class ItemRating(models.Model):
         choices=Score.choices,
     )
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ("-updated_at",)
