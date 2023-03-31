@@ -32,9 +32,11 @@ class Feedback(django.db.models.Model):
         on_delete=django.db.models.CASCADE,
         verbose_name=Contact._meta.verbose_name,
         related_name="feedbacks",
+        help_text="Личная информация пользователя",
     )
     status = django.db.models.CharField(
         "статус обработки",
+        help_text="Какой статус сейчас имеет отзыв",
         max_length=16,
         choices=Status.choices,
         default=Status.RECEIVED,
@@ -59,6 +61,7 @@ class Attachment(django.db.models.Model):
         Feedback,
         on_delete=django.db.models.CASCADE,
         verbose_name=Feedback._meta.verbose_name,
+        help_text="Какому отзыву принадлежат прикрепления",
         related_name="attachments",
     )
     file = django.db.models.FileField(
@@ -69,3 +72,7 @@ class Attachment(django.db.models.Model):
 
     def __str__(self):
         return self.text[:15]
+
+    class Meta:
+        verbose_name = "прикрепления",
+        verbose_name_plural = "прикрепления"

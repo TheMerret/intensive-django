@@ -16,14 +16,23 @@ class ItemRating(models.Model):
         UserProxy,
         on_delete=models.CASCADE,
         related_name="item_rating",
+        verbose_name="пользователь",
+        help_text="Кто написал отзыв",
     )
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
         related_name="ratings",
+        verbose_name="товар",
+        help_text="Товар для которого предназначен отзыва",
     )
     score = models.SmallIntegerField(
-        "оценка товара",
         choices=Score.choices,
+        verbose_name="оценка товара",
+        help_text="Насколько вы оцениваете товар",
     )
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "оценка"
+        verbose_name_plural = "оценки"
