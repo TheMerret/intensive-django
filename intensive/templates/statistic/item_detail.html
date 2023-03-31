@@ -15,10 +15,10 @@
         Кол-во оценок: {{ all_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
       </li>
       <li>
-        Поставил максимальную оценку: {{ max_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+        Поставил максимальную оценку: {{ max_score.user.username | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
       </li>
       <li>
-        Поставил минимальую оценку: {{ min_score | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+        Поставил минимальую оценку: {{ min_score.user.username | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
       </li>
     </ul>
   </div>

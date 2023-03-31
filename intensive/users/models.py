@@ -35,7 +35,7 @@ class UserProfileManager(UserManager):
             .only("profile__birthday", "username", "email")
         )
 
-    def simple_list_users(self):
+    def list_users(self):
         return (
             self.get_queryset()
             .select_related("profile")
