@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+  {% translate "User" %}
+{% endblock title %}
+{% block content %}
+  <div class="container my-5">
+    <h1 class="d-flex align-items-center justify-content-center mb-5">{{ user.username }}</h1>
+    <ul>
+      <li>
+        Лучший товар: {{ best_rating | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Худший товар: {{ worst_rating | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Количество оценок: {{ rating_count | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+      <li>
+        Средняя оценка: {{ rating_mean | default:'<span class="fw-light fst-italic">отсутствует</span>' }}
+      </li>
+    </ul>
+  </div>
+{% endblock content %}

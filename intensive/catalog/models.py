@@ -94,6 +94,8 @@ class ItemManager(django.db.models.Manager):
         items_last_week = self.on_list().filter(
             creation_date__date__gte=week_ago
         )
+        if not items_last_week:
+            return items_last_week
         ids = items_last_week.values_list("id", flat=True)
         rand_ids = random.choices(ids, k=limit)
         rand_items = self.get_queryset().filter(id__in=rand_ids)

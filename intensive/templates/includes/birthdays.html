@@ -1,0 +1,26 @@
+{% if birthdays %}
+<div class="container mt-3 alert alert-primary alert-dismissible fade show"
+     role="alert">
+  <table class="table table-bordered border-light caption-top">
+    <caption>Сегодня день рождения у</caption>
+    <thead>
+      <tr>
+        <th scope="col">username</th>
+        <th scope="col">email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for birthday_user in birthdays %}
+        <tr>
+          <td>{{ birthday_user.username }}</td>
+          <td>{{ birthday_user.email }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"></button>
+</div>
+{% endif %}

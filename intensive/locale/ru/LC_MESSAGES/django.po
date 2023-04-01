@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-12 15:39+0300\n"
+"POT-Creation-Date: 2023-03-26 16:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,64 +20,99 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\about\about.html:4 .\templates\about\about.html:8
-#: .\templates\includes\header.html:60
+#: templates/about/about.html:4 templates/about/about.html:8
+#: templates/includes/header.html:103
 msgid "About"
 msgstr "О проекте"
 
-#: .\templates\base.html:31 .\templates\catalog\feedback.html:4
-#: .\templates\homepage\home.html:4
+#: templates/base.html:31 templates/catalog/feedback.html:4
+#: templates/homepage/home.html:4
 msgid "Shop"
 msgstr "Магазин"
 
-#: .\templates\base.html:39
+#: templates/base.html:39
 msgid "There is no content"
 msgstr "Контента нет"
 
-#: .\templates\catalog\item_detail.html:5
+#: templates/catalog/item_detail.html:5
 msgid "Item"
 msgstr "Товар"
 
-#: .\templates\catalog\list.html:4 .\templates\catalog\list_date.html:4
+#: templates/catalog/list.html:4 templates/catalog/list_date.html:4
 msgid "Items"
 msgstr "Товары"
 
-#: .\templates\feedback\feedback.html:4 .\templates\includes\header.html:67
+#: templates/feedback/feedback.html:4 templates/includes/header.html:110
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: .\templates\homepage\home.html:12
+#: templates/homepage/home.html:12
 msgid "Hadgehog & Cat"
 msgstr "Ёжик и Котик"
 
-#: .\templates\homepage\home.html:14
+#: templates/homepage/home.html:14
 msgid "Best goods for best people"
 msgstr "Лучшие товары для лучших людей"
 
-#: .\templates\includes\header.html:7
+#: templates/includes/header.html:7
 msgid "Yozhic"
 msgstr "Ёжик"
 
-#: .\templates\includes\header.html:16
+#: templates/includes/header.html:60
 msgid "Home"
 msgstr "Главная"
 
-#: .\templates\includes\header.html:24
+#: templates/includes/header.html:68
 msgid "Catalog"
 msgstr "Каталог"
 
-#: .\templates\includes\header.html:36
+#: templates/includes/header.html:80
 msgid "New"
 msgstr "Новинка"
 
-#: .\templates\includes\header.html:43
+#: templates/includes/header.html:87
 msgid "Friday"
 msgstr "Пятничные"
 
-#: .\templates\includes\header.html:50
+#: templates/includes/header.html:94
 msgid "Unverified"
 msgstr "Непроверенные"
 
-#: .\templates\includes\header.html:71
+#: templates/includes/header.html:114
 msgid "Admin"
 msgstr "Админка"
+
+#: templates/users/login.html:4 templates/users/password_change.html:4
+#: templates/users/password_reset.html:4
+#: templates/users/password_reset_confirm.html:4 templates/users/profile.html:4
+#: templates/users/signup.html:4
+msgid "Login"
+msgstr ""
+
+#: templates/users/logout.html:4
+msgid "Logout"
+msgstr ""
+
+#: templates/users/password_reset_email.html:3
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: templates/users/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: templates/users/password_reset_email.html:8
+msgid "Your username, in case you’ve forgotten:"
+msgstr ""
+
+#: templates/users/password_reset_email.html:9
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: templates/users/password_reset_email.html:10
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""

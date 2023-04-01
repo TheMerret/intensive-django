@@ -24,6 +24,7 @@ GRAPH_APPS = getenv("GRAPH_APPS", "")
 GRAPH_APPS = GRAPH_APPS.split(",") if GRAPH_APPS else ""
 
 INSTALLED_APPS = [
+    "rating.apps.RatingConfig",
     "core.apps.CoreConfig",
     "about.apps.AboutConfig",
     "catalog.apps.CatalogConfig",
@@ -82,6 +83,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "users.context_processors.birthdays",
             ],
         },
     },

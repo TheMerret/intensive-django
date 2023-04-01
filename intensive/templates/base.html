@@ -35,9 +35,15 @@
   <body>
     {% include "includes/header.html" %}
     <main>
+      {% include "includes/birthdays.html" %}
       {% block content %}
         {% translate "There is no content" %}
       {% endblock content %}
+      <script>
+        // Timezone settings
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // e.g. "America/New_York"
+        document.cookie = "django_timezone=" + timezone;
+      </script>
     </main>
     {% include "includes/footer.html" %}
   </body>

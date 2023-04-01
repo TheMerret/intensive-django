@@ -95,6 +95,28 @@
           </li>
         </ul>
       </div>
+      <div class="btn-group">
+        <button class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="true"
+                aria-expanded="false">
+          Статистика
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="{% url 'statistic:users' %}">Пользователи</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li>
+            <a class="dropdown-item" href="{% url 'statistic:my_item_list' %}">Мои товары</a>
+          </li>
+          {% endif %}
+          <li>
+            <a class="dropdown-item" href="{% url 'statistic:item_list' %}">Список товаров</a>
+          </li>
+        </ul>
+      </div>
       <li class="nav-item">
         <a class="nav-link
                   {% if view_name == 'about:about' %}
