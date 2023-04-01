@@ -27,11 +27,19 @@ class UserProfileManager(UserManager):
         today = django.utils.timezone.localtime().date()
         return (
             self.get_queryset()
+            .select_related("profile")
             .filter(
                 profile__birthday__day=today.day,
                 profile__birthday__month=today.month,
             )
-            .only("username", "email")
+            .only("profile__birthday", "username", "email")
+        )
+
+    def list_users(self):
+        return (
+            self.get_queryset()
+            .select_related("profile")
+            .only("username", "date_joined", "profile__id")
         )
 
 

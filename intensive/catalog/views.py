@@ -27,7 +27,9 @@ class ItemDetailView(
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         medium_value = 0
-        all_rating = ItemRating.objects.filter(item=self.object)
+        all_rating = ItemRating.objects.available().filter(
+            item_id=self.object.id
+        )
         for i in all_rating:
             medium_value += i.score
         all_score = all_rating.count()
@@ -35,7 +37,9 @@ class ItemDetailView(
         if request.user.is_authenticated:
             form = ItemRatingForm(
                 None,
-                instance=self.object.ratings.filter(user=request.user).first(),
+                instance=self.object.ratings.filter(
+                    user_id=request.user.id
+                ).first(),
             )
             self.extra_context = {
                 "form": form,
@@ -57,23 +61,25 @@ class ItemDetailView(
         form = ItemRatingForm(
             self.request.POST or None,
             instance=self.object.ratings.filter(
-                user=self.request.user
+                user_id=self.request.user.id
             ).first(),
         )
         if form.instance is not None:
             if "delete" in self.request.POST:
-                ItemRating.objects.get(
-                    item=self.object, user=self.request.user
+                ItemRating.objects.available().get(
+                    item_id=self.object.id, user_id=self.request.user.id
                 ).delete()
             else:
                 rating = form.save(commit=False)
-                rating.user = self.request.user
-                rating.item = self.object
+                rating.user_id = self.request.user.id
+                rating.item_id = self.object.id
                 rating.save()
         else:
             score = form.cleaned_data["score"]
             rating = ItemRating.objects.create(
-                user=self.request.user, item=self.object, score=score
+                user_id=self.request.user.id,
+                item_id=self.object.id,
+                score=score,
             )
             rating.clean()
             rating.save()
