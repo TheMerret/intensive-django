@@ -7,7 +7,7 @@ import rating.models
 import users.models
 
 
-class MyItemStatisticListView(
+class UserItemStatisticListView(
     django.contrib.auth.mixins.LoginRequiredMixin,
     django.views.generic.ListView,
 ):
@@ -15,10 +15,8 @@ class MyItemStatisticListView(
     context_object_name = "item_rating"
 
     def get_queryset(self):
-        return (
-            rating.models.ItemRating.objects
-            .statistic_list()
-            .filter(user_id=self.request.user.id)
+        return rating.models.ItemRating.objects.statistic_list().filter(
+            user_id=self.request.user.id
         )
 
 
@@ -27,10 +25,7 @@ class ItemStatisticListView(django.views.generic.ListView):
     context_object_name = "item_rating"
 
     def get_queryset(self):
-        return (
-            rating.models.ItemRating.objects
-            .statistic_list()
-        )
+        return rating.models.ItemRating.objects.statistic_list()
 
 
 class ItemStatistic(django.views.generic.DetailView):
@@ -49,18 +44,25 @@ class ItemStatistic(django.views.generic.DetailView):
         max_min_avg = all_rating.aggregate(
             django.db.models.Max("score"),
             django.db.models.Min("score"),
-            django.db.models.Avg("score")
+            django.db.models.Avg("score"),
         )
         max_score = max_min_avg.get("score__max")
         min_score = max_min_avg.get("score__min")
-        self.extra_context = {
-            "score": max_min_avg.get("score__avg"),
-            "all_score": all_rating.count(),
-            "max_score": all_rating.filter(score=max_score)
-            .first(),
-            "min_score": all_rating.filter(score=min_score)
-            .first(),
-        }
+        if min_score == max_score:
+            score = all_rating.filter(score=max_score).first()
+            self.extra_context = {
+                "score": max_min_avg.get("score__avg"),
+                "all_score": all_rating.count(),
+                "max_score": score,
+                "min_score": score,
+            }
+        else:
+            self.extra_context = {
+                "score": max_min_avg.get("score__avg"),
+                "all_score": all_rating.count(),
+                "max_score": all_rating.filter(score=max_score).first(),
+                "min_score": all_rating.filter(score=min_score).first(),
+            }
         return super().get(request, *args, **kwargs)
 
 
@@ -83,16 +85,24 @@ class UserStatistic(django.views.generic.TemplateView):
         max_min_avg = user.item_rating.aggregate(
             django.db.models.Max("score"),
             django.db.models.Min("score"),
-            django.db.models.Avg("score")
+            django.db.models.Avg("score"),
         )
         max_score = max_min_avg.get("score__max")
         min_score = max_min_avg.get("score__min")
         item = catalog.models.Item.objects.only("name")
-        context["best_rating"] = item.filter(ratings__score=max_score).first()
-        context["worst_rating"] = item.filter(ratings__score=min_score).first()
-        context["rating_count"] = (
-            rating.models.ItemRating.objects.filter(user_id=user.id)
-            .count()
-        )
+        if min_score == max_score:
+            rating_score = item.filter(ratings__score=max_score).first()
+            context["best_rating"] = rating_score
+            context["worst_rating"] = rating_score
+        else:
+            context["best_rating"] = item.filter(
+                ratings__score=max_score
+            ).first()
+            context["worst_rating"] = item.filter(
+                ratings__score=min_score
+            ).first()
+        context["rating_count"] = rating.models.ItemRating.objects.filter(
+            user_id=user.id
+        ).count()
         context["rating_mean"] = max_min_avg.get("score__avg")
         return context
