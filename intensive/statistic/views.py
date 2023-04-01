@@ -28,13 +28,11 @@ class ItemStatisticListView(django.views.generic.ListView):
         return rating.models.ItemRating.objects.statistic_list()
 
 
-class ItemStatistic(django.views.generic.DetailView):
+class ItemStatistic(django.views.generic.TemplateView):
     template_name = "statistic/item_detail.html"
-    model = catalog.models.Item
-    context_object_name = "item"
-    pk_url_kwarg = "item_id"
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         self.object = catalog.models.Item.objects.only("name").get(
             pk=kwargs["item_id"]
         )
@@ -50,22 +48,16 @@ class ItemStatistic(django.views.generic.DetailView):
         )
         max_score = max_min_avg.get("score__max")
         min_score = max_min_avg.get("score__min")
+        context["score"] = max_min_avg.get("score__avg")
+        context["all_score"] = all_rating.count()
         if min_score == max_score:
             score = all_rating.filter(score=max_score).first()
-            self.extra_context = {
-                "score": max_min_avg.get("score__avg"),
-                "all_score": all_rating.count(),
-                "max_score": score,
-                "min_score": score,
-            }
+            context["max_score"] = score
+            context["min_score"] = score
         else:
-            self.extra_context = {
-                "score": max_min_avg.get("score__avg"),
-                "all_score": all_rating.count(),
-                "max_score": all_rating.filter(score=max_score).first(),
-                "min_score": all_rating.filter(score=min_score).first(),
-            }
-        return super().get(request, *args, **kwargs)
+            context["max_score"] = all_rating.filter(score=max_score).first()
+            context["min_score"] = all_rating.filter(score=min_score).first()
+        return context
 
 
 class UserListView(django.views.generic.ListView):
