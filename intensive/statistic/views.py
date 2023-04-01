@@ -30,12 +30,14 @@ class ItemStatisticListView(django.views.generic.ListView):
 
 class ItemStatistic(django.views.generic.DetailView):
     template_name = "statistic/item_detail.html"
-    queryset = catalog.models.Item.objects.only("name")
+    model = catalog.models.Item
     context_object_name = "item"
     pk_url_kwarg = "item_id"
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        self.object = catalog.models.Item.objects.only("name").get(
+            pk=kwargs["item_id"]
+        )
         all_rating = (
             rating.models.ItemRating.objects.statistic_detail().filter(
                 item=self.object
