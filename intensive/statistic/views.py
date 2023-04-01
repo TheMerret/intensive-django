@@ -36,6 +36,7 @@ class ItemStatistic(django.views.generic.TemplateView):
         self.object = catalog.models.Item.objects.only("name").get(
             pk=kwargs["item_id"]
         )
+        context["item"] = self.object
         all_rating = (
             rating.models.ItemRating.objects.statistic_detail().filter(
                 item=self.object
